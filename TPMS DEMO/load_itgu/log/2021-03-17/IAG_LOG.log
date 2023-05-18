@@ -1,0 +1,76 @@
+21-03-17 11:28:33 [INFO] - Starting ItagProcessApplicationTests using Java 1.8.0_281 on BSHYDCOR-L350 with PID 10164 (started by urvashic in D:\WORKSPACE\TPMS\ITAG)
+21-03-17 11:28:33 [INFO] - The following profiles are active: dev
+21-03-17 11:28:37 [INFO] - Started ItagProcessApplicationTests in 3.448 seconds (JVM running for 4.688)
+21-03-17 11:28:37 [INFO] - Initializing ITAG file..
+21-03-17 11:28:37 [INFO] - Getting mapping configuration from table..
+21-03-17 11:29:18 [INFO] - File does not exist in source directory.
+21-03-17 11:38:39 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 13164 (D:\WORKSPACE\TPMS\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\ITAG)
+21-03-17 11:38:39 [INFO] - The following profiles are active: dev
+21-03-17 11:38:42 [INFO] - Started ItagProcessApplication in 2.447 seconds (JVM running for 3.118)
+21-03-17 11:38:42 [INFO] - Initializing ITAG file..
+21-03-17 11:38:42 [INFO] - Getting mapping configuration from table..
+21-03-17 11:39:24 [INFO] - File does not exist in source directory.
+21-03-17 11:40:11 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 4452 (D:\WORKSPACE\TPMS\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\ITAG)
+21-03-17 11:40:11 [INFO] - The following profiles are active: dev
+21-03-17 11:40:13 [INFO] - Started ItagProcessApplication in 2.218 seconds (JVM running for 2.861)
+21-03-17 11:40:13 [INFO] - Initializing ITAG file..
+21-03-17 11:40:13 [INFO] - Getting mapping configuration from table..
+21-03-17 11:40:54 [INFO] - Downloaded file: 016_20200713230431.ITAG
+21-03-17 11:40:54 [INFO] - Checking if file: 016_20200713230431.ITAG already exist
+21-03-17 11:40:54 [INFO] - File is already processed: false
+21-03-17 11:40:54 [INFO] - Inserting ITAG file 016_20200713230431.ITAG details into checkpoint table..
+21-03-17 11:40:55 [INFO] - File checkpoint Details Inserted with Id= 280
+21-03-17 11:40:55 [INFO] - Process start of line..
+21-03-17 11:40:55 [INFO] - Process start of line..
+21-03-17 11:40:55 [INFO] - Preparing Ack file metadata...
+21-03-17 11:40:55 [INFO] - Inserting Ack file details into ack table..
+21-03-17 11:40:57 [INFO] - File Details Inserted with Id= 1
+21-03-17 11:40:57 [INFO] - File moved successfully.
+21-03-17 13:58:11 [INFO] - Initializing ITAG file..
+21-03-17 13:58:11 [INFO] - Getting mapping configuration from table..
+21-03-17 13:58:22 [INFO] - File does not exist in source directory.
+21-03-17 16:50:51 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 16932 (D:\WORKSPACE\TPMS\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\ITAG)
+21-03-17 16:50:51 [INFO] - The following profiles are active: dev
+21-03-17 16:50:55 [INFO] - Started ItagProcessApplication in 4.974 seconds (JVM running for 5.832)
+21-03-17 16:50:55 [INFO] - Initializing ITAG file..
+21-03-17 16:50:55 [INFO] - Getting mapping configuration from table..
+21-03-17 16:51:41 [INFO] - File does not exist in source directory.
+21-03-17 16:58:55 [INFO] - Initializing ITAG file..
+21-03-17 16:58:55 [INFO] - Getting mapping configuration from table..
+21-03-17 16:58:57 [INFO] - File does not exist in source directory.
+21-03-17 16:59:30 [INFO] - Health check get URL triggered.
+21-03-17 17:23:57 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 13084 (D:\WORKSPACE\TPMS\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\ITAG)
+21-03-17 17:23:57 [INFO] - The following profiles are active: dev
+21-03-17 17:24:19 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 9164 (D:\WORKSPACE\TPMS\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\ITAG)
+21-03-17 17:24:19 [INFO] - The following profiles are active: dev
+21-03-17 17:24:22 [INFO] - Started ItagProcessApplication in 3.565 seconds (JVM running for 4.117)
+21-03-17 17:24:22 [INFO] - Initializing ITAG file..
+21-03-17 17:24:22 [INFO] - Getting mapping configuration from table..
+21-03-17 17:25:01 [INFO] - File does not exist in source directory.
+21-03-17 17:25:25 [INFO] - Health check get URL triggered.
+21-03-17 17:25:37 [INFO] - Health check get URL triggered.
+21-03-17 17:26:35 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 15236 (D:\WORKSPACE\TPMS\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\ITAG)
+21-03-17 17:26:35 [INFO] - The following profiles are active: dev
+21-03-17 17:26:38 [INFO] - Started ItagProcessApplication in 4.861 seconds (JVM running for 5.707)
+21-03-17 17:26:38 [INFO] - Initializing ITAG file..
+21-03-17 17:26:38 [INFO] - Getting mapping configuration from table..
+21-03-17 17:26:45 [INFO] - Health check get URL triggered.
+21-03-17 17:27:20 [INFO] - File does not exist in source directory.
+21-03-17 17:33:53 [INFO] - Starting ItagProcessApplicationTests using Java 15.0.1 on BSHYDCOR-L350 with PID 14804 (started by urvashic in D:\WORKSPACE\TPMS\ITAG)
+21-03-17 17:33:53 [INFO] - The following profiles are active: dev
+21-03-17 17:33:57 [INFO] - Started ItagProcessApplicationTests in 4.815 seconds (JVM running for 6.0)
+21-03-17 17:33:57 [INFO] - Initializing ITAG file..
+21-03-17 17:33:57 [INFO] - Getting mapping configuration from table..
+21-03-17 17:34:37 [INFO] - File does not exist in source directory.
+21-03-17 17:37:14 [INFO] - Starting ItagProcessApplicationTests using Java 15.0.1 on BSHYDCOR-L350 with PID 13644 (started by urvashic in D:\WORKSPACE\TPMS\ITAG)
+21-03-17 17:37:14 [INFO] - The following profiles are active: dev
+21-03-17 17:37:17 [INFO] - Started ItagProcessApplicationTests in 3.775 seconds (JVM running for 4.857)
+21-03-17 17:37:17 [INFO] - Initializing ITAG file..
+21-03-17 17:37:17 [INFO] - Getting mapping configuration from table..
+21-03-17 17:37:55 [INFO] - File does not exist in source directory.
+21-03-17 17:44:36 [INFO] - Starting ItagProcessApplicationTests using Java 15.0.1 on BSHYDCOR-L350 with PID 11564 (started by urvashic in D:\WORKSPACE\TPMS\ITAG)
+21-03-17 17:44:36 [INFO] - The following profiles are active: dev
+21-03-17 17:44:40 [INFO] - Started ItagProcessApplicationTests in 4.994 seconds (JVM running for 6.053)
+21-03-17 17:44:40 [INFO] - Initializing ITAG file..
+21-03-17 17:44:40 [INFO] - Getting mapping configuration from table..
+21-03-17 17:45:25 [INFO] - File does not exist in source directory.

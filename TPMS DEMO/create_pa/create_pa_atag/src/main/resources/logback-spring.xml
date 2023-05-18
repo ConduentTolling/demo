@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<springProfile name="local">
+		<property name="USER_HOME"
+			value="D:\\PA_FULL-LOGS" />
+	</springProfile>
+	<springProfile name="dev">
+		<property name="USER_HOME"
+			value="/DevokeFss/TOLLING/TPMS/LOGS/CREATE_PA_ATAG" />
+	</springProfile>
+	<springProfile name="qa">
+		<property name="USER_HOME"
+			value="/QaOKEFSS/QA/TOLLING/TPMS/LOGS/CREATE_PA_ATAG" />
+	</springProfile>
+	<springProfile name="demo">
+		<property name="USER_HOME"
+			value="/DemokeFss/TOLLING/TPMS/LOGS/CREATE_PA_ATAG" />
+	</springProfile>
+	<springProfile name="uat">
+		<property name="USER_HOME"
+			value="/UATokeFss/TOLLING/TPMS/LOGS/CREATE_PA_ATAG" />
+    </springProfile>
+	<appender name="FILE-THREAD"
+		class="ch.qos.logback.classic.sift.SiftingAppender">
+		<!-- This is MDC value -->
+		<!-- We will assign a value to 'logFileName' via Java code -->
+		<discriminator>
+			<key>logFileName</key>
+			<defaultValue>pa_atag</defaultValue>
+		</discriminator>
+		<sift>
+			<!-- A standard RollingFileAppender, the log file is based on 'logFileName' 
+				at runtime -->
+			<appender name="FILE-${logFileName}"
+				class="ch.qos.logback.core.rolling.RollingFileAppender">
+				<file>${USER_HOME}/${logFileName}.log</file>
+				<encoder
+					class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+					<Pattern>
+						%d{yy-MM-dd HH:mm:ss:SSS} [%level] - %msg%n
+					</Pattern>
+				</encoder>
+
+				<rollingPolicy
+					class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+					<fileNamePattern>${USER_HOME}/%d{yyyy-MM-dd}/${logFileName}.log
+					</fileNamePattern>
+					<maxHistory>60</maxHistory>
+				</rollingPolicy>
+			</appender>
+		</sift>
+	</appender>
+
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+
+	<logger name="com.conduent" level="debug" additivity="false">
+		<appender-ref ref="FILE-THREAD" />
+	</logger>
+
+
+	<root level="error">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

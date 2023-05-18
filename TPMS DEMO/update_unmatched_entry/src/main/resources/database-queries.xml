@@ -1,0 +1,122 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+
+
+				<!-- <entry key="INSERT_INTO_T_25A_PENDING_QUEUE"
+					value="INSERT INTO TPMS.T_25A_PENDING_QUEUE(LANE_TX_ID,TX_EXTERN_REF_NO,MATCHED_TX_EXTERN_REF_NO,TX_COMPLETE_REF_NO,TX_MATCH_STATUS,TX_SEQ_NUMBER,EXTERN_FILE_ID,ATP_FILE_ID,EXTERN_FILE_DATE,TX_TIMESTAMP,TX_DATE,TX_TYPE_IND,TX_SUBTYPE_IND,TOLL_SYSTEM_TYPE,PLAZA_AGENCY_ID,PLAZA_ID,LANE_ID,LANE_MODE,LANE_TYPE,LANE_STATE,LANE_HEALTH,ENTRY_DATA_SOURCE,ENTRY_LANE_ID, ENTRY_PLAZA_ID,ENTRY_TIMESTAMP,ENTRY_TX_SEQ_NUMBER,ENTRY_VEHICLE_SPEED, LANE_TX_STATUS,LANE_TX_TYPE,TOLL_REVENUE_TYPE,ACTUAL_CLASS,ACTUAL_AXLES,ACTUAL_EXTRA_AXLES,COLLECTOR_CLASS,COLLECTOR_AXLES,PRECLASS_CLASS,PRECLASS_AXLES,POSTCLASS_CLASS,POSTCLASS_AXLES,FORWARD_AXLES,REVERSE_AXLES,DISCOUNTED_AMOUNT,COLLECTED_AMOUNT,UNREALIZED_AMOUNT,VEHICLE_SPEED,DEVICE_NO,ACCOUNT_TYPE,DEVICE_IAG_CLASS ,DEVICE_AXLES,ETC_ACCOUNT_ID,ACCOUNT_AGENCY_ID,READ_AVI_CLASS,READ_AVI_AXLES,DEVICE_PROGRAM_STATUS,BUFFERED_READ_FLAG,LANE_DEVICE_STATUS,POST_DEVICE_STATUS,PRE_TXN_BALANCE ,TX_STATUS,COLLECTOR_ID,TOUR_SEGMENT_ID,SPEED_VIOL_FLAG ,IMAGE_TAKEN,PLATE_COUNTRY ,PLATE_STATE,PLATE_NUMBER,REVENUE_DATE ,EVENT ,HOV_FLAG,IS_RECIPROCITY_TXN ,CSC_LOOKUP_KEY, UPDATE_TS,FULL_FARE_AMOUNT,STATUS_CD,ERROR_MESSAGE) 
+					VALUES(:LANE_TX_ID,:TX_EXTERN_REF_NO,:MATCHED_TX_EXTERN_REF_NO,:TX_COMPLETE_REF_NO,:TX_MATCH_STATUS,:TX_SEQ_NUMBER,:EXTERN_FILE_ID,:ATP_FILE_ID,:EXTERN_FILE_DATE,:TX_TIMESTAMP,:TX_DATE,:TX_TYPE_IND,:TX_SUBTYPE_IND,:TOLL_SYSTEM_TYPE,:PLAZA_AGENCY_ID,:PLAZA_ID,:LANE_ID,:LANE_MODE,:LANE_TYPE,:LANE_STATE,:LANE_HEALTH,:ENTRY_DATA_SOURCE,:ENTRY_LANE_ID,:ENTRY_PLAZA_ID,:ENTRY_TIMESTAMP,:ENTRY_TX_SEQ_NUMBER,:ENTRY_VEHICLE_SPEED,:LANE_TX_STATUS,:LANE_TX_TYPE,:TOLL_REVENUE_TYPE,:ACTUAL_CLASS,:ACTUAL_AXLES,:ACTUAL_EXTRA_AXLES,:COLLECTOR_CLASS,:COLLECTOR_AXLES,:PRECLASS_CLASS,:PRECLASS_AXLES,:POSTCLASS_CLASS,:POSTCLASS_AXLES,:FORWARD_AXLES,:REVERSE_AXLES,:DISCOUNTED_AMOUNT,:COLLECTED_AMOUNT,:UNREALIZED_AMOUNT,:VEHICLE_SPEED,:DEVICE_NO,:ACCOUNT_TYPE,:DEVICE_IAG_CLASS,:DEVICE_AXLES,:ETC_ACCOUNT_ID,:ACCOUNT_AGENCY_ID,:READ_AVI_CLASS,:READ_AVI_AXLES,:DEVICE_PROGRAM_STATUS,:BUFFERED_READ_FLAG,:LANE_DEVICE_STATUS,:POST_DEVICE_STATUS,:PRE_TXN_BALANCE,:TX_STATUS,:COLLECTOR_ID,:TOUR_SEGMENT_ID,:SPEED_VIOL_FLAG,:IMAGE_TAKEN,:PLATE_COUNTRY,:PLATE_STATE,:PLATE_NUMBER,:REVENUE_DATE,:EVENT,:HOV_FLAG,:IS_RECIPROCITY_TXN,:CSC_LOOKUP_KEY,CURRENT_TIMESTAMP,:FULL_FARE_AMOUNT,:STATUS_CD,:ERROR_MESSAGE)"></entry>
+
+
+				<entry key="INSERT_INTO_T_25A_PENDING_QUEUE" value="INSERT INTO 
+					TPMS.T_25A_PENDING_QUEUE(LANE_TX_ID,UPDATE_TS) VALUES(:LANE_TX_ID,CURRENT_TIMESTAMP)"></entry>
+ -->
+ 
+ <!--                <entry key="UPDATE_INTO_T_UNMATCHED_ENTRY_TX"
+					value="UPDATE T_UNMATCHED_ENTRY_TX SET TX_EXTERN_REF_NO=:TX_EXTERN_REF_NO,
+					                                       TX_SEQ_NUMBER=:TX_SEQ_NUMBER,
+					                                       EXTERN_FILE_ID=:EXTERN_FILE_ID,
+					                                       LANE_ID=:LANE_ID,
+					                                       TX_TIMESTAMP=:TX_TIMESTAMP,               
+					                                       TX_MOD_SEQ=:TX_MOD_SEQ,                            
+					                                       TX_TYPE_IND=:TX_TYPE_IND,                                      
+					                                       TX_SUBTYPE_IND=:TX_SUBTYPE_IND,                                   
+					                                       TOLL_SYSTEM_TYPE=:TOLL_SYSTEM_TYPE,                                
+					                                       LANE_MODE=:LANE_MODE,                                           
+					                                       LANE_TYPE=:LANE_TYPE,                                      
+					                                       LANE_STATE=:LANE_STATE,                                   
+					                                       LANE_HEALTH=:LANE_HEALTH,                                     
+					                                       PLAZA_AGENCY_ID =:PLAZA_AGENCY_ID,
+					                                       PLAZA_ID=:PLAZA_ID,                                          
+					                                       COLLECTOR_ID=:COLLECTOR_ID,                                       
+					                                       TOUR_SEGMENT_ID=:TOUR_SEGMENT_ID,
+					                                       ENTRY_DATA_SOURCE=:ENTRY_DATA_SOURCE,                                  
+					                                       ENTRY_LANE_ID=:ENTRY_LANE_ID,                                      
+					                                       ENTRY_PLAZA_ID=:ENTRY_PLAZA_ID,                                   
+					                                       ENTRY_TIMESTAMP=:ENTRY_TIMESTAMP,                   
+					                                       ENTRY_TX_SEQ_NUMBER=:ENTRY_TX_SEQ_NUMBER,                               
+					                                       ENTRY_VEHICLE_SPEED=:ENTRY_VEHICLE_SPEED,                                
+					                                       LANE_TX_STATUS=:LANE_TX_STATUS,                                    
+					                                       LANE_TX_TYPE =:LANE_TX_TYPE,                                    
+					                                       TOLL_REVENUE_TYPE=:TOLL_REVENUE_TYPE,                                
+					                                       ACTUAL_CLASS=:ACTUAL_CLASS,                                       
+					                                       ACTUAL_AXLES=:ACTUAL_AXLES,
+					                                       ACTUAL_EXTRA_AXLES=:ACTUAL_EXTRA_AXLES,                                 
+					                                       COLLECTOR_CLASS=:COLLECTOR_CLASS,                                  
+					                                       COLLECTOR_AXLES=:COLLECTOR_AXLES,                                  
+					                                       PRECLASS_CLASS=:PRECLASS_CLASS,                                   
+					                                       PRECLASS_AXLES=:PRECLASS_AXLES,                                       
+					                                       POSTCLASS_CLASS=:POSTCLASS_CLASS,                                  
+					                                       POSTCLASS_AXLES=:POSTCLASS_AXLES,                                     
+					                                       FORWARD_AXLES=:FORWARD_AXLES,                                       
+					                                       REVERSE_AXLES=:REVERSE_AXLES,                                       
+					                                       COLLECTED_AMOUNT=:COLLECTED_AMOUNT,                                
+					                                       UNREALIZED_AMOUNT=:UNREALIZED_AMOUNT,                                 
+					                                       IS_DISCOUNTABLE=:IS_DISCOUNTABLE,                                   
+					                                       IS_MEDIAN_FARE=:IS_MEDIAN_FARE,                                     
+					                                       IS_PEAK=:IS_PEAK,                                           
+					                                       PRICE_SCHEDULE_ID=:PRICE_SCHEDULE_ID,                                  
+					                                       VEHICLE_SPEED=:VEHICLE_SPEED,                                       
+					                                       RECEIPT_ISSUED=:RECEIPT_ISSUED,                                      
+					                                       DEVICE_NO=:DEVICE_NO,                                       
+					                                       ACCOUNT_TYPE=:ACCOUNT_TYPE,                                     
+					                                       DEVICE_CODED_CLASS=:DEVICE_CODED_CLASS,                                  
+					                                       DEVICE_AGENCY_CLASS=:DEVICE_AGENCY_CLASS,                                  
+					                                       DEVICE_IAG_CLASS=:DEVICE_IAG_CLASS,                                    
+					                                       DEVICE_AXLES=:DEVICE_AXLES,                                        
+					                                       ETC_ACCOUNT_ID=:ETC_ACCOUNT_ID,                                     
+					                                       ACCOUNT_AGENCY_ID=:ACCOUNT_AGENCY_ID,                                  
+					                                       READ_AVI_CLASS=:READ_AVI_CLASS,                                       
+					                                       READ_AVI_AXLES=:READ_AVI_AXLES,                                      
+					                                       DEVICE_PROGRAM_STATUS=:DEVICE_PROGRAM_STATUS,                              
+					                                       BUFFERED_READ_FLAG=:BUFFERED_READ_FLAG,                                 
+					                                       LANE_DEVICE_STATUS=:LANE_DEVICE_STATUS,                                 
+					                                       POST_DEVICE_STATUS=:POST_DEVICE_STATUS,                                
+					                                       PRE_TXN_BALANCE=:PRE_TXN_BALANCE,                                   
+					                                       PLAN_TYPE_ID=:PLAN_TYPE_ID,                                        
+					                                       TX_STATUS=:TX_STATUS,                                          
+					                                       SPEED_VIOL_FLAG=:SPEED_VIOL_FLAG,                                   
+					                                       IMAGE_TAKEN=:IMAGE_TAKEN,                                       
+					                                       PLATE_COUNTRY=:PLATE_COUNTRY,                                    
+					                                       PLATE_STATE=:PLATE_STATE,                                       
+					                                       PLATE_NUMBER=:PLATE_NUMBER,                                     
+					                                       REVENUE_DATE=:REVENUE_DATE,                                          
+					                                       POSTED_DATE=:POSTED_DATE, 									                                           
+					                                       ATP_FILE_ID=:ATP_FILE_ID,                                       
+					                                       UPDATE_TS=CURRENT_TIMESTAMP,                         
+					                                       IS_REVERSED=:IS_REVERSED,                                       
+					                                       CORR_REASON_ID=:CORR_REASON_ID,                                  
+					                                       RECON_DATE=:RECON_DATE,                                             
+					                                       RECON_STATUS_IND=:RECON_STATUS_IND,                                  
+					                                       RECON_SUB_CODE_IND=:RECON_SUB_CODE_IND,                                 
+					                                       EXTERN_FILE_DATE=:EXTERN_FILE_DATE,                                          
+					                                       MILEAGE=:MILEAGE,                                             
+					                                       TX_DATE=:TX_DATE,                                                
+					                                       DEVICE_READ_COUNT=:DEVICE_READ_COUNT,                                   
+					                                       DEVICE_WRITE_COUNT=:DEVICE_WRITE_COUNT,                                  
+					                                       ENTRY_DEVICE_READ_COUNT=:ENTRY_DEVICE_READ_COUNT,                            
+					                                       ENTRY_DEVICE_WRITE_COUNT=:ENTRY_DEVICE_WRITE_COUNT,                          
+					                                       DEPOSIT_ID=:DEPOSIT_ID,                                        
+					                                       ETC_FARE_AMOUNT=:ETC_FARE_AMOUNT,                                
+					                                       POSTED_FARE_AMOUNT=:POSTED_FARE_AMOUNT,                                
+					                                       EXPECTED_REVENUE_AMOUNT=:EXPECTED_REVENUE_AMOUNT,                        
+					                                       VIDEO_FARE_AMOUNT=:VIDEO_FARE_AMOUNT,                              
+					                                       CASH_FARE_AMOUNT=:CASH_FARE_AMOUNT,                              
+					                                       MATCHED_TX_EXTERN_REF_NO=:MATCHED_TX_EXTERN_REF_NO  WHERE LANE_TX_ID=:LANE_TX_ID"></entry> -->
+ 
+ 
+				<entry key="GET_COUNT_T_UNMATCHED_ENTRY_TX"
+					value="SELECT COUNT(*) FROM T_UNMATCHED_ENTRY_TX WHERE LANE_TX_ID=:LANE_TX_ID"></entry>
+
+
+
+
+
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

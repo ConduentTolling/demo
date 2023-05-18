@@ -1,0 +1,411 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+
+				<entry key="GET_FILE_INFO_CONFIGURATION"
+					value="SELECT SOURCE_DIRECTORY srcDir,
+							PROCESSED_DIRECTORY procDir,
+							UNPROCSSED_DIRECTORY unProcDir,
+							ACK_DIRECTORY ackDir,
+							WORKING_DIRECTORY  workingDir 
+					FROM  
+							T_FIELD_MAPPING 
+					WHERE 
+							FILE_TYPE=:FILE_TYPE 
+					AND 
+							AGENCY_ID =:AGENCY_ID
+					AND 
+							FILE_FORMAT =:FILE_FORMAT" />
+
+				<!-- <entry key="GET_FILE_INFO_CONFIGURATION" value="SELECT SOURCE_DIRECTORY 
+					srcDir, PROCESSED_DIRECTORY procDir, UNPROCSSED_DIRECTORY unProcDir, ACK_DIRECTORY 
+					ackDir, WORKING_DIRECTORY workingDir FROM T_QATP_MAPPING WHERE FILE_TYPE=:FILE_TYPE 
+					AND T_AGENCY_ID =:T_AGENCY_ID AND FILE_FORMAT =:FILE_FORMAT" /> -->
+
+				<entry key="GET_FIELD_VALIDATION_DETAILS"
+					value="SELECT FIELD_TYPE, 
+							FIELD_NAME,
+							START_POSITION,
+							END_POSITION,
+							VALIDATION_TYPE,
+							VALIDATION_VALUE,
+							FIELD_INDEX_POSITION,
+							IS_POJO_VALUE 
+					FROM 
+							T_FIELD_MAPPING_DETAIL 
+							T_FIELD_MAPPING_DETAIL  
+					INNER JOIN 
+							T_FIELD_MAPPING 
+							T_FIELD_MAPPING 
+					ON  
+							T_FIELD_MAPPING_DETAIL.FIELD_MAPPING_PK_ID=T_FIELD_MAPPING.ID 
+					WHERE  
+							AGENCY_ID =:AGENCY_ID 
+					AND 
+							FILE_TYPE='ICRX'
+					ORDER BY 
+							FIELD_INDEX_POSITION"></entry>
+
+
+				<entry key="GET_IRXC_FIELD_VALIDATION_DETAILS"
+					value="SELECT FIELD_TYPE, 
+							FIELD_NAME,
+							START_POSITION,
+							END_POSITION,
+							VALIDATION_TYPE,
+							VALIDATION_VALUE,
+							FIELD_INDEX_POSITION,
+							IS_POJO_VALUE 
+					FROM 
+							T_FIELD_MAPPING_DETAIL 
+							T_FIELD_MAPPING_DETAIL  
+					INNER JOIN 
+							T_FIELD_MAPPING 
+							T_FIELD_MAPPING 
+					ON  
+							T_FIELD_MAPPING_DETAIL.FIELD_MAPPING_PK_ID=T_FIELD_MAPPING.ID 
+					WHERE  
+							AGENCY_ID =:AGENCY_ID 
+					AND 
+							FILE_TYPE='IRXC'
+					ORDER BY 
+							FIELD_INDEX_POSITION"></entry>
+
+
+				<entry key="INSERT_INTO_FILE_CHECKPOINT"
+					value="INSERT INTO T_LANE_TX_CHECKPOINT 
+							(
+							FILE_NAME,
+							FILE_TYPE,
+							PROCESS_NAME,
+							PROCESS_ID,
+							PROCESS_STATUS,
+							TX_DATE,
+							LANE_TX_ID,
+							SERIAL_NUMBER,
+							FILE_COUNT,
+							PROCESSED_COUNT,
+							SUCCESS_COUNT,
+							EXCEPTION_COUNT,
+							UPDATE_TS
+				) 
+				VALUES
+							(:FILE_NAME,
+							:FILE_TYPE,
+							:PROCESS_NAME,
+							:PROCESS_ID,
+							:PROCESS_STATUS,
+							:TX_DATE,
+							:LANE_TX_ID,
+							:SERIAL_NUMBER,
+							:FILE_COUNT,
+							:PROCESSED_COUNT,
+							:SUCCESS_COUNT,
+							:EXCEPTION_COUNT,
+							:UPDATE_TS)"></entry>
+
+				<entry key="CHECK_FILE_DOWNLOADED"
+					value="SELECT XFER_CONTROL_ID, XFER_FILE_ID, XFER_FILE_NAME, DATE_CREATED, 
+					TIME_CREATED, FILE_SIZE, FILE_CHECKSUM, NUM_RECS, HASH_TOTAL, XFER_PATH,
+					 XFER_XMIT_STATUS, XFER_RETRY, UPDATE_TS, FILE_TYPE
+					FROM 
+						T_XFER_CONTROL 
+					WHERE 
+							XFER_FILE_NAME=:XFER_FILE_NAME 
+					AND 
+							XFER_XMIT_STATUS=:XFER_XMIT_STATUS"></entry>
+
+
+				<!-- <entry key="CHECK_LAST_FILE_PROCESSED_SUCCESSFULLY" value="SELECT 
+					FILE_NAME FROM (SELECT * from T_LANE_TX_CHECKPOINT WHERE FILE_TYPE=:FILE_TYPE 
+					AND PROCESS_STATUS='C' AND FILE_NAME LIKE CONCAT(:FILE_NAME, '%') ORDER BY 
+					UPDATE_TS DESC) WHERE ROWNUM &lt; 2"></entry> -->
+
+
+				<entry key="INSERT_INTO_T_QATP_STATSTICS"
+					value="INSERT INTO T_QATP_STATSTICS 
+						(FILE_TYPE,
+						FILE_NAME,
+						INSERT_DATE,
+						INSERT_TIME,
+						RECORD_COUNT,
+						AMOUNT,
+						IS_PROCESSED,
+						PROCESS_DATE,
+						PROCESS_TIME,
+						PROCESS_REC_COUNT,
+						UPDATE_TS) 
+				VALUES(	:FILE_TYPE,
+						:FILE_NAME,
+						:INSERT_DATE,
+						:INSERT_TIME,
+						:RECORD_COUNT,
+						:AMOUNT,
+						:IS_PROCESSED,
+						:PROCESS_DATE,
+						:PROCESS_TIME,
+						:PROCESS_REC_COUNT,
+						:UPDATE_TS
+				)"></entry>
+
+				<entry key="UPDATE_ADDRESS_ID_IN_T_QATP_STATSTICS"
+					value="update INVALID_ADDRESS_ID
+			SET
+				INVALID_ADDRESS_ID:=INVALID_ADDRESS_ID
+				"></entry>
+
+				<entry key="UPDATE_FILE_STATUS_INTO_CHECKPOINT"
+					value="Update T_LANE_TX_CHECKPOINT 
+					SET 
+						PROCESS_STATUS = :PROCESS_STATUS, 
+						FILE_COUNT=:FILE_COUNT,
+						UPDATE_TS=:UPDATE_TS,
+						PROCESSED_COUNT=:PROCESSED_COUNT,
+						SUCCESS_COUNT=:SUCCESS_COUNT,
+						EXCEPTION_COUNT=:EXCEPTION_COUNT
+					WHERE 
+						FILE_NAME =:FILE_NAME 
+					AND 
+						FILE_TYPE =:FILE_TYPE"></entry>
+
+
+				<entry key="SELECT_INFO_FROM_T_AGENCY"
+					value="SELECT AGENCY_ID,
+					  AGENCY_NAME,
+					  AGENCY_SHORT_NAME,
+					  CONSORTIUM,
+					  DEVICE_PREFIX,
+					  IS_HOME_AGENCY,
+					  PARENT_AGENCY_ID,
+					  FILE_PREFIX
+					  FROM 
+					  CRM.T_AGENCY
+					  WHERE AGENCY_ID IN (SELECT PARENT_AGENCY_ID FROM CRM.T_AGENCY)
+					  AND IS_HOME_AGENCY = 'N'
+					  AND CONSORTIUM = 'IAG'
+					  AND DEVICE_PREFIX &lt;'100'
+					 ORDER BY AGENCY_ID"></entry>
+
+
+
+				<entry key="INSERT_FILE_ACK_INTO_ACK_TABLE"
+					value="INSERT INTO T_IA_ACK_STATUS 
+					(
+						ACK_FILE_NAME,
+						ACK_FILE_DATE,
+						ACK_FILE_TIME,
+						ACK_FILE_STATUS,
+						TRX_FILE_NAME,
+						RECON_FILE_NAME,
+						FILE_TYPE,
+						FROM_AGENCY,
+						TO_AGENCY,
+						EXTERN_FILE_ID,
+						ATP_FILE_ID)
+				VALUES 
+					(	
+						:ACK_FILE_NAME,
+						:ACK_FILE_DATE,
+						:ACK_FILE_TIME,
+						:ACK_FILE_STATUS,
+						:TRX_FILE_NAME,
+						:RECON_FILE_NAME,
+						:FILE_TYPE,
+						:FROM_AGENCY,
+						:TO_AGENCY,
+						:EXTERN_FILE_ID,
+						:ATP_FILE_ID)"></entry>
+
+				<entry key="INSERT_ADDRESS_ID_INTO_ADDRESS"
+					value="INSERT INTO T_OA_ADDRESS
+						(
+							INVALID_ADDRESS_ID   
+						)
+						VALUES
+						(
+							INAVLID_ADDRESS_ID
+							
+						)"></entry>
+
+				<!-- <entry key="SELECT_LAST_SUCCESSFUL_FILE_NAME" value="SELECT FILE_NAME, 
+					UPDATE_TS FROM ( SELECT * FROM T_LANE_TX_CHECKPOINT WHERE FILE_TYPE =: FILE_TYPE 
+					AND PROCESS_STATUS = 'C' AND FILE_NAME LIKE CONCAT(:FILE_NAME, '%') ORDER 
+					BY START_DATE DESC ) WHERE ROWNUM &lt; 2"></entry> -->
+
+				<entry key="GET_T_CODES"
+					value="SELECT * FROM MASTER.T_CODES WHERE CODE_TYPE='TX_STATUS'"></entry>
+
+				<entry key="GET_V_POLICY"
+					value="SELECT * FROM CRM.V_PLAN_POLICY"></entry>
+
+				<entry key="GET_T_XFER_CONTROL"
+					value="SELECT XFER_CONTROL_ID, DATE_CREATED FROM MASTER.T_XFER_CONTROL WHERE XFER_CONTROL_ID=:XFER_CONTROL_ID">
+				</entry>
+
+				<entry key="GET_SYS_ACCOUNT"
+					value="SELECT * FROM MASTER.T_PROCESS_PARAMETERS ORDER BY 1"></entry>
+
+				<entry key="GET_T_PLAZA"
+					value="SELECT PLAZA_ID,EXTERN_PLAZA_ID,AGENCY_ID ,REVENUE_TIME ,PLAZA_GROUP ,PLAZA_TYPE_IND ,CALCULATE_TOLL_AMOUNT,LPR_ENABLED FROM MASTER.T_PLAZA"></entry>
+
+				<entry key="INSERT_DATA_INTO_AWAY_AGENCY_TABLE"
+					value="INSERT INTO TPMS.T_AWAY_AGENCY_TX(LANE_TX_ID,ETC_ACCOUNT_ID,TX_STATUS,TX_DATE,POSTED_DATE,DEPOSIT_ID,TX_TIMESTAMP,REVENUE_DATE,TX_EXTERN_REF_NO,EXTERN_FILE_ID,PLAZA_AGENCY_ID,PLAZA_ID,LANE_ID,DEVICE_NO,PLATE_COUNTRY,PLATE_NUMBER,PLATE_STATE,UPDATE_TS,ROW_ID)
+	VALUES(:LANE_TX_ID,:ETC_ACCOUNT_ID,:TX_STATUS,:TX_DATE,:POSTED_DATE,:DEPOSIT_ID,:TX_TIMESTAMP,:REVENUE_DATE,:TX_EXTERN_REF_NO,:EXTERN_FILE_ID,:PLAZA_AGENCY_ID,:PLAZA_ID,:LANE_ID,:DEVICE_NO,:PLATE_COUNTRY,:PLATE_NUMBER,:PLATE_STATE,:UPDATE_TS,:ROW_ID)"></entry>
+
+				<entry key="UPDATE_DATA_INTO_AWAY_AGENCY_TABLE"
+					value="Update TPMS.T_AWAY_AGENCY_TX 
+					SET 
+						TX_STATUS=:TX_STATUS
+					WHERE 
+						LANE_TX_ID = :LANE_TX_ID"></entry>
+
+
+				<entry key="GET_25A_TRANSACTIONS_BY_PLAZA"
+					value="select tpq.etc_account_id,
+              tpq.device_no,
+              tpq.plate_number,
+              tpq.plate_state,
+              tpq.lane_tx_id,
+              tpq.entry_plaza_id,
+              tpq.plaza_id,
+              tpq.entry_timestamp as entryTimeStamp,
+              nvl(tpq.is_reciprocity_txn,' ') as isReciprocityTxn ,
+              tpq.tx_timestamp as txnTimeStamp,
+              round(trunc(sysdate)-cast(trunc(tpq.tx_timestamp) as date)) wait_days
+         from t_25a_pending_queue tpq
+        where tpq.entry_plaza_id = :ENTRY_PLAZA_ID
+          and tpq.plaza_id = :PLAZA_ID"></entry>
+
+				<entry key="GET_25A_TRANSACTIONS_BY_PLAZA_EXIT_26"
+					value="select tpq.etc_account_id,
+              tpq.device_no,
+              tpq.plate_number,
+              tpq.plate_state,
+              tpq.lane_tx_id,
+              tpq.entry_plaza_id,
+              tpq.plaza_id,
+              tpq.entry_timestamp as entryTimeStamp,
+              nvl(tpq.is_reciprocity_txn,' ') as isReciprocityTxn,
+              tpq.tx_timestamp as txnTimeStamp,
+              round(trunc(sysdate)-cast(trunc(tpq.tx_timestamp) as date)) wait_days
+         from t_25a_pending_queue tpq
+         join master.t_lane tl
+           on (tl.lane_id = tpq.lane_id
+           and tl.plaza_id = tpq.plaza_id)
+        where tpq.entry_plaza_id = :ENTRY_PLAZA_ID
+		  and tpq.plaza_id >= :PLAZA_ID"></entry>
+		  
+		  <!-- 
+          and tl.section_id = lc_25a_section_id   is this needed ovver here? -->
+
+
+				<entry key="GET_RELATED_TRANSACTIONS_BY_PLAZA_1"
+					value="select tpq.etc_account_id,
+              tpq.device_no,
+              tpq.plate_number,
+              tpq.plate_state,
+              tpq.lane_tx_id,
+              tpq.entry_plaza_id,
+              tpq.plaza_id,
+              tpq.entry_timestamp as entryTimeStamp,
+              tpq.tx_timestamp as txnTimeStamp,
+              round(trunc(sysdate)-cast(trunc(tpq.tx_timestamp) as date)) wait_days
+         from "></entry>
+
+				<entry key="GET_RELATED_TRANSACTIONS_BY_PLAZA_2"
+					value=" tpq join master.t_highway_section ths 
+					on tpq.entry_plaza_id = ths.TERMINAL_PLAZA_ID_1 and tpq.plaza_id = ths.TERMINAL_PLAZA_ID_2
+        where tpq.entry_plaza_id = :ENTRY_PLAZA_ID
+          and tpq.plaza_id = :PLAZA_ID
+          and TO_TIMESTAMP_TZ(to_char(tpq.tx_timestamp ,'YYYY-MM-DD HH24:MI:SS.FFTZR'),'YYYY-MM-DD HH24:MI:SS.FFTZR')-
+			  TO_TIMESTAMP_TZ(to_char(tpq.ENTRY_TIMESTAMP ,'YYYY-MM-DD HH24:MI:SS.FFTZR'),'YYYY-MM-DD HH24:MI:SS.FFTZR')&lt;
+			  TO_DSINTERVAL('0 ' || (ths.TIME_LIMIT_MIN/60) || ':00:00')
+          and (tpq.device_no= :DEVICE_NO
+			or tpq.plate_number= :PLATE_NO)
+			order by ENTRY_TIMESTAMP desc"></entry>
+
+				<entry key="GET_RELATED_TRANSACTIONS_BY_PLAZA_3"
+					value="tpq join master.t_highway_section ths 
+					on tpq.entry_plaza_id = ths.TERMINAL_PLAZA_ID_1 and tpq.plaza_id = ths.TERMINAL_PLAZA_ID_2
+        			where tpq.entry_plaza_id = :ENTRY_PLAZA_ID
+         			 and tpq.plaza_id = :PLAZA_ID
+         			 and TO_TIMESTAMP_TZ(to_char(tpq.tx_timestamp ,'YYYY-MM-DD HH24:MI:SS.FFTZR'),'YYYY-MM-DD HH24:MI:SS.FFTZR')-
+			  TO_TIMESTAMP_TZ(to_char(tpq.ENTRY_TIMESTAMP ,'YYYY-MM-DD HH24:MI:SS.FFTZR'),'YYYY-MM-DD HH24:MI:SS.FFTZR')&lt;
+			  TO_DSINTERVAL('0 ' || (ths.TIME_LIMIT_MIN/60) || ':00:00')
+         			 and (tpq.device_no= :DEVICE_NO
+						or tpq.plate_number= :PLATE_NO)
+			 		AND AGENCY_ID =:AGENCY_ID
+					order by ENTRY_TIMESTAMP desc"></entry>
+
+
+				<entry key="GET_25A_COMPLETE_SEQ"
+					value="select tpms.seq_25a_complete_txn.nextval
+        	from dual"></entry>
+
+				<entry key="UPDATE_25A_PENDING_QUEUE"
+					value="update t_25a_pending_queue npq
+	           set npq.tx_complete_ref_no =:lv_complete_ref_no
+	         where npq.lane_tx_id in (select regexp_substr(:lv_lane_tx_id,'[^,]+', 1, level) from dual
+	                                  connect by regexp_substr(:lv_lane_tx_id, '[^,]+', 1, level) is not null)"></entry>
+
+
+				<entry key="GET_MATCHED_25A_TRANSACTIONS"
+					value="select lane_tx_id,
+			case when row_number() over (partition by spq.tx_complete_ref_no
+                                         order by spq.tx_timestamp desc) = 1
+                 then first_value(spq.tx_extern_ref_no) over (partition by spq.tx_complete_ref_no
+                                                              order by spq.tx_timestamp)
+                 else first_value(spq.tx_extern_ref_no) over (partition by spq.tx_complete_ref_no
+                                                              order by spq.tx_timestamp desc)
+			end match_ref_no
+		from t_25a_pending_queue spq
+		where spq.tx_complete_ref_no = :lv_complete_ref_no
+		  and spq.lane_tx_id in (select regexp_substr(:lv_lane_tx_id,'[^,]+', 1, level) lane_tx_id from dual
+								 connect by regexp_substr(:lv_lane_tx_id, '[^,]+', 1, level) is not null)"></entry>
+
+
+				<entry key="UPDATE_25A_MATCHED_RECORDS"
+					value="update t_25a_pending_queue mpq
+             set mpq.matched_tx_extern_ref_no = :match_ref_no
+           where mpq.lane_tx_id = :lane_tx_id"></entry>
+           
+           <entry key="INSERT_T_25A_COMPLETE_TXN"
+					value="INSERT INTO TPMS.T_25A_COMPLETE_TXN
+							(
+							ETC_ACCOUNT_ID,
+							DEVICE_NO,
+							PLATE_NUMBER,
+							PLATE_STATE,
+							LANE_TX_ID,
+							ENTRY_PLAZA_ID,
+							PLAZA_ID,
+							ENTRY_TIMESTAMP,
+							IS_RECIPROCITY_TXN,
+							TX_TIMESTAMP,
+							UPDATE_TS,
+							MATCHED_TX_EXTERN_REF_NO
+				) 
+				VALUES
+							(:ETC_ACCOUNT_ID,
+							:DEVICE_NO,
+							:PLATE_NUMBER,
+							:PLATE_STATE,
+							:LANE_TX_ID,
+							:ENTRY_PLAZA_ID,
+							:PLAZA_ID,
+							:ENTRY_TIMESTAMP,
+							:IS_RECIPROCITY_TXN,
+							:TX_TIMESTAMP,
+							:UPDATE_TS,
+							:MATCHED_TX_EXTERN_REF_NO)"></entry>
+							
+							<entry key="DELETE_T_25A_PENDING_TXN"
+					value="delete from TPMS.t_25a_pending_queue WHERE LANE_TX_ID =:LANE_TX_ID"></entry>
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

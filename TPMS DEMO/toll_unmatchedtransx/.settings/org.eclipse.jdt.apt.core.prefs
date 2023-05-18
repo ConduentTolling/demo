@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+<<<<<<< HEAD:toll_unmatchedtransx/.settings/org.eclipse.jdt.apt.core.prefs
+org.eclipse.jdt.apt.aptEnabled=false
+=======
+org.eclipse.jdt.apt.aptEnabled=true
+org.eclipse.jdt.apt.genSrcDir=target\\generated-sources\\annotations
+org.eclipse.jdt.apt.genTestSrcDir=target\\generated-test-sources\\test-annotations
+>>>>>>> a3a29b0b (ICTX Creation):create_ictx/ictx_creation_process/.settings/org.eclipse.jdt.apt.core.prefs

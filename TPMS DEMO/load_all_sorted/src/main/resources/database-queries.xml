@@ -1,0 +1,699 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+	         
+	         <entry key="SELECT_DEVICE_RANGE_DETAILS"
+					value="SELECT
+							   device_no,
+							   etc_account_id,
+							   iag_vehicle_class,
+							   device_status,
+							   device_type_id,
+							   NVL(is_prevalidated,'N') 
+							FROM
+							   CRM.V_DEVICE 
+							WHERE
+							   NVL(etc_account_id, 0) >= 0 
+							   AND device_no between :START_DEVICE_NO and :END_DEVICE_NO 
+							   AND NOT(device_status = 20)"></entry>
+	         
+	         <entry key="SELECT_ETC_DETAILS"
+					value="SELECT  ETC_ACCOUNT_ID,
+			                  ACCOUNT_NO,
+			                  ACCT_ACT_STATUS,
+			                  ACCOUNT_TYPE,
+			                  POST_PAID_STATUS,
+			                  REBILL_AMOUNT,
+			                  REBILL_THRESHOLD,
+			                  AGENCY_ID,
+			                  AGENCY_REFERENCE,
+			                  UNREGISTERED,
+			                  PRIMARY_REBILL_PAY_TYPE,
+			                  REBILL_THRESHOLD,
+			                  ACCOUNT_SUSPENDED
+			  FROM CRM.V_ETC_ACCOUNT 
+			  WHERE ETC_ACCOUNT_ID IN ( :DEVICE_NO_LIST )"></entry>
+	        
+	         <entry key ="SELECT_PLAN_STRING"
+	        		value ="SELECT Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type )           / 10 ), 0, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 1, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 2, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 3, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 4, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 5, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 6, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 7, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 8, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 9, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 10, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 11, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 12, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 13, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 14, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 15, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 16, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 17, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 18, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 19, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 20, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 21, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				              || Lpad (Sum (DISTINCT Decode (Floor ( Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ) / 10 ), 22, Power (2, Mod (Decode (pp.is_device_specific, 'Y', Decode (Trim (pd.device_no), Trim (:LC_DEVICE_NO), pp.plan_type, 0 ), pp.plan_type ), 10 ) ), 0 ) ), 4, '0' )
+				FROM   crm.v_account_plan_detail PD,
+				       crm.v_plan_policy PP
+				WHERE  pd.plan_type = pp.plan_type
+				AND    (
+				              pd.plan_end_date IS NULL
+				       OR     pd.plan_end_date &gt;= trunc(sysdate)
+				       )
+				       AND
+				       pd.etc_account_id = :LC_ETC_ACCOUNT_ID"></entry>
+	         
+	         <entry key="SELECT_PLAN_POLICY"
+					value="SELECT
+						   NVL(SUM(DECODE(is_device_specific, 'Y', DECODE(TRIM(device_no), TRIM(:LC_DEVICE_NO), pp.plan_type, 0), pp.plan_type)),0) lc_all_plans,
+						   NVL(SUM(DECODE(pp.is_revenue_plan, 'Y', DECODE(pp.is_annual_plan, 'Y', 0, DECODE(pp.plan_type, 67, 0, DECODE(pp.plan_type, 55, 0, DECODE(pp.plan_type, 13, 0, 1)))), 0)),0) rev_plan_count,
+						   CAST(NVL(SUM(DISTINCT POWER(2, DECODE(pp.is_device_specific, 'Y', DECODE(TRIM(PD.device_no), TRIM(:LC_DEVICE_NO), pp.plan_bit, 0), pp.plan_bit) - 1)),0) AS INT) itag_info,
+						   NVL(SUM(DECODE(pp.is_revenue_plan, 'N', DECODE(pp.is_device_specific, 'Y', DECODE(TRIM(PD.device_no), TRIM(:LC_DEVICE_NO), DECODE(pp.agency_id, 1, 1, 0, 1, 0), 0), DECODE(pp.agency_id, 1, 1, 0, 1, 0)), 0)),0) nysta_non_rev_count,
+						   NVL(SUM(DECODE(pp.is_annual_plan, 'Y', DECODE(pp.is_device_specific, 'Y', DECODE(TRIM(PD.device_no), TRIM(:LC_DEVICE_NO), DECODE(pp.agency_id, 1, 1, 0, 1, 0), 0), DECODE(pp.agency_id, 1, 1, 0, 1, 0)), 0)),0) nysta_annual_plan_count,
+						   NVL(SUM(DECODE(pp.is_post_paid, 'Y', DECODE(pp.is_device_specific, 'Y', DECODE(TRIM(PD.device_no), TRIM(:LC_DEVICE_NO), DECODE(pp.agency_id, 1, 1, 0, 1, 0), 0), DECODE(pp.agency_id, 1, 1, 0, 1, 0)), 0)),0) nysta_post_paid_coml_count,
+						   NVL(SUM(DECODE(pp.is_revenue_plan, 'N', DECODE(pp.is_device_specific, 'Y', DECODE(TRIM(pd.device_no), TRIM(:LC_DEVICE_NO), DECODE(pp.agency_id, 4, 1, 0, 1, 0), 0), DECODE(pp.agency_id, 4, 1, 0, 1, 0)), 0)),0) nysba_non_rev_count,
+						   NVL(SUM(DECODE(pp.is_revenue_plan, 'N', DECODE(pp.is_device_specific, 'Y', DECODE(TRIM(pd.device_no), TRIM(:LC_DEVICE_NO), DECODE(pp.agency_id, 2, 1, 0, 1, 0), 0), DECODE(pp.agency_id, 2, 1, 0, 1, 0)), 0)),0) mta_non_rev_count,
+						   NVL(SUM(DECODE(pp.is_revenue_plan, 'N', DECODE(pp.is_device_specific, 'Y', DECODE(TRIM(pd.device_no), TRIM(:LC_DEVICE_NO), DECODE(pp.agency_id, 3, 1, 0, 1, 0), 0), DECODE(pp.agency_id, 3, 1, 0, 1, 0)), 0)),0) pa_non_rev_count,
+						   NVL(SUM(DECODE(pp.plan_type, 65, DECODE(pp.is_revenue_plan, 'N', DECODE(pp.is_device_specific, 'Y', DECODE(TRIM(pd.device_no), TRIM(:LC_DEVICE_NO), DECODE(pp.agency_id, 2, 1, 0, 1, 0), 0), DECODE(pp.agency_id, 2, 1, 0, 1, 0)), 0), 0)),0) rio_non_rev_count,
+						   NVL(SUM(DECODE(pp.plan_type, 102, 1, 0)),0) pa_si_bridges_count,
+						   NVL(SUM(DECODE(pp.plan_type, 101, 1, 0)),0) pa_bridges_count,
+						   NVL(SUM(DECODE(pp.plan_type, 108, 1, 0)),0) pa_carpool_count,
+						   NVL(SUM(DECODE(pp.plaza_limited, 'Y', 1, 0)),0) plaza_limited,
+						   NVL(SUM(DECODE(pp.plan_type, 66, 1, 0)),0) tbnrfp_count,
+						   NVL(SUM(DECODE(pp.plan_type, 67, 1, 0)),0) mtaf_count,
+						   NVL(SUM(DECODE(pp.plan_type, 55, 1, 0)),0) govt_count,
+						   NVL(SUM(DECODE(pp.plan_type, 51, 1, 0)),0) sir_count,
+						   NVL(SUM(DECODE(pp.plan_type, 52, 1, 0)),0) rr_count,
+						   NVL(SUM(DECODE(pp.plan_type, 71, 1, 0)),0) br_count,
+						   NVL(SUM(DECODE(pp.plan_type, 72, 1, 0)),0) qr_count 
+						FROM
+						   CRM.V_ACCOUNT_PLAN_DETAIL PD,
+						   CRM.V_PLAN_POLICY PP 
+						WHERE
+						   Pd.PLAN_TYPE = PP.PLAN_TYPE 
+						   AND 
+						   (
+						      Pd.PLAN_END_DATE IS NULL 
+						      OR PD.PLAN_END_DATE >= TRUNC(SYSDATE)
+						   )
+						   AND PD.ETC_ACCOUNT_ID = :LC_ETC_ACCOUNT_ID 
+						   AND 
+						   (DEVICE_NO IS NULL OR DEVICE_NO = :LC_DEVICE_NO)"></entry>
+						      
+						      
+	         
+	         <entry key="INSERT_INTO_T_TAG_STATUS_ALLSORTED"
+					value="INSERT INTO TPMS.T_TAG_STATUS_ALLSORTED
+			            (ACCOUNT_NO,
+			             ETC_ACCOUNT_ID,
+			             ACCOUNT_STATUS,
+			             ACCOUNT_TYPE,
+			             ACCOUNT_TYPE_CD,
+			             AGENCY_ID,
+			             DEVICE_NO,
+			             DEVICE_STATUS,
+			             FINANCIAL_STATUS,
+			             IAG_CODED_CLASS,
+			             CURRENT_BALANCE,
+			             REBILL_PAY_TYPE,
+			             REBILL_AMOUNT,
+			             REBILL_THRESHOLD,
+			             POST_PAID_STATUS,
+			             TAG_OWNING_AGENCY,
+			             THWY_ACCT,
+			             OPT_IN_OUT_FLAG,
+			             ACCT_SUSP_FLAG,
+			             POST_PAID_FLAG,
+			             POST_PAID_PLAN_CNT,
+			             PREVALIDATION_FLAG,
+			             IS_COMPANION_TAG,
+			             FIRST_TOLL_DATE,
+			             FROM_PLAZA,
+			             TO_PLAZA,
+			             RETAIL_TAG_STATUS,
+			             SPEED_AGENCY,
+			             ITAG_TAG_STATUS,
+			             ITAG_INFO,
+			             ALL_PLANS,
+			             REV_PLAN_COUNT,
+			             NYSTA_NON_REV_COUNT,
+			             NYSTA_ANNUAL_PLAN_COUNT,
+			             NYSTA_POST_PAID_COML_COUNT,
+			             NYSTA_TAG_STATUS,
+			             NYSBA_NON_REV_COUNT,
+			             NYSBA_TAG_STATUS,
+			             MTA_NON_REV_COUNT,
+			             MTA_SPECIAL_PLAN_COUNT,
+			             MTA_TAG_STATUS,
+			             MTAG_PLAN_STR,
+			             MTA_CTRL_STR,
+			             PA_NON_REV_COUNT,
+			             PA_BRIDGES_COUNT,
+			             PA_SI_BRIDGES_COUNT,
+			             PA_CARPOOL_COUNT,
+			             PA_TAG_STATUS,
+			             RIO_NON_REV_COUNT,
+			             RIO_TAG_STATUS,
+			             RIO_CTRL_STR,
+			             PLZ_LIMITED_COUNT,
+			             FTAG_TAG_STATUS,
+			             FTAG_PLAN_INFO,
+			             TS_CTRL_STR,
+			             PLANS_STR,
+			             CSC_LOOKUP_KEY,
+			             UPDATE_TS,
+			             TAG_PROTOCOL,
+			             TAG_TYPE,
+			             TAG_MOUNT,
+			             TAG_CLASS)
+			VALUES      (:ACCOUNT_NO,
+			             :ETC_ACCOUNT_ID,
+			             :ACCOUNT_STATUS,
+			             :ACCOUNT_TYPE,
+			             :ACCOUNT_TYPE_CD,
+			             :AGENCY_ID,
+			             :DEVICE_NO,
+			             :DEVICE_STATUS,
+			             :FINANCIAL_STATUS,
+			             :IAG_CODED_CLASS,
+			             :CURRENT_BALANCE,
+			             :REBILL_PAY_TYPE,
+			             :REBILL_AMOUNT,
+			             :REBILL_THRESHOLD,
+			             :POST_PAID_STATUS,
+			             :TAG_OWNING_AGENCY,
+			             :THWY_ACCT,
+			             :OPT_IN_OUT_FLAG,
+			             :ACCT_SUSP_FLAG,
+			             :POST_PAID_FLAG,
+			             :POST_PAID_PLAN_CNT,
+			             :PREVALIDATION_FLAG,
+			             :IS_COMPANION_TAG,
+			             :FIRST_TOLL_DATE,
+			             :FROM_PLAZA,
+			             :TO_PLAZA,
+			             :RETAIL_TAG_STATUS,
+			             :SPEED_AGENCY,
+			             :ITAG_TAG_STATUS,
+			             :ITAG_INFO,
+			             :ALL_PLANS,
+			             :REV_PLAN_COUNT,
+			             :NYSTA_NON_REV_COUNT,
+			             :NYSTA_ANNUAL_PLAN_COUNT,
+			             :NYSTA_POST_PAID_COML_COUNT,
+			             :NYSTA_TAG_STATUS,
+			             :NYSBA_NON_REV_COUNT,
+			             :NYSBA_TAG_STATUS,
+			             :MTA_NON_REV_COUNT,
+			             :MTA_SPECIAL_PLAN_COUNT,
+			             :MTA_TAG_STATUS,
+			             :MTAG_PLAN_STR,
+			             :MTA_CTRL_STR,
+			             :PA_NON_REV_COUNT,
+			             :PA_BRIDGES_COUNT,
+			             :PA_SI_BRIDGES_COUNT,
+			             :PA_CARPOOL_COUNT,
+			             :PA_TAG_STATUS,
+			             :RIO_NON_REV_COUNT,
+			             :RIO_TAG_STATUS,
+			             :RIO_CTRL_STR,
+			             :PLZ_LIMITED_COUNT,
+			             :FTAG_TAG_STATUS,
+			             :FTAG_PLAN_INFO,
+			             :TS_CTRL_STR,
+			             :PLANS_STR,
+			             :CSC_LOOKUP_KEY,
+			             :UPDATE_TS,
+			             :TAG_PROTOCOL,
+			             :TAG_TYPE,
+			             :TAG_MOUNT,
+			             :TAG_CLASS)"></entry>
+			             
+			             <entry key="INSERT_INTO_T_H_TAG_STATUS_ALLSORTED"
+					value="INSERT INTO TPMS.T_H_TAG_STATUS_ALLSORTED
+			            (ACCOUNT_NO,
+			             ETC_ACCOUNT_ID,
+			             ACCOUNT_STATUS,
+			             ACCOUNT_TYPE,
+			             ACCOUNT_TYPE_CD,
+			             AGENCY_ID,
+			             FINANCIAL_STATUS,
+			             REV_PLAN_COUNT,
+			             MTA_NON_REV_COUNT,
+			             NYSBA_NON_REV_COUNT,
+			             PA_NON_REV_COUNT,
+			             RIO_NON_REV_COUNT,
+			             PLZ_LIMITED_COUNT,
+			             MTA_SPECIAL_PLAN_COUNT,
+			             PA_BRIDGES_COUNT,
+			             PA_SI_BRIDGES_COUNT,
+			             PA_CARPOOL_COUNT,
+			             DEVICE_NO,
+			             DEVICE_STATUS,
+			             REBILL_PAY_TYPE,
+			             POST_PAID_STATUS,
+			             CURRENT_BALANCE,
+			             REBILL_AMOUNT,
+			             REBILL_THRESHOLD,
+			             TAG_OWNING_AGENCY,
+			             THWY_ACCT,
+			             IAG_CODED_CLASS,
+			             OPT_IN_OUT_FLAG,
+			             PREVALIDATION_FLAG,
+			             IS_COMPANION_TAG,
+			             UPDATE_TS,
+			             ITAG_TAG_STATUS,
+			             MTA_TAG_STATUS,
+			             PA_TAG_STATUS,
+			             RIO_TAG_STATUS,
+			             FTAG_TAG_STATUS,
+			             FROM_PLAZA,
+			             TO_PLAZA,
+			             TS_CTRL_STR,
+			             ITAG_INFO,
+			             FIRST_TOLL_DATE,
+			             RETAIL_TAG_STATUS,
+			             SPEED_AGENCY,
+			             ALL_PLANS,
+			             CSC_LOOKUP_KEY,
+			             PLANS_STR,
+			             MTAG_PLAN_STR,
+			             MTA_CTRL_STR,
+			             RIO_CTRL_STR,
+			             FTAG_PLAN_INFO,
+			             NYSBA_TAG_STATUS,
+			             ACCT_SUSP_FLAG,
+			             TAG_PROTOCOL,
+			             TAG_TYPE,
+			             TAG_MOUNT,
+			             TAG_CLASS)
+			VALUES      (:ACCOUNT_NO,
+			             :ETC_ACCOUNT_ID,
+			             :ACCOUNT_STATUS,
+			             :ACCOUNT_TYPE,
+			             :ACCOUNT_TYPE_CD,
+			             :AGENCY_ID,
+			             :FINANCIAL_STATUS,
+			             :REV_PLAN_COUNT,
+			             :MTA_NON_REV_COUNT,
+			             :NYSBA_NON_REV_COUNT,
+			             :PA_NON_REV_COUNT,
+			             :RIO_NON_REV_COUNT,
+			             :PLZ_LIMITED_COUNT,
+			             :MTA_SPECIAL_PLAN_COUNT,
+			             :PA_BRIDGES_COUNT,
+			             :PA_SI_BRIDGES_COUNT,
+			             :PA_CARPOOL_COUNT,
+			             :DEVICE_NO,
+			             :DEVICE_STATUS,
+			             :REBILL_PAY_TYPE,
+			             :POST_PAID_STATUS,
+			             :CURRENT_BALANCE,
+			             :REBILL_AMOUNT,
+			             :REBILL_THRESHOLD,
+			             :TAG_OWNING_AGENCY,
+			             :THWY_ACCT,
+			             :IAG_CODED_CLASS,
+			             :OPT_IN_OUT_FLAG,
+			             :PREVALIDATION_FLAG,
+			             :IS_COMPANION_TAG,
+			             :UPDATE_TS,
+			             :ITAG_TAG_STATUS,
+			             :MTA_TAG_STATUS,
+			             :PA_TAG_STATUS,
+			             :RIO_TAG_STATUS,
+			             :FTAG_TAG_STATUS,
+			             :FROM_PLAZA,
+			             :TO_PLAZA,
+			             :TS_CTRL_STR,
+			             :ITAG_INFO,
+			             :FIRST_TOLL_DATE,
+			             :RETAIL_TAG_STATUS,
+			             :SPEED_AGENCY,
+			             :ALL_PLANS,
+			             :CSC_LOOKUP_KEY,
+			             :PLANS_STR,
+			             :MTAG_PLAN_STR,
+			             :MTA_CTRL_STR,
+			             :RIO_CTRL_STR,
+			             :FTAG_PLAN_INFO,
+			             :NYSBA_TAG_STATUS,
+			             :ACCT_SUSP_FLAG,
+			             :TAG_PROTOCOL,
+			             :TAG_TYPE,
+			             :TAG_MOUNT,
+			             :TAG_CLASS)"></entry>
+			             
+			              <entry key="INSERT_INTO_T_INCR_TAG_STATUS_ALLSORTED"
+					value="INSERT INTO TPMS.T_INCR_TAG_STATUS_ALLSORTED
+							(DEVICE_NO,
+							AGENCY_ID,
+							PLAZA_ID,
+							OLD_TAG_STATUS,
+							OLD_CONTROL_STRING,
+							UPDATE_TS,
+			             	TAG_PROTOCOL,
+			             	TAG_TYPE,
+			             	TAG_MOUNT,
+			             	TAG_CLASS
+							)
+					 VALUES (:DEVICE_NO,
+							:AGENCY_ID,
+							:PLAZA_ID,
+							:OLD_TAG_STATUS,
+							:OLD_CONTROL_STRING,
+							:UPDATE_TS,
+			             	:TAG_PROTOCOL,
+			             	:TAG_TYPE,
+			             	:TAG_MOUNT,
+			             	:TAG_CLASS
+					 )">
+					</entry>
+					    
+			        <entry key="DEL_FROM_INCR_ALLSORTED"
+						   value="DELETE FROM TPMS.T_INCR_TAG_STATUS_ALLSORTED">
+					</entry>   
+					
+			  <entry key="SELECT_T_CODE"
+					value="select code_type codeType, code_id codeId, code_value codeValue from MASTER.t_codes"></entry>  
+					
+			  <entry key="SELECT_T_CODE_FIN_STATUS"
+					value="select code_type codeType, code_id codeId, code_value codeValue from MASTER.t_codes  where CODETYPE = 'ACCT_FIN_STATUS'"></entry>   
+					
+					<entry key="UPDATE_ALL_SORTED_BY_DEVICENO"
+					value="UPDATE TPMS.T_TAG_STATUS_ALLSORTED
+					SET 
+						   ACCOUNT_NO = :ACCOUNT_NO,
+						   ACCOUNT_STATUS =:ACCOUNT_STATUS,
+						   DEVICE_NO =:DEVICE_NO,
+						   FINANCIAL_STATUS =:FINANCIAL_STATUS,
+						   DEVICE_STATUS =:DEVICE_STATUS,
+						   REBILL_PAY_TYPE =:REBILL_PAY_TYPE,
+						   ALL_PLANS =:ALL_PLANS,
+						   PREVALIDATION_FLAG =:PREVALIDATION_FLAG,
+						   SPEED_AGENCY =:SPEED_AGENCY,
+						   RETAIL_TAG_STATUS =:RETAIL_TAG_STATUS,
+						   POST_PAID_STATUS =:POST_PAID_STATUS,
+						   REV_PLAN_COUNT =:REV_PLAN_COUNT,
+						   MTA_TAG_STATUS =:MTA_TAG_STATUS,
+						   RIO_TAG_STATUS =:RIO_TAG_STATUS,
+						   ITAG_TAG_STATUS =:ITAG_TAG_STATUS,
+						   PA_TAG_STATUS = :PA_TAG_STATUS,
+						   FTAG_TAG_STATUS = :FTAG_TAG_STATUS,						   
+						   TS_CTRL_STR =:TS_CTRL_STR,
+						   MTA_CTRL_STR =:MTA_CTRL_STR,
+						   RIO_CTRL_STR =:RIO_CTRL_STR,
+						   CURRENT_BALANCE =:CURRENT_BALANCE,
+						   UPDATE_TS = :UPDATE_TS
+					WHERE
+						   DEVICE_NO = :DEVICE_NO">
+				    </entry>   
+					
+					<entry key="UPDATE_INCR_ALL_SORTED_BY_DEVICENO_FORMTA"
+					value="UPDATE TPMS.T_INCR_TAG_STATUS_ALLSORTED
+					SET 
+						   OLD_TAG_STATUS = :OLD_TAG_STATUS,
+						   OLD_CONTROL_STRING = :OLD_CONTROL_STRING,
+						   PLAZA_ID =:PLAZA_ID,
+						   UPDATE_TS = :UPDATE_TS
+					WHERE
+						   DEVICE_NO = :DEVICE_NO
+					AND	   AGENCY_ID = :AGENCY_ID">
+				    </entry>   
+					
+					<entry key="UPDATE_INCR_ALL_SORTED_BY_DEVICENO_FORRIO"
+					value="UPDATE TPMS.T_INCR_TAG_STATUS_ALLSORTED
+					SET 
+						   OLD_TAG_STATUS = :OLD_TAG_STATUS,
+						   OLD_CONTROL_STRING = :OLD_CONTROL_STRING,
+						   PLAZA_ID =:PLAZA_ID,
+						   UPDATE_TS = :UPDATE_TS
+					WHERE
+						   DEVICE_NO = :DEVICE_NO
+					AND	   AGENCY_ID = :AGENCY_ID">
+				    </entry>   
+				    
+				    <entry key="UPDATE_INCR_ALL_SORTED_BY_DEVICENOFORPA"
+					value="UPDATE TPMS.T_INCR_TAG_STATUS_ALLSORTED
+					SET 
+						   OLD_TAG_STATUS = :OLD_TAG_STATUS,
+						   OLD_CONTROL_STRING = :OLD_CONTROL_STRING,
+						   PLAZA_ID =:PLAZA_ID,
+						   UPDATE_TS = :UPDATE_TS
+					WHERE
+						   DEVICE_NO = :DEVICE_NO
+					AND	   AGENCY_ID = :AGENCY_ID">
+				    </entry>   
+				    
+				      <entry key="UPDATE_INCR_ALL_SORTED_BY_DEVICENO_FOR_FTAG"
+					value="UPDATE TPMS.T_INCR_TAG_STATUS_ALLSORTED
+					SET 
+						   OLD_TAG_STATUS = :OLD_TAG_STATUS,
+						   OLD_CONTROL_STRING = :OLD_CONTROL_STRING,
+						   PLAZA_ID =:PLAZA_ID,
+						   UPDATE_TS = :UPDATE_TS
+					WHERE
+						   DEVICE_NO = :DEVICE_NO
+					AND	   AGENCY_ID = :AGENCY_ID AND  PLAZA_ID = :PLAZA_ID ">
+				    </entry>  <!--  For FTAG --> 
+				
+				<entry key="CHECK_IF_RECORD_EXISTS_FOR_PLAZA_ID"
+					value="SELECT
+						   DEVICE_NO,
+						   AGENCY_ID,
+						   PLAZA_ID,
+						   OLD_TAG_STATUS,
+						   OLD_CONTROL_STRING,
+						   UPDATE_TS
+                           FROM TPMS.T_INCR_TAG_STATUS_ALLSORTED
+					WHERE
+						   PLAZA_ID = :PLAZA_ID
+						   AND
+						   DEVICE_NO = :DEVICE_NO">
+				    </entry> 
+				    
+				    <entry key="CHECK_IF_RECORD_EXISTS"
+					value="SELECT
+						   ACCOUNT_NO,
+						   ACCOUNT_STATUS,
+						   FINANCIAL_STATUS,
+						   DEVICE_STATUS,
+						   REBILL_PAY_TYPE,
+						   ALL_PLANS,
+						   PREVALIDATION_FLAG,
+						   SPEED_AGENCY,
+						   RETAIL_TAG_STATUS,
+						   POST_PAID_STATUS,
+						   REV_PLAN_COUNT,
+						   MTA_TAG_STATUS,
+						   RIO_TAG_STATUS,
+						   ITAG_TAG_STATUS,
+						   PA_TAG_STATUS,
+						   FTAG_TAG_STATUS,
+						   TS_CTRL_STR,
+						   MTA_CTRL_STR,
+						   RIO_CTRL_STR,
+						   CURRENT_BALANCE
+                           FROM TPMS.T_TAG_STATUS_ALLSORTED
+					WHERE
+						   DEVICE_NO = :LC_DEVICE_NO">
+				    </entry>     				
+			            
+			            <entry key="UPDATE_T_TAG_ALL_SORTED_FOR_RECORD"
+					value="UPDATE TPMS.T_TAG_STATUS_ALLSORTED
+					SET 
+						   ACCOUNT_NO = :ACCOUNT_NO,
+						   ACCOUNT_STATUS =:ACCOUNT_STATUS,
+						   DEVICE_NO =:LC_DEVICE_NO,
+						   FINANCIAL_STATUS =:FINANCIAL_STATUS,
+						   DEVICE_STATUS =:DEVICE_STATUS,
+						   REBILL_PAY_TYPE =:REBILL_PAY_TYPE,
+						   ALL_PLANS =:ALL_PLANS,
+						   PREVALIDATION_FLAG =:PREVALIDATION_FLAG,
+						   SPEED_AGENCY =:SPEED_AGENCY,
+						   RETAIL_TAG_STATUS =:RETAIL_TAG_STATUS,
+						   POST_PAID_STATUS =:POST_PAID_STATUS,
+						   REV_PLAN_COUNT =:REV_PLAN_COUNT,
+						   MTA_TAG_STATUS =:MTA_TAG_STATUS,
+						   RIO_TAG_STATUS =:RIO_TAG_STATUS,
+						   ITAG_TAG_STATUS =:ITAG_TAG_STATUS,
+						   PA_TAG_STATUS =:PA_TAG_STATUS,
+						   FTAG_TAG_STATUS =:FTAG_TAG_STATUS,
+						   TS_CTRL_STR =:TS_CTRL_STR,
+						   MTA_CTRL_STR =:MTA_CTRL_STR,
+						   RIO_CTRL_STR =:RIO_CTRL_STR,
+						   CURRENT_BALANCE =:CURRENT_BALANCE,
+						   UPDATE_TS = :UPDATE_TS
+						   
+							WHERE
+							DEVICE_NO =:LC_DEVICE_NO">
+				    </entry>   
+			            
+			  <entry key="SELECT_INCR_FROM_T_TAG_ALLSORTED"
+					value="SELECT TRIM (device_no)  device_no, 
+					       NVL (account_no, '') account_no,
+					       agency_id,
+					       account_status, 
+					       NVL (financial_status, 0) financial_status,
+					       device_status, 
+					       rebill_pay_type,
+					       NVL (all_plans, 0) all_plans, 
+					       NVL (prevalidation_flag,'N') prevalidation_flag,
+					       opt_in_out_flag, 
+					       speed_agency, 
+					       retail_tag_status,
+					       first_toll_date, 
+					       NVL (post_paid_status, 0) post_paid_status,
+					       thwy_acct, 
+					       rev_plan_count,
+					       NVL (acct_susp_flag, 'N') acct_susp_flag,
+					       'N',
+					       NVL (mta_tag_status, 0) mta_tag_status, 
+						   NVL (rio_tag_status, 0) rio_tag_status,
+						   NVL (mta_ctrl_str, 0) mta_ctrl_str,
+		                   NVL (rio_ctrl_str, 0) rio_ctrl_str, 
+		                   NVL (ts_ctrl_str, 0) ts_ctrl_str,
+		                   NVL (itag_tag_status, 0) itag_tag_status,
+		                   NVL (pa_tag_status, 0) pa_tag_status,
+		                   NVL (ftag_tag_status, 0) ftag_tag_status, 
+		                   NVL(all_plans,0) all_plans,
+		                   current_balance,
+		                   tag_protocol,
+		                   tag_type,
+		                   tag_mount,
+		                   tag_class
+					  FROM TPMS.T_TAG_STATUS_ALLSORTED
+					WHERE device_no =:DEVICE_NO"></entry>
+					
+					<entry key="GET_T_PLAZA"
+	                       value="SELECT PLAZA_ID,AGENCY_ID FROM MASTER.T_PLAZA order by plaza_id"></entry>
+         
+	                 <entry key="GET_DEVICE_INFO_OLD"
+	                       value="SELECT DISTINCT DEVICE_NO, ETC_ACCOUNT_ID, NVL(IAG_VEHICLE_CLASS,0), DEVICE_STATUS, DEVICE_TYPE_ID, NVL(IS_PREVALIDATED,'N'),
+	                        RETAIL_TAG_STATUS FROM CRM.V_DEVICE WHERE NVL(ETC_ACCOUNT_ID, 0) >= 0 AND DEVICE_NO BETWEEN :START_DEVICE_NO AND :END_DEVICE_NO AND NOT(DEVICE_STATUS = 20)"></entry>
+	                       
+	                       
+	                   <entry key="GET_DEVICE_INFO"
+	                       value="SELECT DISTINCT vd.DEVICE_NO, vd.ETC_ACCOUNT_ID, NVL(vd.IAG_VEHICLE_CLASS,0), vd.DEVICE_STATUS, vd.DEVICE_TYPE_ID, NVL(vd.IS_PREVALIDATED,'N'),
+	                        vd.RETAIL_TAG_STATUS, 
+                            NVL(mv.DISPLAY_VALUE,'*') mountType,
+                            NVL(dt.DISPLAY_VALUE,'*') deviceType,
+                            NVL(tp.DISPLAY_VALUE,'***') tagProtocol,
+                            NVL(vd.IAG_VEHICLE_CLASS,'****') modelClass
+                            FROM CRM.V_DEVICE vd join
+                            CRM.v_device_model vdm on vdm.DEVICE_TYPE_ID = vd.DEVICE_TYPE_ID 
+                            left join MASTER.T_CODES mv on vdm.MOUNT_TYPE = mv.CODE_VALUE AND mv.code_type = 'TAG_MOUNT'
+                            left join MASTER.T_CODES dt on vdm.DEVICE_TYPE = dt.CODE_VALUE  AND dt.code_type = 'TAG_TYPE'
+                            left join MASTER.T_CODES tp on vdm.TAG_PROTOCOL = tp.CODE_VALUE AND tp.code_type = 'TAG_PROTOCOL'
+                            WHERE NVL(vd.ETC_ACCOUNT_ID, 0) > 0 
+                            AND vd.DEVICE_NO BETWEEN :START_DEVICE_NO AND :END_DEVICE_NO
+                            AND NOT(vd.DEVICE_STATUS = 20)"></entry>
+                            
+	                <entry key="GET_DEVICE_INFO_INCR"
+	                       value="SELECT a.device_no,
+	                        a.etc_account_id,
+	                        a.retail_tag_status,
+	                        a.DEVICE_TYPE_ID,
+	                        a.DEVICE_STATUS,
+	                        NVL(a.IS_PREVALIDATED,'N')
+							FROM crm.v_device a, tpms.t_tag_status_allsorted t
+							WHERE a.device_no BETWEEN :START_DEVICE_NO AND :END_DEVICE_NO 
+							AND a.device_no = t.device_no 
+							AND a.device_status = 3 
+							AND (   t.mta_tag_status IN (3, 4) OR t.rio_tag_status IN (3, 4) OR t.device_no IS NULL )
+							UNION ALL 
+							SELECT b.device_no,
+	                        b.etc_account_id,
+	                        b.retail_tag_status,
+	                        b.DEVICE_TYPE_ID,
+	                        b.DEVICE_STATUS,
+	                        NVL(b.IS_PREVALIDATED,'N')
+							FROM crm.v_device b 
+							WHERE b.device_no BETWEEN :START_DEVICE_NO AND :END_DEVICE_NO 
+							AND b.device_status IN (8, 9) 
+							AND b.status_timestamp > CURRENT_DATE - 1 
+							"></entry>
+							
+				<entry key="GET_DEVICE_INFO_INCR_NEW"
+	                       value="SELECT a.device_no,
+	                        a.etc_account_id,
+	                        a.retail_tag_status,
+	                        a.DEVICE_TYPE_ID,
+	                        a.DEVICE_STATUS,
+	                        NVL(a.IS_PREVALIDATED,'N')
+							FROM crm.v_device a, tpms.t_tag_status_allsorted t
+							WHERE a.device_no BETWEEN :START_DEVICE_NO AND :END_DEVICE_NO 
+							AND a.device_no = t.device_no 
+							AND a.device_status = 3 
+							UNION ALL 
+							SELECT b.device_no,
+	                        b.etc_account_id,
+	                        b.retail_tag_status,
+	                        b.DEVICE_TYPE_ID,
+	                        b.DEVICE_STATUS,
+	                        NVL(b.IS_PREVALIDATED,'N')
+							FROM crm.v_device b 
+							WHERE b.device_no BETWEEN :START_DEVICE_NO AND :END_DEVICE_NO 
+							AND b.status_timestamp > CURRENT_DATE - 1 
+							"></entry>
+							
+				<entry key="GET_ACCOUNT_INFO_DETAIL"
+                    value="select e.etc_account_id etcAccountId, e.agency_id agencyId, e.account_type_cd accountType, e.current_balance prepaidBalance,
+                            e.postpaid_balance postpaidBalance, 
+                            e.IS_DISCOUNT_ELIGIBLE isDiscountEligible,
+                            f.account_balance accountBalance,
+                            e.REBILL_AMOUNT rebillAmount,
+                            e.REBILL_THRESHOLD thresholdAmount,
+                            e.account_no accountNumber, e.acct_fin_status acctFinStatus
+                            from CRM.V_ETC_ACCOUNT e, fpms.t_fpms_account f
+                            WHERE f.ETC_ACCOUNT_ID = E.ETC_ACCOUNT_ID AND E.ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID" ></entry>
+
+				<entry key="SELECT_ETC_ACC_INFO"
+	                       value="SELECT  ACC.ETC_ACCOUNT_ID AS ETC_ACCOUNT_ID,	
+                            NVL(ACC.ACCOUNT_NO,0) as ACCOUNT_NO,
+                            ACC.ACCT_ACT_STATUS AS ACCT_ACT_STATUS,
+                            NVL(ACC.ACCOUNT_TYPE,'0') as ACCOUNT_TYPE,
+                            NVL(AT.DISPLAY_VALUE,'*') as accountTypeCd,
+                            NVL(ACC.POST_PAID_STATUS,0) as POST_PAID_STATUS,
+                            NVL(ACC.REBILL_AMOUNT,0) as REBILL_AMOUNT,
+                            NVL(ACC.REBILL_THRESHOLD,0) as REBILL_THRESHOLD,
+                            ACC.AGENCY_ID AS AGENCY_ID,
+                            NVL(ACC.AGENCY_REFERENCE,0) as AGENCY_REFERENCE,
+                            NVL(ACC.UNREGISTERED,'N') as UNREGISTERED,
+                            NVL(ACC.PRIMARY_REBILL_PAY_TYPE,1) as PRIMARY_REBILL_PAY_TYPE,
+                            NVL(ACC.ACCOUNT_SUSPENDED,'N') as ACCOUNT_SUSPENDED
+                            FROM CRM.V_ETC_ACCOUNT ACC 
+                            LEFT JOIN MASTER.T_CODES AT ON ACC.ACCOUNT_TYPE_CD = AT.CODE_VALUE                         
+                            WHERE ACC.ETC_ACCOUNT_ID IN (SELECT ETC_ACCOUNT_ID FROM CRM.V_DEVICE vd WHERE NVL(ETC_ACCOUNT_ID, 0) &gt;= 0
+                            AND DEVICE_NO BETWEEN :START_DEVICE_NO AND :END_DEVICE_NO
+                            AND NOT(vd.DEVICE_STATUS = 20))
+                            AND AT.CODE_TYPE = 'TAG_AC_TYPE_IND'"></entry>
+	                  
+
+	<!-- <entry key="SELECT_OPT_IN_OUT_STATUS" value="SELECT DECODE (attrib_08,'Y', 
+		'I','N', 'O',DECODE (lv_account_type, 1, 'I', 'O')) INTO lv_opt_in_out_flag 
+		FROM s_org_ext_xm WHERE TYPE = 'EPS OPTION' AND NAME = 'NONTOLL PARK' AND 
+		conflict_id >= 0 AND par_row_id = lv_row_id;"></entry> -->
+
+	<entry key="SELECT_NO_RECORD_OPT_IN_OUT_STATUS"
+		value=" SELECT DECODE (:lv_account_type, 1, 'I', 'O')
+           lv_opt_in_out_flag
+          FROM DUAL"></entry>  
+					
+		<entry key="SELECT_OPT_IN_OUT_STATUS" 
+		value="select vector_parkingoptin from CRM_CLONE.accountx where id = (select guid from crm.v_etc_account where etc_account_id=:ETC_ACCOUNT_ID  )"></entry>			 
+					 
+					 
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

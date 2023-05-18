@@ -1,0 +1,343 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+			
+			<entry key="GET_NEXT_SEQUENCE_NUMBER"
+					value="select tpms.seq_ny12_complete_txn.nextval AS SEQUENCE_NUMBER from dual">
+			</entry>
+				
+				
+				<entry
+					key="UPDATE_TX_COMPLETE_REF_NUMBER"
+					value="update t_ny12_pending_queue npq 
+                             set npq.tx_complete_ref_no = :lv_complete_ref_no 
+                             where npq.lane_tx_id in (select regexp_substr(:lv_lane_tx_id,'[^,]+', 1, level) from dual 
+                                              connect by regexp_substr(:lv_lane_tx_id, '[^,]+', 1, level) is not null)">
+
+				</entry>
+				
+				<entry key="GET_ALL_MATCHED_TRANSACTIONS"
+					value="select npq1.lane_tx_id,   npq1.tx_extern_ref_no, 
+    		                case when row_number() 
+    		                                      over (partition by npq1.tx_complete_ref_no order by npq1.tx_timestamp desc) = 1 
+    		                then 
+    		                                first_value(npq1.tx_extern_ref_no) 
+    		                                over (partition by npq1.tx_complete_ref_no order by npq1.tx_timestamp) 
+    		                else 
+    		                                first_value(npq1.tx_extern_ref_no) 
+    		                                over (partition by npq1.tx_complete_ref_no order by npq1.tx_timestamp desc) 
+    		                end match_ref_no 
+    		                from  tpms.t_ny12_pending_queue npq1, 
+    		                                   tpms.t_ny12_pending_queue npq2 
+    		                where npq1.tx_complete_ref_no = npq2.tx_complete_ref_no 
+    		                   and npq2.lane_tx_id = :lv_lane_tx_id">
+				</entry>
+				
+				<entry
+					key="UPDATE_MATCHED_TX_EXTERNAL_REF_NUMBER"
+					value="update tpms.t_ny12_pending_queue npq 
+   		                      set npq.matched_tx_extern_ref_no = :lv_match_ref_no 
+   		                      where npq.lane_tx_id = :lv_lane_tx_id">
+				</entry>
+				
+				
+				<!-- <entry
+					key="UPDATE_MATCHED_TX_EXTERNAL_REF_NUMBER_IN_PENDING_QUEUE"
+					value="update tpms.t_ny12_pending_queue npq 
+   		                      set npq.matched_tx_extern_ref_no = :lv_match_ref_no 
+   		                      where npq.lane_tx_id = :lv_lane_tx_id">
+				</entry> -->
+				
+        	
+				
+				 
+				
+               <!--  <entry key="QUERY_COUNT"
+                      value="Select count(*) AS TOTAL_COUNT from tpms.t_ny12_pending_queue where tx_complete_ref_no is null"></entry>
+                       -->
+				
+				
+				
+				<entry key="INSERT_COMPLETE_TXN"
+					value="insert into tpms.t_ny12_complete_txn nct  
+    		                (LANE_TX_ID,TX_EXTERN_REF_NO, TX_COMPLETE_REF_NO, TX_MATCH_STATUS, TX_SEQ_NUMBER, EXTERN_FILE_ID, LANE_ID, TX_TIMESTAMP, TX_TYPE_IND, TX_SUBTYPE_IND, TOLL_SYSTEM_TYPE, LANE_MODE, LANE_TYPE, LANE_STATE, LANE_HEALTH, PLAZA_AGENCY_ID, PLAZA_ID, COLLECTOR_ID, TOUR_SEGMENT_ID, ENTRY_DATA_SOURCE, ENTRY_LANE_ID, ENTRY_PLAZA_ID, ENTRY_TIMESTAMP, ENTRY_TX_SEQ_NUMBER, ENTRY_VEHICLE_SPEED, LANE_TX_STATUS, LANE_TX_TYPE, TOLL_REVENUE_TYPE, ACTUAL_CLASS, ACTUAL_AXLES, ACTUAL_EXTRA_AXLES, COLLECTOR_CLASS, COLLECTOR_AXLES, PRECLASS_CLASS, PRECLASS_AXLES, POSTCLASS_CLASS, POSTCLASS_AXLES, FORWARD_AXLES, REVERSE_AXLES, DISCOUNTED_AMOUNT, COLLECTED_AMOUNT, UNREALIZED_AMOUNT, VEHICLE_SPEED, DEVICE_NO, ACCOUNT_TYPE, DEVICE_IAG_CLASS, DEVICE_AXLES, ETC_ACCOUNT_ID, ACCOUNT_AGENCY_ID, READ_AVI_CLASS, READ_AVI_AXLES, DEVICE_PROGRAM_STATUS, BUFFERED_READ_FLAG, LANE_DEVICE_STATUS, POST_DEVICE_STATUS, PRE_TXN_BALANCE, TX_STATUS, SPEED_VIOL_FLAG, IMAGE_TAKEN, PLATE_COUNTRY, PLATE_STATE, PLATE_NUMBER, REVENUE_DATE, ATP_FILE_ID, EXTERN_FILE_DATE, TX_DATE, CSC_LOOKUP_KEY, EVENT, HOV_FLAG, IS_RECIPROCITY_TXN, MATCHED_TX_EXTERN_REF_NO, STATUS_CD, PROCESSED_DATE, INSERT_DATE, UPDATE_DATE, SUMMARY_FLAG) 
+    		                select laNE_TX_ID,TX_EXTERN_REF_NO, TX_COMPLETE_REF_NO, TX_MATCH_STATUS, TX_SEQ_NUMBER, EXTERN_FILE_ID, LANE_ID, TX_TIMESTAMP, TX_TYPE_IND, TX_SUBTYPE_IND, TOLL_SYSTEM_TYPE, LANE_MODE, LANE_TYPE, LANE_STATE, LANE_HEALTH, PLAZA_AGENCY_ID, PLAZA_ID, COLLECTOR_ID, TOUR_SEGMENT_ID, ENTRY_DATA_SOURCE, ENTRY_LANE_ID, ENTRY_PLAZA_ID, ENTRY_TIMESTAMP, ENTRY_TX_SEQ_NUMBER, ENTRY_VEHICLE_SPEED, LANE_TX_STATUS, LANE_TX_TYPE, TOLL_REVENUE_TYPE, ACTUAL_CLASS, ACTUAL_AXLES, ACTUAL_EXTRA_AXLES, COLLECTOR_CLASS, COLLECTOR_AXLES, PRECLASS_CLASS, PRECLASS_AXLES, POSTCLASS_CLASS, POSTCLASS_AXLES, FORWARD_AXLES, REVERSE_AXLES, DISCOUNTED_AMOUNT, COLLECTED_AMOUNT, UNREALIZED_AMOUNT, VEHICLE_SPEED, DEVICE_NO, ACCOUNT_TYPE, DEVICE_IAG_CLASS, DEVICE_AXLES, ETC_ACCOUNT_ID, ACCOUNT_AGENCY_ID, READ_AVI_CLASS, READ_AVI_AXLES, DEVICE_PROGRAM_STATUS, BUFFERED_READ_FLAG, LANE_DEVICE_STATUS, POST_DEVICE_STATUS, PRE_TXN_BALANCE, TX_STATUS, SPEED_VIOL_FLAG, IMAGE_TAKEN, PLATE_COUNTRY, PLATE_STATE, PLATE_NUMBER, REVENUE_DATE, ATP_FILE_ID, EXTERN_FILE_DATE, TX_DATE, CSC_LOOKUP_KEY, EVENT, HOV_FLAG, IS_RECIPROCITY_TXN, MATCHED_TX_EXTERN_REF_NO, 'P'     status_cd, null    processed_date, sysdate insert_date, sysdate update_date, 'N' AS SUMMARY_FLAG 
+    		                from tpms.t_ny12_pending_queue npq 
+    		                where npq.lane_tx_id = :lv_lane_tx_id">
+				</entry>
+				
+				<entry key="GET_ALL_PENDING_QUEUE_TXN_PER_LANE_TX_ID"
+				      value="select lane_tx_id,entry_plaza_id,plaza_id,entry_lane_id,entry_timestamp,nvl(discounted_amount,0),nvl(collected_amount,0),nvl(unrealized_amount,0) 
+				              from tpms.t_ny12_pending_queue where lane_tx_id = :lv_lane_tx_id">
+				</entry>
+				
+				<entry key="UPDATE_COMPLETE_TXN"
+					value="update tpms.t_ny12_complete_txn nct 
+    		                set 
+    		                                nct.entry_plaza_id    = :lv_entry_plaza, 
+    		                                nct.plaza_id          = :lv_exit_plaza, 
+    		                                nct.entry_lane_id     = :lv_entry_lane_id, 
+    		                                nct.entry_timestamp   = :lv_entry_timestmp, 
+    		                                nct.discounted_amount = :lv_discounted_amount, 
+    		                                nct.collected_amount  = :lv_collected_amount, 
+    		                                nct.unrealized_amount = :lv_unrealized_amount 
+    		                where nct.lane_tx_id = :lv_lane_tx_id
+    		                  and nct.entry_plaza_id = :lv_entry_plaza 
+    		                  and nct.plaza_id = :lv_exit_plaza">
+				</entry>
+				
+				<entry key="DELETE_PENDING_QUEUE"
+					value="delete tpms.t_ny12_pending_queue npq 
+    		                where npq.tx_complete_ref_no IN (select nct.tx_complete_ref_no 
+    		                                    from tpms.t_ny12_complete_txn nct 
+    		                                    where nct.lane_tx_id = :lv_lane_tx_id)">
+				</entry>
+				
+				<entry
+					key="VEHICLE_CLASS_NOTEQUALTO_22"
+					value="select npq.lane_tx_id,npq.entry_plaza_id,npq.plaza_id,
+                                npq.entry_lane_id,npq.entry_timestamp,nvl(npq.discounted_amount,0),
+                                nvl(npq.collected_amount,0),nvl(npq.unrealized_amount,0),npq.actual_class
+                           from t_ny12_pending_queue npq where nvl(npq.actual_class,0) &lt;&gt; 22">
+				</entry>
+				
+				<entry
+					key="TXNS_OF_LAST_SECTION"
+					value="select npq.lane_tx_id, 
+    		                                  npq.entry_plaza_id, 
+    		                                  npq.plaza_id, 
+    		                                  npq.entry_lane_id, 
+    		                                  npq.entry_timestamp, 
+    		                                  nvl(npq.discounted_amount,0), 
+    		                                  nvl(npq.collected_amount,0), 
+    		                                  nvl(npq.unrealized_amount,0) 
+    		                from tpms.t_ny12_pending_queue npq, 
+    		                                  master.t_lane tl 
+    		                where tl.plaza_id = npq.plaza_id 
+    		                  and tl.lane_id = npq.lane_id 
+    		                  and tl.section_id = :lc_last_section_id">
+				</entry>
+				
+				<entry
+					key="SAME_SEGMENT_PLAZA_AND_NOT_NON_BOUNDARY"
+					value="select 
+    		                                     npq.lane_tx_id, 
+    		                                     npq.entry_plaza_id, 
+    		                                     npq.plaza_id, 
+    		                                     npq.entry_lane_id, 
+    		                                     npq.entry_timestamp, 
+    		                                     nvl(npq.discounted_amount,0), 
+    		                                     nvl(npq.collected_amount,0), 
+    		                                     nvl(npq.unrealized_amount,0) 
+    		                       from 
+    		                                     tpms.t_ny12_pending_queue npq, 
+    		                                     master.t_plaza tp1, 
+    		                                     master.t_plaza tp2 
+    		                     where tp1.plaza_id = npq.plaza_id 
+    		                        and tp2.plaza_id = npq.entry_plaza_id 
+				                    and (tp1.grace_time is null or tp1.grace_time = 0) 
+    		                        and (tp2.grace_time is null or tp2.grace_time = 0)">
+				</entry>
+				
+				<entry key="SELECT_DEVICE_NO_FROM_PENDING_QUEUE"
+					value="select npq.device_no
+    		              from tpms.t_ny12_pending_queue npq
+    		              join master.t_lane tl
+    		                on (tl.plaza_id = npq.plaza_id and
+    		                    tl.lane_id = npq.lane_id) 
+    		               and tl.section_id &lt;&gt; :lc_last_section_id 
+    		             group by npq.device_no">
+				</entry>
+				
+				<entry key="GET_ALL_TRANSACTIONS_FOR_DEVICE"
+					value="select outerq.*, 
+    		                      (case when min_diff &lt; nvl(grace_time,10) then 1 else 0 end) within_time, 
+    		                      (case when section_id != next_section_id then 1 else 0 end) new_section 
+    		                 from (select mainq.*, 
+    		                              round((cast(next_entry_ts as date) - cast(txTimeStamp as date))* 24 * 60) as min_diff 
+    		                         from (select npq.lane_tx_id, 
+    		                                      npq.entry_plaza_id, 
+    		                                      npq.plaza_id, 
+    		                                      npq.entry_lane_id, 
+    		                                      tl.section_id, 
+    		                                      npq.entry_timestamp, 
+    		                                      npq.tx_timestamp as txTimeStamp,
+    		                                      nvl(npq.discounted_amount,0), 
+    		                                      nvl(npq.collected_amount,0), 
+    		                                      nvl(npq.unrealized_amount,0), 
+    		                                      tp.grace_time, 
+    		                                      tpe.grace_time entry_time_limit, 
+    		                                      lead(entry_timestamp, 1, npq.tx_timestamp) over (order by entry_timestamp) as next_entry_ts, 
+    		                                      lead(tl.section_id, 1) over (order by entry_timestamp) as next_section_id 
+    		                                 from t_ny12_pending_queue npq, 
+    		                                      master.t_plaza tp, 
+    		                                      master.t_plaza tpe, 
+    		                                      master.t_lane tl 
+    		                                 where device_no = :lv_eachtag_device_no 
+    		                                   and tp.plaza_id = npq.plaza_id 
+    		                                   and tpe.plaza_id = npq.entry_plaza_id 
+    		                                   and tl.lane_id = npq.lane_id 
+    		                                   and tl.plaza_id = npq.plaza_id 
+    		                                   and tl.section_id &lt;&gt; :lc_last_section_id 
+    		                                order by device_no, entry_timestamp) mainq) outerq">
+				</entry>
+				
+				<!-- <entry key="UPDATE_COMPLETE_TXN_OLD"
+					value="update tpms.t_ny12_complete_txn nct 
+    		                set 
+    		                                nct.entry_plaza_id    = :lv_entry_plaza, 
+    		                                nct.plaza_id          = :lv_exit_plaza, 
+    		                                nct.entry_lane_id     = :lv_entry_lane_id, 
+    		                                nct.entry_timestamp   = :lv_entry_timestmp, 
+    		                                nct.discounted_amount = :lv_discounted_amount, 
+    		                                nct.collected_amount  = :lv_collected_amount, 
+    		                                nct.unrealized_amount = :lv_unrealized_amount 
+    		                where nct.lane_tx_id = :lv_lane_tx_id">
+				</entry> -->
+				
+				<!-- <entry key="DELETE_PENDING_QUEUE_OLD"
+					value="delete tpms.t_ny12_pending_queue npq 
+    		                where npq.tx_complete_ref_no = (select nct.tx_complete_ref_no 
+    		                                    from tpms.t_ny12_complete_txn nct 
+    		                                    where nct.lane_tx_id = :lv_lane_tx_id)">
+				</entry> -->
+				
+				<!-- <entry
+					key="SELECT_PENDING_QUEUE_TXNS_WHERE_VEHICLE_CLASS_NOTEQUALTO_22_OLD"
+					value="select npq.lane_tx_id,npq.entry_plaza_id,npq.plaza_id,
+                                npq.entry_lane_id,npq.entry_timestamp,nvl(npq.discounted_amount,0),
+                                nvl(npq.collected_amount,0),nvl(npq.unrealized_amount,0),npq.actual_class
+                           from t_ny12_pending_queue npq where npq.actual_class &lt;&gt; 22">
+				</entry> -->
+				
+				<!-- 	<entry key="GET_DISTINCT_LANE_TX_ID"
+				     value="select distinct  lane_tx_id AS DISTINCT_LANE_TX_ID  from tpms.t_ny12_pending_queue 
+				     where tx_complete_ref_no is null ">
+				</entry> -->
+				<!-- <entry key="GET_DISTINCT_LANE_TX_ID_ENTRY_AND_EXIT_PLAZA_IDS"
+                      value="select distinct  lane_tx_id,ENTRY_PLAZA_ID,PLAZA_ID,TX_TIMESTAMP  from tpms.t_ny12_pending_queue 
+				     where tx_complete_ref_no is null
+				       and  entry_plaza_id is not null
+                       and plaza_id is not null
+				      order by lane_tx_id,TX_TIMESTAMP">
+				 </entry> -->
+				<!-- <entry key="GET_DISTINCT_ENTRY_AND_EXIT_PLAZA_IDS_FOR_LAST_SECTION"
+                      value="select distinct  ENTRY_PLAZA_ID,PLAZA_ID from tpms.t_ny12_pending_queue 
+				     where tx_complete_ref_no is null
+				       and nvl(actual_class,0) &lt;&gt; 22
+				       and  entry_plaza_id is not null
+                       and plaza_id is not null">
+				 </entry>
+				  -->
+     		       <!--  <entry
+					key="UPDATE_TX_COMPLETE_REF_NUMBER_IN_PENDING_QUEUE_USING_ALTERNATE_QUERY"
+					value="update t_ny12_pending_queue npq 
+                             set npq.tx_complete_ref_no = :lv_complete_ref_no 
+                             where npq.lane_tx_id in :lv_lane_tx_id">
+				</entry> -->
+				
+				
+				<!-- <entry key="DOES_PLAZA_EXISTS_ON_SAME_SEGMENT"
+					value="SELECT SECTION_ID,AGENCY_ID,SECTION_NAME,TERMINAL_PLAZA_ID_1,TERMINAL_PLAZA_ID_2,TIME_LEFT_MIN,MATCHING_ENABLED,XMATCHING_ENABLED 
+                              FROM  master.t_highway_section 
+                              WHERE TERMINAL_PLAZA_ID_1 &lt;= :lv_entryPlazaId AND TERMINAL_PLAZA_ID_2 &gt;= :lv_exitPlazaId">
+
+				</entry>
+				<entry key="RETRIEVE_ALL_ROWS_FROM_HIGHWAY_SECTION_TABLE"
+				     value="SELECT SECTION_ID,AGENCY_ID,SECTION_NAME,TERMINAL_PLAZA_ID_1 AS terminalPlazaId1,TERMINAL_PLAZA_ID_2 AS terminalPlazaId2,TIME_LIMIT_MIN,MATCHING_ENABLED,XMATCHING_ENABLED 
+                              FROM  master.t_highway_section">
+                </entry>
+                <entry key="RETRIEVE_LAST_SECTION_ID"
+					value="SELECT SECTION_ID,AGENCY_ID,SECTION_NAME,TERMINAL_PLAZA_ID_1 AS terminalPlazaId1,TERMINAL_PLAZA_ID_2 AS terminalPlazaId2,TIME_LIMIT_MIN,MATCHING_ENABLED,XMATCHING_ENABLED 
+                              FROM  master.t_highway_section 
+                              WHERE TERMINAL_PLAZA_ID_1 &lt;= :lv_entry_plaza_id AND TERMINAL_PLAZA_ID_2 &gt;= :lv_exit_plaza_id">
+
+				</entry>
+				
+				<entry key="BOUNDARY_SEGMENT_PLAZA"
+					value="select end_plaza_ind from master.T_PLAZA where PLAZA_ID =:lv_plazaId and end_plaza_ind in ('Y','B')">
+				</entry>
+				<entry key="GET_ALL_BOUNDARY_PLAZA_OF_SEGMENT"
+					value="select * from master.T_PLAZA where end_plaza_ind iN ('Y','B') ">
+				</entry>
+				 -->
+				 
+				 <entry
+					key="ORIGINAL_QUERY_GET_ALL_TRANSACTIONS_OFSAME_SEGMENT_PLAZA_AND_ITISNOT_NON_BOUNDARY"
+					value="select 
+    		                                     npq.lane_tx_id, 
+    		                                     npq.entry_plaza_id, 
+    		                                     npq.plaza_id, 
+    		                                     npq.entry_lane_id, 
+    		                                     npq.entry_timestamp, 
+    		                                     npq.discounted_amount, 
+    		                                     npq.collected_amoun, 
+    		                                     npq.unrealized_amount 
+    		                       from 
+    		                                     tpms.t_ny12_pending_queue npq, 
+    		                                     master.t_plaza tp1, 
+    		                                     master.t_plaza tp2 
+    		                     where tp1.plaza_id = npq.plaza_id 
+    		                        and tp2.plaza_id = npq.entry_plaza_id 
+    		                        and (tp1.time_limit_min is null or tp1.time_limit_min = 0) 
+    		                        and (tp2.time_limit_min is null or tp2.time_limit_min = 0)">
+				 </entry>
+				
+				
+				
+                <entry key="ORIGINAL_QUERY_GET_ALL_TRANSACTIONS_FOR_DEVICE"
+					value="select outerq.*, 
+    		                      (case when min_diff &lt; grace_time then 1 else 0 end) within_time, 
+    		                      (case when section_id != next_section_id then 1 else 0 end) new_section 
+    		                 from (select mainq.*, 
+    		                              round((cast(next_entry_ts as date) - cast(tx_timestamp as date))* 24 * 60) as min_diff 
+    		                         from (select npq.lane_tx_id, 
+    		                                      npq.entry_plaza_id, 
+    		                                      npq.plaza_id, 
+    		                                      npq.entry_lane_id, 
+    		                                      tl.section_id, 
+    		                                      npq.entry_timestamp, 
+    		                                      npq.tx_timestamp,
+    		                                      npq.discounted_amount, 
+    		                                      npq.collected_amount, 
+    		                                      npq.unrealized_amount, 
+    		                                      tp.time_limit_min, 
+    		                                      tpe.time_limit_min entry_time_limit, 
+    		                                      lead(entry_timestamp, 1, tx_timestamp) over (order by entry_timestamp) as next_entry_ts, 
+    		                                      lead(tl.section_id, 1, -1) over (order by entry_timestamp) as next_section_id 
+    		                                 from t_ny12_pending_queue npq, 
+    		                                      master.t_plaza tp, 
+    		                                      master.t_plaza tpe, 
+    		                                      master.t_lane tl 
+    		                                 where device_no = :lv_eachtag_device_no 
+    		                                   and tp.plaza_id = npq.plaza_id 
+    		                                   and tpe.plaza_id = npq.entry_plaza_id 
+    		                                   and tl.lane_id = npq.lane_id 
+    		                                   and tl.plaza_id = npq.plaza_id 
+    		                                   and tl.section_id &lt;&gt; :lc_last_section_id 
+    		                                order by device_no, entry_timestamp">
+				</entry>
+				
+				
+				<entry key="SELECT_PROCESS_PARAMETER_NY12_WAIT_DAYS"
+					value="select * from master.t_process_parameters where param_name = :param_name">
+				</entry>
+				
+				<entry
+					key="UPDATE_ENTRY_EXIT"
+					value="update t_ny12_pending_queue npq 
+                             set npq.plaza_id = :exit_plaza_id , npq.entry_plaza_id= :entry_plaza_id
+                             where npq.lane_tx_id in :lv_lane_tx_id">
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>  

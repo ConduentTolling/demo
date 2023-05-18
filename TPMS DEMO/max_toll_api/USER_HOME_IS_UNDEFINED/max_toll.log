@@ -1,0 +1,3 @@
+23-01-19 10:55:31:129 [INFO] - Starting TollUnmatchedTransxApplication using Java 17.0.4.1 on BSPUNL-025047 with PID 21252 (C:\Users\taniyan\Documents\NY-E-Z Pass Project\Source_Code\Max_Toll_Api\TPMS\max_toll_api\target\classes started by taniyan in C:\Users\taniyan\Documents\NY-E-Z Pass Project\Source_Code\Max_Toll_Api\TPMS\max_toll_api)
+23-01-19 10:55:31:254 [DEBUG] - Running with Spring Boot v2.7.1, Spring v5.3.21
+23-01-19 10:55:31:255 [INFO] - The following 1 profile is active: "dblocal"

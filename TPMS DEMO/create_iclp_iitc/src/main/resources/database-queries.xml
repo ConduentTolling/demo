@@ -1,0 +1,249 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+
+				<entry key="GET_OUTPUT_FILE_CONFIGURATION_INFO"
+					value="SELECT 
+					ID,         
+					AGENCY_ID,        
+					FILE_DESCRIPTION,  
+					FILE_FORMAT,  
+					FILE_TYPE,  
+					PARENT_DIRECTORY, 
+					PROCESSED_DIRECTORY, 
+					PROCESS_TYPE 
+					FROM 
+					TPMS.T_OUTPUT_FIELD_MAPPING
+					WHERE 
+					    FILE_TYPE=:FILE_TYPE 
+					AND 
+						AGENCY_ID =:AGENCY_ID
+					AND 
+						FILE_FORMAT =:FILE_FORMAT" />
+
+
+
+				<entry key="GET_OUTPUT_FIELD_VALIDATION_DETAILS"
+					value="SELECT FIELD_TYPE, 
+							FIELD_NAME,
+                            FIELD_INDEX_POSITION,
+                            FIELD_LENGTH,
+                            JUSTIFICATION,
+                            PAD_CHARACTER,
+                            FORMAT,
+							DEFAULT_VALUE,
+							CHARACTER_ENCODING
+					FROM 
+							TPMS.T_OUTPUT_FIELD_MAPPING_DETAIL 
+							T_OUTPUT_FIELD_MAPPING_DETAIL  
+					INNER JOIN 
+							TPMS.T_OUTPUT_FIELD_MAPPING 
+							T_OUTPUT_FIELD_MAPPING 
+					ON  
+							T_OUTPUT_FIELD_MAPPING_DETAIL.FIELD_MAPPING_PK_ID=T_OUTPUT_FIELD_MAPPING.ID 
+					WHERE  
+							AGENCY_ID =:AGENCY_ID 
+					AND 
+							FILE_TYPE=:FILE_TYPE
+					ORDER BY 
+							FIELD_INDEX_POSITION" />
+
+
+				<entry key="LOAD_T_AGENCY"
+					value="SELECT agency_id,
+			       agency_name,
+			       Upper(agency_short_name),
+			       device_prefix,
+			       is_home_agency,
+			       To_number(parent_agency_id),
+			       scheduled_pricing_flag,
+			       clmm_adj_allowed,
+			       current_iag_version,
+			       is_iag_style_reciprocity,
+			       calculate_toll_amount,
+			       consortium,
+			       file_prefix
+			FROM   CRM.t_agency
+			ORDER  BY agency_id"></entry>
+
+				<entry key="LOAD_DEVICES_FROM_T_TAG_STATUS_ALLSORTED"
+					value="SELECT distinct
+				    lpad(TRIM(CAST(t.etc_account_id AS CHAR(8))), 12, '0') etc_account_id,
+					t.device_no,
+					CASE
+				    WHEN  LENGTH (t.device_no) &lt;= 11 THEN substr(t.device_no, 1, 3)
+				    WHEN  LENGTH (t.device_no) &gt; 11 THEN substr(t.device_no, 1, 4)
+				    END AS device_prefix,
+				    CASE
+				    WHEN  LENGTH (t.device_no) &lt;= 11 THEN substr(t.device_no, 4, 8)
+				    WHEN  LENGTH (t.device_no) &gt; 11 THEN substr(t.device_no, 5, 10)
+				    END AS serial_no,
+				    t.tag_owning_agency as tagOwningAgency,
+				    t.account_type,
+				    nvl(TRIM(t.account_type_cd), '*') as accountTypeCd,
+				    t.from_plaza,
+				    t.to_plaza,
+				    t.account_status,
+				    t.device_status,
+				    t.financial_status,
+				    t.iag_coded_class,
+				    decode(t.rev_plan_count, 0, 'F', 'T') is_rev_plan_count,
+				    t.is_companion_tag,
+				    t.ts_ctrl_str,
+				    t.mta_ctrl_str,
+				    t.rio_ctrl_str,
+				    t.mtag_plan_str,
+				    t.prevalidation_flag,
+				    CAST(t.itag_tag_status AS CHAR) itag_tag_status,
+				    t.itag_info,
+				    t.ftag_plan_info,
+				    CAST(t.ftag_tag_status AS CHAR) ftag_tag_status,
+				    CAST(t.nysta_tag_status AS CHAR)nysta_tag_status,
+				    CAST(t.nysba_tag_status AS CHAR) nysba_tag_status,
+				    CAST(t.mta_tag_status AS CHAR) mta_tag_status, 
+				    CAST(nvl(TRIM(t.thwy_acct), ' ') AS CHAR(9)) thwy_acct,
+				    upper(TRIM(vm.model_desc)) model_desc,
+				    CAST(t.pa_tag_status AS CHAR) pa_tag_status,
+				    nvl(TRIM(t.TAG_CLASS), '****') tagClass,
+				    nvl(TRIM(t.TAG_TYPE), '*') tagType,
+				    nvl(TRIM(t.TAG_PROTOCOL), '***') tagProtocol,
+				    nvl(TRIM(t.TAG_MOUNT), '*') tagMount,
+				    nvl(TRIM(t.ACCOUNT_NO), '*') accountNo,
+					nvl(TRIM(t.AGENCY_ID), '0') agencyId
+				FROM
+				    tpms.t_tag_status_allsorted    t
+                    inner join (
+                         select device_no, max(update_ts) as MaxDate
+                            from tpms.t_tag_status_allsorted
+                         group by device_no
+                    ) tm on t.device_no = tm.device_no and t.update_ts = tm.MaxDate,
+				    crm.v_device                   vd left join
+				    crm.v_device_model             vm on vm.device_type_id = vd.device_type_id
+				WHERE
+				        t.device_no = vd.device_no
+				    AND 'F' = 'F'
+	   		            AND vd.device_status IN (
+				        SELECT
+				            code_id
+				        FROM
+				            master.t_codes
+				        WHERE
+				                code_type = 'DEVICE_STATUS'
+				            AND code_value IN (
+				                'DAMAGED',
+				                'DAMAGEDNOFEE',
+				                'DELETED',
+				                'DISASTER',
+				                'EXPIRED',
+				                'FOUND',
+				                'INTRANSIT',
+				                'INVENTORY',
+				                'LOST',
+				                'LOSTINMAIL',
+				                'RETAINED',
+				                'RETURNDEF',
+				                'RETURNED',
+				                'REVOKED',
+				                'SHIPVEND',
+				                'SOLD',
+				                'STOLEN',
+				                'SWAPNORETURN',
+				                'TESTED',
+				                'LOSTTRANSIT',
+				                'ACTIVE'
+				            )
+				    ) 
+				    AND vd.device_status != 20
+				    AND t.itag_tag_status in(1,2,3)
+				    AND t.nysta_tag_status in(1,2,3)
+				    AND t.nysba_tag_status in(1,2,3)"></entry>
+
+
+				<entry key="SELECT_HOME_DEVICE_PREFIX"
+					value="SELECT device_prefix
+					FROM   CRM.t_agency
+					WHERE  is_home_agency IN ( 'T', 'Y' )
+					ORDER  BY device_prefix"></entry>
+
+
+				<entry key="SELECT_T_CODE"
+					value="select code_type codeType, code_id codeId, code_value codeValue from MASTER.t_codes"></entry>
+					
+				<entry key="SELECT_INVALID_TAG_STATUS"
+					value="select PARAM_VALUE from MASTER.t_process_parameters where PARAM_NAME = 'INSERT_INVALID_ICLP' and PARAM_GROUP = 'TPMS'
+					and PARAM_CODE = 'TPMS'"></entry>
+
+				<entry key="GET_ETC_ACCOUNT_ID_FROM_DEVICE_NO"
+					value="SELECT
+						   ETC_ACCOUNT_ID
+						   FROM CRM.V_DEVICE
+						   WHERE
+						   DEVICE_NO = :LC_DEVICE_NO">
+				</entry>
+				
+				<entry key="GET_PLATE_INFO_FROM_V_VEHICLE"
+					value="SELECT
+						   vdm.PLATE_NUMBER as PLATE_NUMBER,
+						   vdm.PLATE_STATE as PLATE_STATE,
+						   mv.DISPLAY_VALUE as PLATE_TYPE,
+						   vdm.EFFECTIVE_DATE as licEffectiveFrom,
+						   vdm.EFFECTIVE_END_DATE as licEffectiveTo,
+						   'N' as licGuaranteed,
+						   '*****************' as vin
+						   FROM CRM.V_VEHICLE vdm
+						   left join MASTER.T_CODES mv on vdm.PLATE_TYPE = mv.CODE_ID
+						   WHERE
+						   ETC_ACCOUNT_ID = :LC_ETC_ACCOUNT_ID
+						   AND mv.CODE_TYPE = 'PLATE_TYPE_NY'">
+				</entry>
+				
+				<entry key="GET_CUSTOMER_NAME_INFO_FROM_V_CUSTOMER_NAME"
+					value="SELECT
+						   FIRST_NAME,
+						   MIDDLE_INITIAL,
+						   LAST_NAME
+						   FROM CRM.V_CUSTOMER_NAME
+						   WHERE
+						   ETC_ACCOUNT_ID = :LC_ETC_ACCOUNT_ID">
+				</entry>
+				
+				
+				<entry key="GET_ADDRESS_INFO_FROM_V_ADDRESS"
+					value="SELECT
+						   STREET_1 as street1,
+						   STREET_2 as street2,
+						   CITY,
+						   STATE,
+						   ZIP_CODE as zipCode,
+						   ZIP_PLUS_4 as zipCodePlus
+						   FROM CRM.V_ADDRESS
+						   WHERE
+						   ETC_ACCOUNT_ID = :LC_ETC_ACCOUNT_ID
+						   AND
+						   ADDRESS_TYPE_CD = 'MAILING' ">
+				</entry>
+
+				<entry key="GET_COMPANY_NAME_FROM_V_ETC_ACCOUNT"
+					value="SELECT
+						   COMPANY_NAME
+						   FROM CRM.V_ETC_ACCOUNT
+						   WHERE
+						   ETC_ACCOUNT_ID = :LC_ETC_ACCOUNT_ID">
+				</entry>
+				
+				<entry key="GET_AGENCY_ID_FROM_V_ETC_ACCOUNT"
+					value="SELECT
+						   AGENCY_ID
+						   FROM CRM.V_ETC_ACCOUNT
+						   WHERE
+						   ETC_ACCOUNT_ID = :LC_ETC_ACCOUNT_ID">
+				</entry>
+
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

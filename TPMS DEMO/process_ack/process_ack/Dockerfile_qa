@@ -1,0 +1,34 @@
+# Build stage
+FROM maven:3.6.0-jdk-11-slim AS build
+
+#WORKDIR /src 
+COPY process_ack/process_ack/src /home/app/src
+
+COPY process_ack/process_ack/pom.xml /home/app
+
+COPY process_ack/process_ack/TOLLING_MODERNIZATION_TIMEZONE.jar /home/app
+
+COPY process_ack/process_ack/TimezoneUtilpom.xml /home/app
+
+RUN mvn install:install-file -Dfile=/home/app/TOLLING_MODERNIZATION_TIMEZONE.jar -DgroupId=com.conduent.app.timezone -DartifactId=timezone_utility -Dversion=1.0.0 -DpomFile=/home/app/TimezoneUtilpom.xml
+
+RUN mvn -f /home/app/pom.xml clean package 
+
+# Package stage
+
+
+#FROM openjdk:11-jre-slim
+
+FROM openjdk:11-oracle
+
+COPY --from=build /home/app/target/*.jar /usr/local/lib/app.jar
+
+COPY process_ack/process_ack/Wallet_OLTPQA /usr/local/lib/Wallet_OLTPQA
+
+COPY  process_ack/process_ack/oci_api_key_qa.pem /usr/local/lib/oci_api_key_qa.pem
+
+COPY process_ack/process_ack/config_qa.txt /usr/local/lib/config_qa.txt
+
+EXPOSE 8080
+
+ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/app.jar --spring.profiles.active=qa"]

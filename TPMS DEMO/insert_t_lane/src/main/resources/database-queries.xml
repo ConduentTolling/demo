@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+
+
+				<entry key="INSERT_INTO_T_LANE"
+					value="INSERT INTO MASTER.T_LANE(LANE_ID,EXTERN_LANE_ID,AVI,OPERATIONAL_MODE,STATUS,PLAZA_ID,LANE_IDX,LANE_MASK,UPDATE_TS,DIRECTION,LANE_IP,PORT_NO,HOST_QUEUE_NAME,LOCAL_PORT_NO,LANE_TYPE,CALCULATE_TOLL_AMOUNT,HOV_MAX_DELTA_TIME,HOV_MIN_DELTA_TIME,HOV_OFFSET,IMAGE_RESOLUTION,IS_SHOULDER,LPR_ENABLED,SECTION_ID) 
+					VALUES(:LANE_ID,:EXTERN_LANE_ID,:AVI,:OPERATIONAL_MODE,:STATUS,:PLAZA_ID,:LANE_IDX,:LANE_MASK,:UPDATE_TS,:DIRECTION,:LANE_IP,:PORT_NO,:HOST_QUEUE_NAME,:LOCAL_PORT_NO,:LANE_TYPE,:CALCULATE_TOLL_AMOUNT,:HOV_MAX_DELTA_TIME,:HOV_MIN_DELTA_TIME,:HOV_OFFSET,:IMAGE_RESOLUTION,:IS_SHOULDER,:LPR_ENABLED,:SECTION_ID)"></entry>
+
+
+				<!-- <entry key="INSERT_INTO_T_25A_PENDING_QUEUE" value="INSERT INTO 
+					TPMS.T_25A_PENDING_QUEUE(LANE_TX_ID,UPDATE_TS) VALUES(:LANE_TX_ID,CURRENT_TIMESTAMP)"></entry> -->
+
+				<entry key="GET_COUNT_T_LANE"
+					value="SELECT COUNT(*) FROM MASTER.T_LANE WHERE LANE_ID=:LANE_ID"></entry>
+
+
+
+
+
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

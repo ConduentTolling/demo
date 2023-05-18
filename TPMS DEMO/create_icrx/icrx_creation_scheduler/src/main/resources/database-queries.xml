@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+			<map>
+				<entry key="GET_T_AGENCY"
+					value="SELECT AGENCY_ID agencyId, lpad(DEVICE_PREFIX, 4, '0') devicePrefix, IS_HOME_AGENCY isHomeAgency, PARENT_AGENCY_ID parentAgencyId FROM CRM.T_AGENCY"></entry>
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

@@ -1,0 +1,288 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+			<map>
+				<entry key="INSERT_INTO_T_FO_FILE_STATS"
+					value="Insert into TPMS.T_FO_FILE_STATS (FILE_CONTROL_ID,TRX_FILE_NAME,DISTRIB_FILE_NAME,PROCESSED_FLAG,INPUT_COUNT,OUTPUT_COUNT,FROM_AGENCY,TO_AGENCY,FILE_DATE,FILE_SEQ_NUM,FILE_TYPE,UPDATE_TS) values (?,?,?,?,?,?,?,?,?,?,?,?)">
+				</entry>
+				
+				<entry key="INSERT_INTO_T_FO_RECON_FILE_STATS"
+					value="Insert into TPMS.T_FO_RECON_FILE_STATS (FILE_CONTROL_ID,TRX_EPS_FILENAME,TRX_EPS_COUNT,TRX_EPS_AMOUNT,PROCESSED_FLAG,EPS_RECON_FILENAME,EPS_RECON_COUNT,RECON_PROCESSED_FLAG,FO_RECON_FILENAME,FROM_AGENCY,TO_AGENCY,FILE_SEQ_NUMBER,UPDATE_TS) values (?,?,?,?,?,?,?,?,?,?,?,?,?)">
+				</entry>
+				
+				<entry key="INSERT_INTO_T_AGENCY_TX_PENDING"
+					value="INSERT INTO TPMS.T_AGENCY_TX_PENDING(LANE_TX_ID,TX_EXTERN_REF_NO,TX_SEQ_NUMBER,EXTERN_FILE_ID,PLAZA_AGENCY_ID,PLAZA_ID,LANE_ID,TX_TIMESTAMP,TX_MOD_SEQ,TX_TYPE,TX_SUB_TYPE,TOLL_SYSTEM_TYPE,LANE_MODE,LANE_TYPE,LANE_STATE,LANE_HEALTH,COLLECTOR_ID,TOUR_SEGMENT_ID,ENTRY_DATA_SOURCE,ENTRY_LANE_ID,ENTRY_PLAZA_ID,ENTRY_TIMESTAMP,ENTRY_TX_SEQ_NUMBER,ENTRY_VEHICLE_SPEED,LANE_TX_STATUS,LANE_TX_TYPE,TOLL_REVENUE_TYPE,ACTUAL_CLASS,ACTUAL_AXLES,ACTUAL_EXTRA_AXLES,COLLECTOR_CLASS,COLLECTOR_AXLES,PRECLASS_CLASS,PRECLASS_AXLES,POSTCLASS_CLASS,POSTCLASS_AXLES,FORWARD_AXLES,REVERSE_AXLES,ETC_FARE_AMOUNT,POSTED_FARE_AMOUNT,COLLECTED_AMOUNT,UNREALIZED_AMOUNT,IS_DISCOUNTABLE,IS_MEDIAN_FARE,IS_PEAK,PRICE_SCHEDULE_ID,VEHICLE_SPEED,RECEIPT_ISSUED,DEVICE_NO,ACCOUNT_TYPE,DEVICE_CODED_CLASS,DEVICE_AGENCY_CLASS,DEVICE_IAG_CLASS,DEVICE_AXLES,ETC_ACCOUNT_ID,ACCOUNT_AGENCY_ID,READ_AVI_CLASS,READ_AVI_AXLES,DEVICE_PROGRAM_STATUS,BUFFERED_READ_FLAG,LANE_DEVICE_STATUS,POST_DEVICE_STATUS,PRE_TXN_BALANCE,PLAN_TYPE_ID,ETC_TX_STATUS,SPEED_VIOL_FLAG,IMAGE_TAKEN,PLATE_COUNTRY,PLATE_STATE,PLATE_NUMBER,REVENUE_DATE,POSTED_DATE,ATP_FILE_ID,IS_REVERSED,CORR_REASON_ID,RECON_DATE,RECON_STATUS_IND,RECON_SUB_CODE_IND,EXTERN_FILE_DATE,MILEAGE,DEVICE_READ_COUNT,DEVICE_WRITE_COUNT,ENTRY_DEVICE_READ_COUNT,ENTRY_DEVICE_WRITE_COUNT,DEPOSIT_ID,TX_DATE,CSC_LOOKUP_KEY,UPDATE_TS,RECIPROCITY_TRX,EXPECTED_REVENUE_AMOUNT,SOURCE_SYSTEM,CASH_FARE_AMOUNT,VIDEO_FARE_AMOUNT,TX_STATUS,FULL_FARE_AMOUNT,DISCOUNTED_AMOUNT,DST_ATP_FILE_ID) VALUES
+					(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)">
+				</entry>
+				
+				<entry key="DELETE_FROM_T_EPS_INTX_LOG" value="delete from TPMS.T_EPS_INTX_LOG WHERE ETC_TAG_AGENCY=? AND EXTERN_FILE_ID=? AND ETC_TRX_SERIAL_NUM=?">
+				</entry>
+				
+				<entry key="DELETE_FROM_T_EPS_ITXN_CORRECTION_LOG" value="delete from TPMS.T_EPS_INTX_LOG WHERE ETC_TAG_AGENCY=? AND EXTERN_FILE_ID=? AND ETC_CORR_REASON_ID=?">
+				</entry>
+				
+				<entry key="GET_T_AGENCY"
+					value="SELECT AGENCY_ID agencyId, DEVICE_PREFIX devicePrefix ,IS_HOME_AGENCY isHomeAgency, PARENT_AGENCY_ID parentAgencyId, CALCULATE_TOLL_AMOUNT calculateTollAmount, AGENCY_SHORT_NAME agencyShortName FROM CRM.T_AGENCY"></entry>
+
+				<entry key="GET_T_LANE"
+					value="SELECT LANE_ID ,EXTERN_LANE_ID,PLAZA_ID ,LPR_ENABLED,CALCULATE_TOLL_AMOUNT,HOV_OFFSET ,HOV_MIN_DELTA_TIME,HOV_MAX_DELTA_TIME FROM MASTER.T_LANE"></entry>
+
+				<entry key="GET_HOME_LANE_PLAZA_LIST"
+					value="Select MASTER.t_plaza.EXTERN_PLAZA_ID,MASTER.t_lane.EXTERN_LANE_ID, MASTER.t_lane.LANE_ID,MASTER.t_lane.PLAZA_ID,MASTER.t_plaza.AGENCY_ID from MASTER.t_lane FULL OUTER JOIN MASTER.t_plaza on MASTER.t_lane.PLAZA_ID = MASTER.t_plaza.PLAZA_ID where MASTER.t_plaza.AGENCY_ID in (select CRM.t_agency.PARENT_AGENCY_ID from CRM.t_agency where is_home_agency ='Y') and LENGTH(MASTER.t_plaza.EXTERN_PLAZA_ID)>0 and LENGTH(MASTER.t_lane.EXTERN_LANE_ID)>0 order by 1 desc"></entry>
+					
+				<entry key="GET_T_VEHICLE_CLASS"
+					value="select agency_id, agency_class, vehicle_type, base_axle_count, extern_agency_class from MASTER.t_vehicle_class"></entry>
+
+				<entry key="GET_T_DISTANCE_DISCOUNT"
+					value="Select  agency_id,plaza_id,extern_plaza_id,lane_id,extern_lane_id,group_id,time_ind,time_out_value,entry_exit_ind from MASTER.T_DISTANCE_DISCOUNT"></entry>
+
+				<entry key="GET_T_AWAY_TRANSACTION"
+					value="SELECT 
+								*
+							FROM 
+								TPMS.T_EPS_INTX_LOG A
+							INNER JOIN 
+								TPMS.T_TRAN_DETAIL B
+							ON 
+								A.LANE_TX_ID = B.LANE_TX_ID
+							WHERE
+								ETC_TAG_AGENCY like :DEVICE_PREFIX AND EXTERN_FILE_ID=:EXTERNAL_FILE_ID AND ETC_CORR_REASON_ID IS NULL">
+				</entry>
+				
+				<entry key="GET_T_CORR_AWAY_TRANSACTION"
+				    value="SELECT 
+								*
+							FROM 
+								TPMS.T_EPS_INTX_LOG A
+							INNER JOIN 
+								TPMS.T_TRAN_DETAIL B
+							ON 
+								A.LANE_TX_ID = B.LANE_TX_ID
+							WHERE
+								ETC_TAG_AGENCY like :DEVICE_PREFIX AND EXTERN_FILE_ID=:EXTERNAL_FILE_ID AND ETC_CORR_REASON_ID IS NOT NULL">
+				</entry>
+				    
+				<entry key="GET_T_PLAZA"
+					value="SELECT PLAZA_ID,EXTERN_PLAZA_ID,AGENCY_ID,REVENUE_TIME FROM MASTER.T_PLAZA"></entry>
+
+				<entry key="GET_ATP_FILE_SEQUENCE"
+					value="select  TPMS.SEQ_ATP_FILE_ID.nextval as nextseq from dual"></entry>
+					
+					<entry key="GET_ATP_FILE_SEQUENCE_IAG"
+					value="select  TPMS.SEQ_ATP_FILE_ID_IAG.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_QATP_STATISTICS"
+					value="Select ATP_FILE_ID, FILE_TYPE, FILE_NAME,	 INSERT_DATE,	 INSERT_TIME,	 RECORD_COUNT,	 AMOUNT,	 IS_PROCESSED,	 PROCESS_DATE,	 PROCESS_TIME,	 PROCESS_REC_COUNT,	 UPDATE_TS,	 XFER_CONTROL_ID from T_QATP_STATISTICS where ATP_FILE_ID=:ATP_FILE_ID"></entry>
+				<entry key="GET_QATP_STATISTICS_FROM_FILE_NAME"
+					value="Select ATP_FILE_ID, FILE_TYPE, FILE_NAME,	 INSERT_DATE,	 INSERT_TIME,	 RECORD_COUNT,	 AMOUNT,	 IS_PROCESSED,	 PROCESS_DATE,	 PROCESS_TIME,	 PROCESS_REC_COUNT,	 UPDATE_TS,	 XFER_CONTROL_ID from T_QATP_STATISTICS where FILE_NAME=:FILE_NAME"></entry>
+				
+				<entry key="GET_IAG_FILE_STATISTICS"
+					value=" Select INPUT_FILE_NAME, OUTPUT_FILE_NAME, XFER_CONTROL_ID, ATP_FILE_ID, INPUT_REC_COUNT, OUTPUT_REC_COUNT, FROM_AGENCY, TO_AGENCY, UPDATE_TS FROM TPMS.T_IAG_FILE_STATISTICS WHERE OUTPUT_FILE_NAME =:OUTPUT_FILE_NAME AND XFER_CONTROL_ID=:XFER_CONTROL_ID AND FROM_AGENCY=:FROM_AGENCY AND TO_AGENCY=:TO_AGENCY"></entry>
+
+				<entry key="UPDATE_IAG_FILE_STATISTICS"
+					
+					value=" Update TPMS.T_IAG_FILE_STATISTICS set UPDATE_TS=:UPDATE_TS,ATP_FILE_ID=:ATP_FILE_ID WHERE OUTPUT_FILE_NAME =:OUTPUT_FILE_NAME AND XFER_CONTROL_ID=:XFER_CONTROL_ID AND FROM_AGENCY=:FROM_AGENCY AND TO_AGENCY=:TO_AGENCY"></entry>
+					
+
+				<entry key="INSERT_IAG_FILE_STATISTICS"
+					value=" INSERT INTO TPMS.T_IAG_FILE_STATISTICS(INPUT_FILE_NAME, OUTPUT_FILE_NAME,
+ XFER_CONTROL_ID, ATP_FILE_ID, INPUT_REC_COUNT, OUTPUT_REC_COUNT, FROM_AGENCY,
+ TO_AGENCY, UPDATE_TS) VALUES (:INPUT_FILE_NAME,:OUTPUT_FILE_NAME,:XFER_CONTROL_ID,:ATP_FILE_ID,:INPUT_REC_COUNT,:OUTPUT_REC_COUNT,:FROM_AGENCY,:TO_AGENCY,:UPDATE_TS)"></entry>
+				
+				<entry key="INSERT_IA_FILE_STATS"
+					value=" INSERT INTO TPMS.T_IA_FILE_STATS (ICTX_FILE_NAME,XFER_CONTROL_ID,PROCESSED_FLAG,DEPOSIT_ID,FILE_SEQ_NUMBER,FILE_TYPE, FILE_DATE, ATP_FILE_ID, INPUT_COUNT, OUTPUT_COUNT, FROM_AGENCY,  TO_AGENCY, UPDATE_TS) VALUES (:INTX_FILE_NAME,:XFER_CONTROL_ID,:PROCESSED_FLAG,:DEPOSIT_ID,:FILE_SEQ_NUMBER,:FILE_TYPE,:FILE_DATE,:ATP_FILE_ID,:INPUT_COUNT,:OUTPUT_COUNT,:FROM_AGENCY,:TO_AGENCY,:UPDATE_TS)"></entry>
+					
+					<entry key="CHECK_ATP_FILE_ID_IN_IA_FILE_STATS"
+					value="Select ATP_FILE_ID FROM TPMS.T_IA_FILE_STATS WHERE ICTX_FILE_NAME = :INTX_FILE_NAME"></entry>
+ 
+ 				<entry key="UPDATE_IA_FILE_STATS"
+					value="UPDATE TPMS.T_IA_FILE_STATS SET ICTX_FILE_NAME=:INTX_FILE_NAME,OUTPUT_COUNT=:OUTPUT_COUNT,FROM_AGENCY=:FROM_AGENCY,TO_AGENCY=:TO_AGENCY,UPDATE_TS=:UPDATE_TS where ATP_FILE_ID=:ATP_FILE_ID"></entry>
+	
+				<entry key="UPDATE_RECORD_COUNT_IN_IA_FILE_STATS"
+					value="UPDATE TPMS.T_IA_FILE_STATS SET INPUT_COUNT=:INPUT_COUNT where ICTX_FILE_NAME=:INTX_FILE_NAME"></entry>
+					
+				<entry key="UPDATE_RECORD_COUNT_IN_IAG_FILE_STATISTICS"
+					value="UPDATE TPMS.T_IAG_FILE_STATISTICS SET OUTPUT_REC_COUNT=:OUTPUT_REC_COUNT where OUTPUT_FILE_NAME=:OUTPUT_FILE_NAME"></entry>
+	
+				<entry key="GET_ICTX_SEQUENCE_FILE_001"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_001.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_002"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_002.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_003"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_003.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_004"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_004.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_005"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_005.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_006"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_006.nextval as nextseq from dual"></entry>
+				<entry key="GET_ICTX_SEQUENCE_FILE_007"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_007.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_008"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_008.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_009"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_009.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_010"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_010.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_011"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_011.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_012"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_012.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_013"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_013.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_014"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_014.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_015"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_015.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_016"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_016.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_017"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_017.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_018"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_018.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_019"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_019.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_020"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_020.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_021"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_021.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_022"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_022.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_023"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_023.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_024"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_024.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_025"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_025.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_026"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_026.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_027"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_027.nextval as nextseq from dual"></entry>
+
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_028"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_028.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_029"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_029.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_030"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_030.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_031"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_031.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_032"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_032.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_033"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_033.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_036"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_016.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_044"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_044.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_099"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_099.nextval as nextseq from dual"></entry>
+
+				<entry key="UPDATE_T_TRANS_TABLE"
+					value="update T_TRAN_DETAIL set tx_type=?, tx_sub_type=?, etc_tx_status=? where LANE_TX_ID=?"></entry>
+
+				<entry key="UPDATE_DST_ATP_FILE_ID"
+					value="UPDATE TPMS.T_AGENCY_TX_PENDING SET DST_ATP_FILE_ID=? WHERE LANE_TX_ID =?"></entry>
+
+				<entry key="GET_ATP_FILE_ID"
+					value=" Select INPUT_FILE_NAME, OUTPUT_FILE_NAME, XFER_CONTROL_ID, ATP_FILE_ID, INPUT_REC_COUNT, OUTPUT_REC_COUNT, FROM_AGENCY, TO_AGENCY, UPDATE_TS FROM TPMS.T_IAG_FILE_STATISTICS WHERE OUTPUT_FILE_NAME =:OUTPUT_FILE_NAME AND FROM_AGENCY=:FROM_AGENCY AND TO_AGENCY=:TO_AGENCY"></entry>
+
+				<entry key="DELETE_REJECTED_TX"
+					value="delete from TPMS.T_AGENCY_TX_PENDING WHERE LANE_TX_ID =?"></entry>
+					
+				<entry key="DELETE_REJECTED_CORR"
+					value="delete from TPMS.T_ITXC_IAG_Q WHERE LANE_TX_ID =?"></entry>
+
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_016"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_016.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_T_CODE"
+					value="select code_type codeType, code_id codeId, code_value codeValue from MASTER.t_codes  where CODE_TYPE = :CODE_TYPE"></entry>
+
+				<entry key="GET_RECONCILIATION_CHECKPOINT_INFO"
+					value="SELECT FILE_NAME, FILE_STATUS_IND, RECORD_COUNT FROM
+		 TPMS.T_RECONCILIATION_CHECKPOINT WHERE FILE_NAME LIKE
+		 :FILE_NAME AND FILE_STATUS_IND IN ('S','P')"></entry>
+
+				<entry
+					key="INSERT_INTIAL_ENTRY_RECONCILIATION_CHECKPOINT_INFO"
+					value=" INSERT INTO TPMS.T_RECONCILIATION_CHECKPOINT (FILE_NAME,FILE_STATUS_IND,
+ RECORD_COUNT) VALUES (:FILE_NAME,:FILE_STATUS_IND,:RECORD_COUNT)"></entry>
+
+				<entry key="UPDATE_RECONCILIATION_CHECKPOINT_INFO"
+					value="UPDATE TPMS.T_RECONCILIATION_CHECKPOINT SET FILE_STATUS_IND=?,RECORD_COUNT=? WHERE FILE_NAME =?"></entry>
+
+				<entry key="UPDATE_RECONCILIATION_CHECKPOINT_STATUS"
+					value="UPDATE TPMS.T_RECONCILIATION_CHECKPOINT SET FILE_STATUS_IND=? WHERE FILE_NAME =?"></entry>
+
+				<entry key="GET_TOLL_PRICES"
+					value="SELECT nvl(T.FULL_FARE,0) fullFareAmount, nvl(T.DISCOUNT_FARE,0) discountFareAmount, nvl(T.EXTRA_AXLE_CHARGE,0) extraAxleCharge,T.REVENUE_TYPE_ID  revenueTypeId,T.TOLL_SCHEDULE_ID tollScheduleId
+FROM MASTER.T_TOLL_SCHEDULE T WHERE T.EFFECTIVE_DATE &lt;= NVL(TO_DATE(?,'YYYY-MM-DD'),TO_DATE('1857-11-17','YYYY-MM-DD')) AND T.EXPIRY_DATE &gt;= NVL(TO_DATE(?,'YYYY-MM-DD'),TO_DATE('1857-11-17','YYYY-MM-DD')) AND T.PLAZA_ID = ? AND T.ENTRY_PLAZA_ID = ? AND T.VEHICLE_CLASS = ?  AND T.PLAN_TYPE_ID = ?
+AND T.REVENUE_TYPE_ID  = ?"></entry>
+
+				<entry key="GET_T_AWAY_TRANSACTION_DUPLICATE_CHECK"
+					value="Select LANE_TX_ID, PLAZA_ID, LANE_ID, TX_TIMESTAMP,  DEVICE_NO FROM TPMS.T_AGENCY_TX_PENDING WHERE DEVICE_NO=? AND PLAZA_ID=? AND LANE_ID=? AND TX_TIMESTAMP &gt;= TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS.FF3') AND TX_TIMESTAMP &lt;= TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS.FF3')"></entry>
+
+				<entry key="GET_T_AWAY_TRANSACTION_DUPLICATE_CHECK_FRM_FPMS"
+					value="Select LANE_TX_ID, PLAZA_ID, LANE_ID, TX_TIMESTAMP,  DEVICE_NO FROM FPMS.T_ACCOUNT_TOLL WHERE DEVICE_NO=? AND PLAZA_ID=? AND LANE_ID=? AND TX_TIMESTAMP &gt;= TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS.FF3') AND TX_TIMESTAMP &lt;= TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS.FF3')"></entry>
+
+				<entry key="GET_T_TOLL_POST_LIMIT_BY_AGENCY_AND_ETC_TX_STATUS"
+					value="select PLAZA_AGENCY_ID plazaAgencyId, ETC_TX_STATUS etcTxStatus,POACHING_LIMIT poachingLimit from MASTER.T_TOLL_POST_LIMIT WHERE  ETC_TX_STATUS = ? "></entry>
+
+
+				<entry key="UPDATE_T_TRANS_TABLE_ETC_TX_STATUS"
+					value="update T_TRAN_DETAIL set etc_tx_status=?
+where LANE_TX_ID=?"></entry>
+
+				<entry key="GET_CUT_OFF_DATE"
+					value="select param_name paramName, param_value paramValue from MASTER.t_process_parameters where param_name in (:PARAM_NAME)"></entry>
+					
+				<entry key="UPDATE_EXPECTED_REVENUE_AMOUNT_AND_REVENUE_DATE"
+					value="update TPMS.T_AGENCY_TX_PENDING set EXPECTED_REVENUE_AMOUNT=:EXPECTED_REVENUE_AMOUNT,REVENUE_DATE=:REVENUE_DATE where LANE_TX_ID = :LANE_TX_ID"></entry>
+			
+				<entry key="GET_T_FILE_STATISTICS_BY_FILEID"
+					value="SELECT *  FROM TPMS.T_IAG_FILE_STATISTICS WHERE XFER_CONTROL_ID =:XFER_CONTROL_ID"></entry>
+			
+			</map>
+
+
+		</constructor-arg>
+	</bean>
+</beans>

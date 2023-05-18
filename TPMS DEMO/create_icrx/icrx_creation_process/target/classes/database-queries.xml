@@ -1,0 +1,118 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+			<map>
+				<entry key="GET_T_AGENCY"
+					value="SELECT AGENCY_ID agencyId, DEVICE_PREFIX devicePrefix ,IS_HOME_AGENCY isHomeAgency, PARENT_AGENCY_ID parentAgencyId, CALCULATE_TOLL_AMOUNT calculateTollAmount, AGENCY_SHORT_NAME agencyShortName FROM CRM.T_AGENCY"></entry>
+
+				<entry key="GET_XFER_CONTROL_IDS"
+					value="SELECT
+							XFER_CONTROL_ID,
+						    ICTX_FILE_NAME,
+						    ICRX_FILE_NAME,
+						    PROCESSED_FLAG,
+						    INPUT_COUNT,
+						    OUTPUT_COUNT,
+						    FROM_AGENCY,
+						    TO_AGENCY,
+						    FILE_DATE,
+						    ATP_FILE_ID,
+						    FILE_SEQ_NUMBER,
+						    FILE_TYPE,
+						    DEPOSIT_ID
+						FROM
+						    TPMS.T_IA_FILE_STATS
+						WHERE
+						    (PROCESSED_FLAG IS NULL or PROCESSED_FLAG = 'N')
+						    AND ICRX_FILE_NAME IS NULL
+						    AND FILE_TYPE = :FILE_TYPE
+						    AND FROM_AGENCY = :AGENCY_ID"></entry>
+
+				<entry key="GET_FILE_COUNT_FROM_TRAN_DETAIL"
+					value="SELECT count(*) from TPMS.t_tran_detail where EXT_FILE_ID =:XFER_CONTROL_ID"></entry>
+			
+				<entry key="GET_FILE_COUNT_FROM_ACCT_TOLL"
+					value="select count(*) from fpms.t_account_toll where extern_file_id =:XFER_CONTROL_ID"></entry>
+			
+				<entry key="GET_OUTPUT_FILE_CONFIGURATION_INFO"
+					value="SELECT 
+					ID,         
+					AGENCY_ID,        
+					FILE_DESCRIPTION,  
+					FILE_FORMAT,  
+					FILE_TYPE,  
+					PARENT_DIRECTORY, 
+					PROCESSED_DIRECTORY, 
+					PROCESS_TYPE 
+					FROM 
+					TPMS.T_OUTPUT_FIELD_MAPPING
+					WHERE 
+					    FILE_TYPE=:FILE_TYPE 
+					AND 
+						AGENCY_ID =:AGENCY_ID
+					AND 
+						FILE_FORMAT =:FILE_FORMAT" />
+						
+				
+				<entry key="GET_OUTPUT_FIELD_VALIDATION_DETAILS"
+					value="SELECT FIELD_TYPE, 
+							FIELD_NAME,
+                            FIELD_INDEX_POSITION,
+                            FIELD_LENGTH,
+                            JUSTIFICATION,
+                            PAD_CHARACTER,
+                            FORMAT,
+							DEFAULT_VALUE,
+							CHARACTER_ENCODING
+					FROM 
+							TPMS.T_OUTPUT_FIELD_MAPPING_DETAIL 
+							T_OUTPUT_FIELD_MAPPING_DETAIL  
+					INNER JOIN 
+							TPMS.T_OUTPUT_FIELD_MAPPING 
+							T_OUTPUT_FIELD_MAPPING 
+					ON  
+							T_OUTPUT_FIELD_MAPPING_DETAIL.FIELD_MAPPING_PK_ID=T_OUTPUT_FIELD_MAPPING.ID 
+					WHERE  
+							AGENCY_ID =:AGENCY_ID 
+					AND 
+							FILE_TYPE=:FILE_TYPE
+					ORDER BY 
+							FIELD_INDEX_POSITION" />	
+
+				<entry key="GET_TX_DETAILS"
+					value="SELECT NVL(A.TX_EXTERN_REF_NO, ' ') as txExternRefNo,
+				           NVL(B.POSTED_FARE_AMOUNT, 0) * 100 as postedFareAmount,
+				           NVL(B.TX_STATUS, 0) as txStatus,
+				           0,
+				           NVL(B.PLAN_TYPE_ID, 0) as planTypeId,
+				           B.DEPOSIT_ID as depositId,
+				           B.TX_MOD_SEQ2 as txModSeq
+				      FROM TPMS.T_ICRX_RECON   A,
+				           FPMS.T_ACCOUNT_TOLL B
+				     WHERE A.EXTER_FILE_ID =:XFER_CONTROL_ID 
+				       AND A.LANE_TX_ID     = B.LANE_TX_ID
+				       AND A.TX_MOD_SEQ     = B.TX_MOD_SEQ2
+				       AND A.PLAZA_AGENCY_ID =:PLAZA_AGENCY_ID" />
+				
+				<entry key="GET_TX_STATUS_VALUE"
+					value="SELECT code_value FROM master.t_codes WHERE code_type = 'TX_STATUS'  AND code_id=:CODE_ID"></entry>
+				
+				<entry key="GET_PLAN_VALUE"
+					value="SELECT plan_name as planName from CRM.v_plan_policy where plan_type =:PLAN_TYPE_ID"></entry>
+				
+				<entry key="UPDATE_T_IA_FILE_STATS"
+					value="UPDATE TPMS.T_IA_FILE_STATS 
+					SET icrx_file_name = :ICRX_FILE_NAME,
+               			output_count   = :H_RECORD_COUNT,
+               			processed_flag = :PROCESSED_FLAG,
+               			deposit_id = :DEPOSIT_ID,
+              			update_ts = current_timestamp(3)
+         			WHERE 
+         				xfer_control_id = :XFER_CONTROL_ID"></entry>
+				
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

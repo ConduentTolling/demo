@@ -1,0 +1,94 @@
+package com.conduent.tpms.process25a.model;
+
+public class MaxTollDataDto {
+
+	
+	private Long etcAccountId;
+	private long laneTxId;
+	private Integer entryPlazaId;
+	private Integer cLass;
+	private Integer planId;
+	private Integer tollRevenueType;
+	private Integer laneId;
+	private Integer plazaAgencyId;
+	private String txTimestamp;
+	private Integer plazaId;
+	private String dataSource;
+
+	
+	
+	public Long getEtcAccountId() {
+		return etcAccountId;
+	}
+	public void setEtcAccountId(Long etcAccountId) {
+		this.etcAccountId = etcAccountId;
+	}
+	public long getLaneTxId() {
+		return laneTxId;
+	}
+	public void setLaneTxId(long laneTxId) {
+		this.laneTxId = laneTxId;
+	}
+	public Integer getEntryPlazaId() {
+		return entryPlazaId;
+	}
+	public void setEntryPlazaId(Integer entryPlazaId) {
+		this.entryPlazaId = entryPlazaId;
+	}
+	public Integer getTollRevenueType() {
+		return tollRevenueType;
+	}
+	public void setTollRevenueType(Integer tollRevenueType) {
+		this.tollRevenueType = tollRevenueType;
+	}
+	public Integer getcLass() {
+		return cLass;
+	}
+	public void setcLass(Integer cLass) {
+		this.cLass = cLass;
+	}
+	public Integer getPlanId() {
+		return planId;
+	}
+	public void setPlanId(Integer planId) {
+		this.planId = planId;
+	}
+	public Integer getLaneId() {
+		return laneId;
+	}
+	public void setLaneId(Integer laneId) {
+		this.laneId = laneId;
+	}
+	public Integer getPlazaAgencyId() {
+		return plazaAgencyId;
+	}
+	public void setPlazaAgencyId(Integer plazaAgencyId) {
+		this.plazaAgencyId = plazaAgencyId;
+	}
+	public String getTxTimestamp() {
+		return txTimestamp;
+	}
+	public void setTxTimestamp(String txTimestamp) {
+		this.txTimestamp = txTimestamp;
+	}
+	public Integer getPlazaId() {
+		return plazaId;
+	}
+	public void setPlazaId(Integer plazaId) {
+		this.plazaId = plazaId;
+	}
+	public String getDataSource() {
+		return dataSource;
+	}
+	public void setDataSource(String dataSource) {
+		this.dataSource = dataSource;
+	}
+	@Override
+	public String toString() {
+		return "MaxTollDataDto [etcAccountId=" + etcAccountId + ", laneTxId=" + laneTxId + ", entryPlazaId="
+				+ entryPlazaId + ", cLass=" + cLass + ", planId=" + planId + ", tollRevenueType=" + tollRevenueType
+				+ ", laneId=" + laneId + ", plazaAgencyId=" + plazaAgencyId + ", txTimestamp=" + txTimestamp
+				+ ", plazaId=" + plazaId + ", dataSource=" + dataSource + "]";
+	}
+
+}

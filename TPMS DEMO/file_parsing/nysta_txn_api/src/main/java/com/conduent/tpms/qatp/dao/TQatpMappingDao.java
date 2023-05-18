@@ -1,0 +1,21 @@
+package com.conduent.tpms.qatp.dao;
+
+import com.conduent.tpms.qatp.dto.FileParserParameters;
+import com.conduent.tpms.qatp.model.ReconciliationCheckPoint;
+import com.conduent.tpms.qatp.model.TagDeviceDetails;
+import com.conduent.tpms.qatp.model.XferControl;
+
+public interface TQatpMappingDao
+{
+	public FileParserParameters getMappingConfigurationDetails( FileParserParameters fielDto);
+	public Long getAgencyId(String  filePrefix);
+	public boolean checkIfFileProcessedAlready(String fileName);
+	public Long insertReconciliationCheckPoint(ReconciliationCheckPoint reconciliationCheckPoint);
+	public Long getLastProcessedRecordCount(Long agencyId);
+	public int insertTagDeviceDetails(TagDeviceDetails tagDetails);
+	public XferControl checkFileDownloaded(String name);
+	public ReconciliationCheckPoint getReconsilationCheckPoint(String fileName);
+	public void updateRecordCount(ReconciliationCheckPoint reconciliationCheckPoint);
+	public FileParserParameters getMappingConfigurationDetails1(FileParserParameters fielDto);
+	
+}

@@ -1,0 +1,36 @@
+package com.conduent.tpms.process25a.dao.impl;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.conduent.tpms.process25a.config.LoadJpaQueries;
+import com.conduent.tpms.process25a.dao.SystemAccountDao;
+import com.conduent.tpms.process25a.model.SystemAccountVO;
+import com.conduent.tpms.process25a.model.TCodesVO;
+
+@Repository
+public class SystemAccountDaoImpl implements SystemAccountDao{
+
+	private static final Logger dao_log = LoggerFactory.getLogger(TCodeDaoImpl.class);
+
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	@Override
+	public List<SystemAccountVO> getAccount() {
+
+
+		String queryRules =	LoadJpaQueries.getQueryById("GET_SYS_ACCOUNT");
+		
+		dao_log.info("SystemAccount info fetched from t_process_parameters table successfully.");
+		
+		return jdbcTemplate.query(queryRules, new BeanPropertyRowMapper<SystemAccountVO>(SystemAccountVO.class));
+	}
+
+}

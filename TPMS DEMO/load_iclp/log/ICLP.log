@@ -1,0 +1,599 @@
+21-03-26 00:23:25 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 16664 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 00:23:25 [INFO] - The following profiles are active: dev
+21-03-26 00:23:27 [INFO] - Started ICLPProcessApplication in 3.671 seconds (JVM running for 4.847)
+21-03-26 00:23:27 [INFO] - Initializing ITAG file..
+21-03-26 00:24:28 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 00:24:28 [INFO] - Process start of line..
+21-03-26 00:26:13 [INFO] - Process start of line..
+21-03-26 00:26:13 [INFO] - Process start of line..
+21-03-26 00:26:13 [INFO] - Process start of line..
+21-03-26 00:26:13 [INFO] - Process start of line..
+21-03-26 00:26:13 [INFO] - Process start of line..
+21-03-26 00:26:13 [INFO] - Process start of line..
+21-03-26 00:26:15 [INFO] - Last Successful ITAG file for: 022 is: 0
+21-03-26 00:26:15 [INFO] - Last file processed successfully: 0
+21-03-26 00:27:46 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 18024 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 00:27:46 [INFO] - The following profiles are active: dev
+21-03-26 00:27:48 [INFO] - Started ICLPProcessApplication in 2.839 seconds (JVM running for 3.827)
+21-03-26 00:27:48 [INFO] - Initializing ITAG file..
+21-03-26 00:28:36 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 00:28:36 [INFO] - Process start of line..
+21-03-26 00:28:42 [INFO] - Process start of line..
+21-03-26 00:28:42 [INFO] - Process start of line..
+21-03-26 00:28:42 [INFO] - Process start of line..
+21-03-26 00:28:42 [INFO] - Process start of line..
+21-03-26 00:28:42 [INFO] - Process start of line..
+21-03-26 00:28:42 [INFO] - Process start of line..
+21-03-26 00:28:47 [INFO] - Last Successful ITAG file for: 022 is: 0
+21-03-26 00:31:13 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 3752 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 00:31:13 [INFO] - The following profiles are active: dev
+21-03-26 00:31:16 [INFO] - Started ICLPProcessApplication in 4.147 seconds (JVM running for 5.151)
+21-03-26 00:31:16 [INFO] - Initializing ITAG file..
+21-03-26 00:32:23 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 00:32:23 [INFO] - Process start of line..
+21-03-26 00:32:45 [INFO] - Process start of line..
+21-03-26 00:32:45 [INFO] - Process start of line..
+21-03-26 00:32:45 [INFO] - Process start of line..
+21-03-26 00:32:45 [INFO] - Process start of line..
+21-03-26 00:32:45 [INFO] - Process start of line..
+21-03-26 00:32:45 [INFO] - Process start of line..
+21-03-26 00:41:50 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 17504 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 00:41:50 [INFO] - The following profiles are active: dev
+21-03-26 00:41:52 [INFO] - Started ICLPProcessApplication in 2.994 seconds (JVM running for 3.96)
+21-03-26 00:41:52 [INFO] - Initializing ITAG file..
+21-03-26 00:44:11 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14664 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 00:44:11 [INFO] - The following profiles are active: dev
+21-03-26 00:44:14 [INFO] - Started ICLPProcessApplication in 2.865 seconds (JVM running for 3.886)
+21-03-26 00:44:14 [INFO] - Initializing ITAG file..
+21-03-26 00:44:58 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 00:44:58 [INFO] - Process start of line..
+21-03-26 00:45:01 [INFO] - Process start of line..
+21-03-26 00:45:01 [INFO] - Process start of line..
+21-03-26 00:45:01 [INFO] - Process start of line..
+21-03-26 00:45:01 [INFO] - Process start of line..
+21-03-26 00:45:01 [INFO] - Process start of line..
+21-03-26 00:45:01 [INFO] - Process start of line..
+21-03-26 00:46:53 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 1028 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 00:46:53 [INFO] - The following profiles are active: dev
+21-03-26 00:46:56 [INFO] - Started ICLPProcessApplication in 2.946 seconds (JVM running for 4.016)
+21-03-26 00:46:56 [INFO] - Initializing ITAG file..
+21-03-26 00:48:59 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 00:48:59 [INFO] - Process start of line..
+21-03-26 00:49:02 [INFO] - Process start of line..
+21-03-26 00:49:02 [INFO] - Process start of line..
+21-03-26 00:49:02 [INFO] - Process start of line..
+21-03-26 00:49:02 [INFO] - Process start of line..
+21-03-26 00:49:02 [INFO] - Process start of line..
+21-03-26 00:49:02 [INFO] - Process start of line..
+21-03-26 00:52:42 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 5072 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 00:52:42 [INFO] - The following profiles are active: dev
+21-03-26 00:52:44 [INFO] - Started ICLPProcessApplication in 3.02 seconds (JVM running for 4.023)
+21-03-26 00:52:44 [INFO] - Initializing ITAG file..
+21-03-26 00:53:45 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 13392 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 00:53:45 [INFO] - The following profiles are active: dev
+21-03-26 00:53:48 [INFO] - Started ICLPProcessApplication in 3.138 seconds (JVM running for 4.21)
+21-03-26 00:53:48 [INFO] - Initializing ITAG file..
+21-03-26 00:54:37 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 00:54:37 [INFO] - Process start of line..
+21-03-26 00:54:44 [INFO] - Process start of line..
+21-03-26 00:54:44 [INFO] - Process start of line..
+21-03-26 00:54:44 [INFO] - Process start of line..
+21-03-26 00:54:44 [INFO] - Process start of line..
+21-03-26 00:54:44 [INFO] - Process start of line..
+21-03-26 00:54:44 [INFO] - Process start of line..
+21-03-26 01:04:14 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14020 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 01:04:14 [INFO] - The following profiles are active: dev
+21-03-26 01:04:17 [INFO] - Started ICLPProcessApplication in 2.973 seconds (JVM running for 4.013)
+21-03-26 01:04:17 [INFO] - Initializing ITAG file..
+21-03-26 01:05:24 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 01:05:24 [INFO] - Process start of line..
+21-03-26 01:05:38 [INFO] - Process start of line..
+21-03-26 01:05:38 [INFO] - Process start of line..
+21-03-26 01:05:38 [INFO] - Process start of line..
+21-03-26 01:05:38 [INFO] - Process start of line..
+21-03-26 01:05:38 [INFO] - Process start of line..
+21-03-26 01:05:38 [INFO] - Process start of line..
+21-03-26 01:07:14 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 17832 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 01:07:14 [INFO] - The following profiles are active: dev
+21-03-26 01:07:17 [INFO] - Started ICLPProcessApplication in 3.187 seconds (JVM running for 4.195)
+21-03-26 01:07:17 [INFO] - Initializing ITAG file..
+21-03-26 01:07:38 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 10060 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 01:07:38 [INFO] - The following profiles are active: dev
+21-03-26 01:07:41 [INFO] - Started ICLPProcessApplication in 2.872 seconds (JVM running for 3.85)
+21-03-26 01:07:41 [INFO] - Initializing ITAG file..
+21-03-26 01:08:46 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 01:08:46 [INFO] - Process start of line..
+21-03-26 01:08:50 [INFO] - Process start of line..
+21-03-26 01:08:50 [INFO] - Process start of line..
+21-03-26 01:08:50 [INFO] - Process start of line..
+21-03-26 01:08:50 [INFO] - Process start of line..
+21-03-26 01:08:50 [INFO] - Process start of line..
+21-03-26 01:08:50 [INFO] - Process start of line..
+21-03-26 09:34:34 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 10112 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 09:34:34 [INFO] - The following profiles are active: dev
+21-03-26 09:34:36 [INFO] - Started ICLPProcessApplication in 3.3 seconds (JVM running for 4.774)
+21-03-26 09:34:36 [INFO] - Initializing ITAG file..
+21-03-26 09:37:40 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 09:37:40 [INFO] - Process start of line..
+21-03-26 09:37:42 [INFO] - Process start of line..
+21-03-26 09:37:42 [INFO] - Process start of line..
+21-03-26 09:37:42 [INFO] - Process start of line..
+21-03-26 09:37:42 [INFO] - Process start of line..
+21-03-26 09:37:42 [INFO] - Process start of line..
+21-03-26 09:37:42 [INFO] - Process start of line..
+21-03-26 09:46:47 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 11448 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 09:46:47 [INFO] - The following profiles are active: dev
+21-03-26 09:46:49 [INFO] - Started ICLPProcessApplication in 3.388 seconds (JVM running for 4.412)
+21-03-26 09:46:49 [INFO] - Initializing ITAG file..
+21-03-26 09:47:51 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 09:47:51 [INFO] - Process start of line..
+21-03-26 09:47:58 [INFO] - Process start of line..
+21-03-26 09:47:58 [INFO] - Process start of line..
+21-03-26 09:47:58 [INFO] - Process start of line..
+21-03-26 09:47:58 [INFO] - Process start of line..
+21-03-26 09:47:58 [INFO] - Process start of line..
+21-03-26 09:47:58 [INFO] - Process start of line..
+21-03-26 10:19:28 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 3460 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 10:19:28 [INFO] - The following profiles are active: dev
+21-03-26 10:19:31 [INFO] - Started ICLPProcessApplication in 3.216 seconds (JVM running for 4.369)
+21-03-26 10:19:31 [INFO] - Initializing ITAG file..
+21-03-26 10:20:10 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 10:20:10 [INFO] - Process start of line..
+21-03-26 10:20:11 [INFO] - Process start of line..
+21-03-26 10:20:11 [INFO] - Process start of line..
+21-03-26 10:20:11 [INFO] - Process start of line..
+21-03-26 10:20:11 [INFO] - Process start of line..
+21-03-26 10:20:11 [INFO] - Process start of line..
+21-03-26 10:20:11 [INFO] - Process start of line..
+21-03-26 10:21:27 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 11936 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 10:21:27 [INFO] - The following profiles are active: dev
+21-03-26 10:21:30 [INFO] - Started ICLPProcessApplication in 3.45 seconds (JVM running for 4.762)
+21-03-26 10:21:30 [INFO] - Initializing ITAG file..
+21-03-26 10:22:26 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 10:22:26 [INFO] - Process start of line..
+21-03-26 10:22:27 [INFO] - Process start of line..
+21-03-26 10:22:27 [INFO] - Process start of line..
+21-03-26 10:22:27 [INFO] - Process start of line..
+21-03-26 10:22:27 [INFO] - Process start of line..
+21-03-26 10:22:27 [INFO] - Process start of line..
+21-03-26 10:22:27 [INFO] - Process start of line..
+21-03-26 10:33:38 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14104 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 10:33:38 [INFO] - The following profiles are active: dev
+21-03-26 10:33:44 [INFO] - Started ICLPProcessApplication in 6.878 seconds (JVM running for 9.363)
+21-03-26 10:33:44 [INFO] - Initializing ITAG file..
+21-03-26 10:34:27 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 10:34:27 [INFO] - Process start of line..
+21-03-26 10:34:28 [INFO] - Process start of line..
+21-03-26 10:34:28 [INFO] - Process start of line..
+21-03-26 10:34:28 [INFO] - Process start of line..
+21-03-26 10:34:28 [INFO] - Process start of line..
+21-03-26 10:34:28 [INFO] - Process start of line..
+21-03-26 10:34:28 [INFO] - Process start of line..
+21-03-26 10:37:03 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 4804 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 10:37:03 [INFO] - The following profiles are active: dev
+21-03-26 10:37:09 [INFO] - Started ICLPProcessApplication in 6.591 seconds (JVM running for 9.238)
+21-03-26 10:37:09 [INFO] - Initializing ITAG file..
+21-03-26 10:37:48 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 10:37:48 [INFO] - Process start of line..
+21-03-26 10:37:48 [INFO] - Process start of line..
+21-03-26 10:37:48 [INFO] - Process start of line..
+21-03-26 10:37:48 [INFO] - Process start of line..
+21-03-26 10:37:48 [INFO] - Process start of line..
+21-03-26 10:37:48 [INFO] - Process start of line..
+21-03-26 10:37:48 [INFO] - Process start of line..
+21-03-26 10:43:02 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 9064 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 10:43:02 [INFO] - The following profiles are active: dev
+21-03-26 10:43:04 [INFO] - Started ICLPProcessApplication in 2.639 seconds (JVM running for 3.461)
+21-03-26 10:43:04 [INFO] - Initializing ITAG file..
+21-03-26 10:43:44 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 10:43:49 [INFO] - Process start of line..
+21-03-26 10:44:46 [INFO] - Process start of line..
+21-03-26 10:44:48 [INFO] - Process start of line..
+21-03-26 10:44:48 [INFO] - Process start of line..
+21-03-26 10:44:48 [INFO] - Process start of line..
+21-03-26 10:44:48 [INFO] - Process start of line..
+21-03-26 10:44:51 [INFO] - Process start of line..
+21-03-26 10:46:40 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 13040 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 10:46:40 [INFO] - The following profiles are active: dev
+21-03-26 10:46:42 [INFO] - Started ICLPProcessApplication in 2.588 seconds (JVM running for 3.395)
+21-03-26 10:46:42 [INFO] - Initializing ITAG file..
+21-03-26 10:47:42 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 10:47:43 [INFO] - Process start of line..
+21-03-26 11:01:07 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14400 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 11:01:07 [INFO] - The following profiles are active: dev
+21-03-26 11:01:09 [INFO] - Started ICLPProcessApplication in 3.105 seconds (JVM running for 4.038)
+21-03-26 11:01:09 [INFO] - Initializing ITAG file..
+21-03-26 11:02:05 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 11:02:06 [INFO] - Process start of line..
+21-03-26 11:03:40 [INFO] - File moved successfully.
+21-03-26 11:51:05 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 13528 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 11:51:05 [INFO] - The following profiles are active: dev
+21-03-26 11:51:08 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 11:51:48 [INFO] - Started ICLPProcessApplication in 42.696 seconds (JVM running for 43.55)
+21-03-26 11:51:48 [INFO] - Initializing ITAG file..
+21-03-26 11:55:58 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 11:55:59 [INFO] - Process start of line..
+21-03-26 11:57:12 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 12456 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 11:57:12 [INFO] - The following profiles are active: dev
+21-03-26 11:57:14 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 11:57:52 [INFO] - Started ICLPProcessApplication in 40.792 seconds (JVM running for 41.738)
+21-03-26 11:57:52 [INFO] - Initializing ITAG file..
+21-03-26 11:58:00 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 11:58:01 [INFO] - Process start of line..
+21-03-26 12:04:19 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 9756 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 12:04:19 [INFO] - The following profiles are active: dev
+21-03-26 12:04:20 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 12:04:59 [INFO] - Started ICLPProcessApplication in 40.641 seconds (JVM running for 41.574)
+21-03-26 12:04:59 [INFO] - Initializing ITAG file..
+21-03-26 12:05:11 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 12:05:13 [INFO] - Process start of line..
+21-03-26 12:22:00 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 15164 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 12:22:00 [INFO] - The following profiles are active: dev
+21-03-26 12:22:02 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 12:22:42 [INFO] - Started ICLPProcessApplication in 41.761 seconds (JVM running for 42.704)
+21-03-26 12:22:42 [INFO] - Initializing ITAG file..
+21-03-26 12:22:50 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 12:22:52 [INFO] - Process start of line..
+21-03-26 12:25:41 [INFO] - File checkpoint Details Inserted with Id= 380
+21-03-26 12:25:53 [INFO] - Process start of line..
+21-03-26 12:26:18 [INFO] - Process start of line..
+21-03-26 12:26:24 [INFO] - Process start of line..
+21-03-26 12:26:29 [INFO] - Process start of line..
+21-03-26 12:26:33 [INFO] - Process start of line..
+21-03-26 12:26:37 [INFO] - Process start of line..
+21-03-26 13:09:20 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 16996 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 13:09:20 [INFO] - The following profiles are active: dev
+21-03-26 13:09:23 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 13:10:01 [INFO] - Started ICLPProcessApplication in 41.395 seconds (JVM running for 42.411)
+21-03-26 13:10:01 [INFO] - Initializing ITAG file..
+21-03-26 13:10:16 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 13:10:16 [INFO] - Process start of line..
+21-03-26 13:10:34 [INFO] - File checkpoint Details Inserted with Id= 381
+21-03-26 13:10:34 [INFO] - Process start of line..
+21-03-26 13:10:36 [INFO] - Process start of line..
+21-03-26 13:10:37 [INFO] - Process start of line..
+21-03-26 13:10:38 [INFO] - Process start of line..
+21-03-26 13:10:38 [INFO] - Process start of line..
+21-03-26 13:10:39 [INFO] - Process start of line..
+21-03-26 13:17:55 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 9348 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 13:17:55 [INFO] - The following profiles are active: dev
+21-03-26 13:17:56 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 13:18:35 [INFO] - Started ICLPProcessApplication in 40.949 seconds (JVM running for 41.88)
+21-03-26 13:18:35 [INFO] - Initializing ITAG file..
+21-03-26 13:19:00 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 13:19:00 [INFO] - Process start of line..
+21-03-26 13:19:15 [INFO] - File checkpoint Details Inserted with Id= 382
+21-03-26 13:19:15 [INFO] - Process start of line..
+21-03-26 13:19:16 [INFO] - Process start of line..
+21-03-26 13:19:17 [INFO] - Process start of line..
+21-03-26 13:19:18 [INFO] - Process start of line..
+21-03-26 13:19:19 [INFO] - Process start of line..
+21-03-26 13:19:20 [INFO] - Process start of line..
+21-03-26 13:20:33 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 1384 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 13:20:33 [INFO] - The following profiles are active: dev
+21-03-26 13:20:34 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 13:21:13 [INFO] - Started ICLPProcessApplication in 41.409 seconds (JVM running for 42.366)
+21-03-26 13:21:13 [INFO] - Initializing ITAG file..
+21-03-26 13:21:30 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 13:21:30 [INFO] - Process start of line..
+21-03-26 13:21:49 [INFO] - File checkpoint Details Inserted with Id= 383
+21-03-26 13:21:49 [INFO] - Process start of line..
+21-03-26 13:21:51 [INFO] - Process start of line..
+21-03-26 13:21:51 [INFO] - Process start of line..
+21-03-26 13:21:52 [INFO] - Process start of line..
+21-03-26 13:21:53 [INFO] - Process start of line..
+21-03-26 13:21:54 [INFO] - Process start of line..
+21-03-26 13:25:10 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14064 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 13:25:10 [INFO] - The following profiles are active: dev
+21-03-26 13:25:11 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 13:25:54 [INFO] - Started ICLPProcessApplication in 44.614 seconds (JVM running for 45.586)
+21-03-26 13:25:54 [INFO] - Initializing ITAG file..
+21-03-26 13:26:03 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 13:26:03 [INFO] - Process start of line..
+21-03-26 13:26:20 [INFO] - File checkpoint Details Inserted with Id= 384
+21-03-26 13:26:20 [INFO] - Process start of line..
+21-03-26 13:26:22 [INFO] - Process start of line..
+21-03-26 13:26:23 [INFO] - Process start of line..
+21-03-26 13:26:23 [INFO] - Process start of line..
+21-03-26 13:26:24 [INFO] - Process start of line..
+21-03-26 13:26:25 [INFO] - Process start of line..
+21-03-26 13:27:12 [INFO] - Last file processed successfully: 
+21-03-26 13:29:07 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 17360 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 13:29:07 [INFO] - The following profiles are active: dev
+21-03-26 13:29:09 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 13:30:00 [INFO] - Started ICLPProcessApplication in 53.149 seconds (JVM running for 54.089)
+21-03-26 13:30:00 [INFO] - Initializing ITAG file..
+21-03-26 13:31:15 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 13:31:15 [INFO] - Process start of line..
+21-03-26 13:31:25 [INFO] - File checkpoint Details Inserted with Id= 385
+21-03-26 13:31:25 [INFO] - Process start of line..
+21-03-26 13:31:27 [INFO] - Process start of line..
+21-03-26 13:31:28 [INFO] - Process start of line..
+21-03-26 13:31:29 [INFO] - Process start of line..
+21-03-26 13:31:30 [INFO] - Process start of line..
+21-03-26 13:31:31 [INFO] - Process start of line..
+21-03-26 13:32:00 [INFO] - Last file processed successfully: 
+21-03-26 13:45:43 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 15564 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 13:45:43 [INFO] - The following profiles are active: dev
+21-03-26 13:45:45 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 13:46:24 [INFO] - Started ICLPProcessApplication in 41.534 seconds (JVM running for 42.436)
+21-03-26 13:46:24 [INFO] - Initializing ITAG file..
+21-03-26 13:46:53 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 13:46:53 [INFO] - Process start of line..
+21-03-26 13:52:16 [INFO] - File checkpoint Details Inserted with Id= 386
+21-03-26 13:52:20 [INFO] - Process start of line..
+21-03-26 13:52:21 [INFO] - Process start of line..
+21-03-26 13:52:22 [INFO] - Process start of line..
+21-03-26 13:52:23 [INFO] - Process start of line..
+21-03-26 13:52:24 [INFO] - Process start of line..
+21-03-26 13:52:24 [INFO] - Process start of line..
+21-03-26 13:52:38 [INFO] - Last file processed successfully: 
+21-03-26 13:57:32 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14596 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 13:57:32 [INFO] - The following profiles are active: dev
+21-03-26 13:57:34 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 13:58:19 [INFO] - Started ICLPProcessApplication in 47.05 seconds (JVM running for 48.015)
+21-03-26 13:58:19 [INFO] - Initializing ITAG file..
+21-03-26 14:00:03 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 14:00:03 [INFO] - Process start of line..
+21-03-26 14:00:14 [INFO] - File checkpoint Details Inserted with Id= 387
+21-03-26 14:00:14 [INFO] - Process start of line..
+21-03-26 14:00:15 [INFO] - Process start of line..
+21-03-26 14:00:17 [INFO] - Process start of line..
+21-03-26 14:00:18 [INFO] - Process start of line..
+21-03-26 14:00:19 [INFO] - Process start of line..
+21-03-26 14:00:20 [INFO] - Process start of line..
+21-03-26 14:00:33 [INFO] - Last file processed successfully: 
+21-03-26 14:04:22 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14732 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 14:04:22 [INFO] - The following profiles are active: dev
+21-03-26 14:04:23 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 14:05:03 [INFO] - Started ICLPProcessApplication in 41.663 seconds (JVM running for 42.543)
+21-03-26 14:05:03 [INFO] - Initializing ITAG file..
+21-03-26 14:10:02 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14580 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 14:10:02 [INFO] - The following profiles are active: dev
+21-03-26 14:10:04 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 14:10:43 [INFO] - Started ICLPProcessApplication in 41.59 seconds (JVM running for 42.512)
+21-03-26 14:10:43 [INFO] - Initializing ITAG file..
+21-03-26 14:13:16 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 14:13:16 [INFO] - Process start of line..
+21-03-26 14:13:30 [INFO] - File checkpoint Details Inserted with Id= 388
+21-03-26 14:13:30 [INFO] - Process start of line..
+21-03-26 14:13:41 [INFO] - Process start of line..
+21-03-26 14:14:24 [INFO] - Process start of line..
+21-03-26 14:14:36 [INFO] - Process start of line..
+21-03-26 14:14:42 [INFO] - Process start of line..
+21-03-26 14:14:49 [INFO] - Process start of line..
+21-03-26 14:15:05 [INFO] - Last file processed successfully: 
+21-03-26 15:13:59 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 1440 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 15:13:59 [INFO] - The following profiles are active: dev
+21-03-26 15:14:01 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 15:14:43 [INFO] - Started ICLPProcessApplication in 44.304 seconds (JVM running for 45.32)
+21-03-26 15:14:43 [INFO] - Initializing ITAG file..
+21-03-26 15:14:52 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 15:14:52 [INFO] - Process start of line..
+21-03-26 15:43:33 [INFO] - File checkpoint Details Inserted with Id= 389
+21-03-26 15:43:33 [INFO] - Process start of line..
+21-03-26 15:43:41 [INFO] - Process start of line..
+21-03-26 15:43:50 [INFO] - Process start of line..
+21-03-26 15:44:24 [INFO] - Process start of line..
+21-03-26 15:44:33 [INFO] - Process start of line..
+21-03-26 15:44:42 [INFO] - Process start of line..
+21-03-26 15:53:23 [INFO] - Last file processed successfully: 
+21-03-26 15:56:37 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 16928 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 15:56:38 [INFO] - The following profiles are active: dev
+21-03-26 15:56:40 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 15:57:22 [INFO] - Started ICLPProcessApplication in 45.624 seconds (JVM running for 46.683)
+21-03-26 15:57:22 [INFO] - Initializing ITAG file..
+21-03-26 15:57:37 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 15:57:37 [INFO] - Process start of line..
+21-03-26 15:57:52 [INFO] - File checkpoint Details Inserted with Id= 390
+21-03-26 15:57:52 [INFO] - Process start of line..
+21-03-26 15:57:54 [INFO] - Process start of line..
+21-03-26 15:57:56 [INFO] - Process start of line..
+21-03-26 15:57:59 [INFO] - Process start of line..
+21-03-26 15:58:01 [INFO] - Process start of line..
+21-03-26 15:58:04 [INFO] - Process start of line..
+21-03-26 15:58:10 [INFO] - Last file processed successfully: 
+21-03-26 16:00:30 [INFO] - File checkpoint Details Inserted with Id= 391
+21-03-26 16:00:40 [INFO] - Preparing Ack file metadata...
+21-03-26 16:01:16 [INFO] - File Details Inserted with Id= 1
+21-03-26 16:01:16 [INFO] - File moved successfully.
+21-03-26 16:01:28 [INFO] - Preparing Ack file metadata...
+21-03-26 16:01:32 [INFO] - File Details Inserted with Id= 1
+21-03-26 16:57:51 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 3168 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 16:57:51 [INFO] - The following profiles are active: dev
+21-03-26 16:57:53 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 16:58:35 [INFO] - Started ICLPProcessApplication in 43.922 seconds (JVM running for 45.162)
+21-03-26 16:58:35 [INFO] - Initializing ITAG file..
+21-03-26 16:58:42 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 16:58:42 [INFO] - Process start of line..
+21-03-26 16:58:58 [INFO] - File checkpoint Details Inserted with Id= 392
+21-03-26 16:58:58 [INFO] - Process start of line..
+21-03-26 16:59:00 [INFO] - Process start of line..
+21-03-26 16:59:08 [INFO] - Process start of line..
+21-03-26 16:59:09 [INFO] - Process start of line..
+21-03-26 16:59:09 [INFO] - Process start of line..
+21-03-26 16:59:10 [INFO] - Process start of line..
+21-03-26 16:59:14 [INFO] - Last file processed successfully: 
+21-03-26 17:07:30 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 12548 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 17:07:30 [INFO] - The following profiles are active: dev
+21-03-26 17:07:32 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 17:08:12 [INFO] - Started ICLPProcessApplication in 43.121 seconds (JVM running for 44.375)
+21-03-26 17:08:12 [INFO] - Initializing ITAG file..
+21-03-26 17:08:18 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 17:08:18 [INFO] - Process start of line..
+21-03-26 17:08:33 [INFO] - File checkpoint Details Inserted with Id= 393
+21-03-26 17:08:33 [INFO] - Process start of line..
+21-03-26 17:08:34 [INFO] - Process start of line..
+21-03-26 17:08:35 [INFO] - Process start of line..
+21-03-26 17:08:36 [INFO] - Process start of line..
+21-03-26 17:08:38 [INFO] - Process start of line..
+21-03-26 17:08:39 [INFO] - Process start of line..
+21-03-26 17:08:47 [INFO] - Last file processed successfully: 
+21-03-26 17:23:53 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 15124 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 17:23:53 [INFO] - The following profiles are active: dev
+21-03-26 17:23:55 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 17:24:35 [INFO] - Started ICLPProcessApplication in 42.689 seconds (JVM running for 44.197)
+21-03-26 17:24:35 [INFO] - Initializing ITAG file..
+21-03-26 17:25:10 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 17:25:10 [INFO] - Process start of line..
+21-03-26 17:25:31 [INFO] - File checkpoint Details Inserted with Id= 394
+21-03-26 17:25:31 [INFO] - Process start of line..
+21-03-26 17:25:35 [INFO] - Process start of line..
+21-03-26 17:25:35 [INFO] - Process start of line..
+21-03-26 17:25:35 [INFO] - Process start of line..
+21-03-26 17:25:35 [INFO] - Process start of line..
+21-03-26 17:25:35 [INFO] - Process start of line..
+21-03-26 17:25:39 [INFO] - Last file processed successfully: 
+21-03-26 17:29:01 [INFO] - Preparing Ack file metadata...
+21-03-26 17:29:24 [INFO] - File Details Inserted with Id= 1
+21-03-26 17:29:24 [INFO] - File moved successfully.
+21-03-26 17:34:56 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 16484 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 17:34:56 [INFO] - The following profiles are active: dev
+21-03-26 17:34:58 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 17:35:39 [INFO] - Started ICLPProcessApplication in 42.731 seconds (JVM running for 43.77)
+21-03-26 17:35:39 [INFO] - Initializing ITAG file..
+21-03-26 17:35:43 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 17:35:43 [INFO] - Process start of line..
+21-03-26 17:35:44 [INFO] - File checkpoint Details Inserted with Id= 395
+21-03-26 17:35:44 [INFO] - Process start of line..
+21-03-26 17:35:44 [INFO] - Process start of line..
+21-03-26 17:35:44 [INFO] - Process start of line..
+21-03-26 17:35:44 [INFO] - Process start of line..
+21-03-26 17:35:44 [INFO] - Process start of line..
+21-03-26 17:35:44 [INFO] - Process start of line..
+21-03-26 17:35:45 [INFO] - Last file processed successfully: 
+21-03-26 17:35:46 [INFO] - Preparing Ack file metadata...
+21-03-26 17:35:48 [INFO] - File Details Inserted with Id= 1
+21-03-26 17:35:48 [INFO] - File moved successfully.
+21-03-26 17:38:12 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 15472 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 17:38:12 [INFO] - The following profiles are active: dev
+21-03-26 17:38:17 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 17:38:59 [INFO] - Started ICLPProcessApplication in 47.538 seconds (JVM running for 48.576)
+21-03-26 17:38:59 [INFO] - Initializing ITAG file..
+21-03-26 17:39:02 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 17:39:02 [INFO] - Process start of line..
+21-03-26 17:39:04 [INFO] - File checkpoint Details Inserted with Id= 396
+21-03-26 17:39:04 [INFO] - Process start of line..
+21-03-26 17:39:04 [INFO] - Process start of line..
+21-03-26 17:39:04 [INFO] - Process start of line..
+21-03-26 17:39:04 [INFO] - Process start of line..
+21-03-26 17:39:04 [INFO] - Process start of line..
+21-03-26 17:39:04 [INFO] - Process start of line..
+21-03-26 17:39:04 [INFO] - Last file processed successfully: 
+21-03-26 17:39:04 [INFO] - Preparing Ack file metadata...
+21-03-26 17:39:06 [INFO] - File Details Inserted with Id= 1
+21-03-26 17:39:06 [INFO] - File moved successfully.
+21-03-26 18:13:21 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 16056 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 18:13:21 [INFO] - The following profiles are active: dev
+21-03-26 18:13:25 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 18:20:21 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 15380 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 18:20:21 [INFO] - The following profiles are active: dev
+21-03-26 18:20:24 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 18:21:06 [INFO] - Started ICLPProcessApplication in 46.033 seconds (JVM running for 47.95)
+21-03-26 18:21:06 [INFO] - Initializing ITAG file..
+21-03-26 18:21:16 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 18:21:16 [INFO] - Process start of line..
+21-03-26 18:21:16 [INFO] - Preparing Ack file metadata...
+21-03-26 18:21:18 [INFO] - File Details Inserted with Id= 1
+21-03-26 18:21:18 [INFO] - File moved successfully.
+21-03-26 18:22:08 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 15420 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 18:22:08 [INFO] - The following profiles are active: dev
+21-03-26 18:22:12 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 18:22:54 [INFO] - Started ICLPProcessApplication in 46.625 seconds (JVM running for 48.074)
+21-03-26 18:22:54 [INFO] - Initializing ITAG file..
+21-03-26 18:23:03 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 18:23:03 [INFO] - Process start of line..
+21-03-26 18:23:03 [INFO] - Preparing Ack file metadata...
+21-03-26 18:23:05 [INFO] - File Details Inserted with Id= 1
+21-03-26 18:23:05 [INFO] - File moved successfully.
+21-03-26 18:23:47 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 16452 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 18:23:47 [INFO] - The following profiles are active: dev
+21-03-26 18:23:50 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 18:24:34 [INFO] - Started ICLPProcessApplication in 47.544 seconds (JVM running for 48.946)
+21-03-26 18:24:34 [INFO] - Initializing ITAG file..
+21-03-26 18:24:41 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 18:24:41 [INFO] - Process start of line..
+21-03-26 18:24:42 [INFO] - Preparing Ack file metadata...
+21-03-26 18:24:44 [INFO] - File Details Inserted with Id= 1
+21-03-26 18:24:44 [INFO] - File moved successfully.
+21-03-26 18:26:55 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 4992 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 18:26:55 [INFO] - The following profiles are active: dev
+21-03-26 18:26:59 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 18:27:41 [INFO] - Started ICLPProcessApplication in 46.894 seconds (JVM running for 48.614)
+21-03-26 18:27:41 [INFO] - Initializing ITAG file..
+21-03-26 18:28:06 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 18:28:06 [INFO] - Process start of line..
+21-03-26 18:28:07 [INFO] - Preparing Ack file metadata...
+21-03-26 18:28:09 [INFO] - File Details Inserted with Id= 1
+21-03-26 18:28:09 [INFO] - File moved successfully.
+21-03-26 18:33:52 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14492 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 18:33:52 [INFO] - The following profiles are active: dev
+21-03-26 18:33:54 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 18:34:15 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 13772 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 18:34:15 [INFO] - The following profiles are active: dev
+21-03-26 18:34:16 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 18:34:56 [INFO] - Started ICLPProcessApplication in 41.811 seconds (JVM running for 42.711)
+21-03-26 18:34:56 [INFO] - Initializing ITAG file..
+21-03-26 18:35:05 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 18:35:05 [INFO] - Process start of line..
+21-03-26 18:35:16 [INFO] - Preparing Ack file metadata...
+21-03-26 18:35:41 [INFO] - File Details Inserted with Id= 1
+21-03-26 18:36:12 [INFO] - File moved successfully.
+21-03-26 18:40:19 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 13680 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 18:40:19 [INFO] - The following profiles are active: dev
+21-03-26 18:40:20 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 18:41:02 [INFO] - Started ICLPProcessApplication in 44.356 seconds (JVM running for 45.267)
+21-03-26 18:41:02 [INFO] - Initializing ITAG file..
+21-03-26 18:41:41 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 18:41:41 [INFO] - Process start of line..
+21-03-26 18:41:42 [INFO] - Process start of line..
+21-03-26 18:41:42 [INFO] - Process start of line..
+21-03-26 18:41:42 [INFO] - Process start of line..
+21-03-26 18:41:42 [INFO] - Process start of line..
+21-03-26 18:41:42 [INFO] - Process start of line..
+21-03-26 18:41:42 [INFO] - Process start of line..
+21-03-26 18:46:27 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 15928 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 18:46:27 [INFO] - The following profiles are active: dev
+21-03-26 18:46:30 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 18:47:10 [INFO] - Started ICLPProcessApplication in 42.62 seconds (JVM running for 43.516)
+21-03-26 18:47:10 [INFO] - Initializing ITAG file..
+21-03-26 18:47:13 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 18:47:13 [INFO] - Process start of line..
+21-03-26 18:47:13 [INFO] - Process start of line..
+21-03-26 18:47:13 [INFO] - Process start of line..
+21-03-26 18:47:13 [INFO] - Process start of line..
+21-03-26 18:47:13 [INFO] - Process start of line..
+21-03-26 18:47:13 [INFO] - Process start of line..
+21-03-26 18:47:13 [INFO] - Process start of line..
+21-03-26 18:48:38 [INFO] - Starting ICLPProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 2780 (D:\WORKSPACE\Sprint-3\ICLP\target\classes started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 18:48:38 [INFO] - The following profiles are active: dev
+21-03-26 18:48:40 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 18:49:20 [INFO] - Started ICLPProcessApplication in 42.251 seconds (JVM running for 43.143)
+21-03-26 18:49:20 [INFO] - Initializing ITAG file..
+21-03-26 18:49:22 [INFO] - Downloaded file: 022_20200801194130.ICLP
+21-03-26 18:49:22 [INFO] - Process start of line..
+21-03-26 18:49:22 [INFO] - Process start of line..
+21-03-26 18:49:22 [INFO] - Process start of line..
+21-03-26 18:49:22 [INFO] - Process start of line..
+21-03-26 18:49:22 [INFO] - Process start of line..
+21-03-26 18:49:22 [INFO] - Process start of line..
+21-03-26 18:49:22 [INFO] - Process start of line..
+21-03-26 18:50:17 [INFO] - File checkpoint Details Inserted with Id= null
+21-03-26 18:50:21 [INFO] - Preparing Ack file metadata...
+21-03-26 18:50:43 [INFO] - File Details Inserted with Id= 1
+21-03-26 18:50:48 [INFO] - File moved successfully.
+21-03-26 18:56:01 [INFO] - Starting ICLPProcessApplicationTests using Java 1.8.0_281 on BSHYDCOR-L350 with PID 14524 (started by urvashic in D:\WORKSPACE\Sprint-3\ICLP)
+21-03-26 18:56:01 [INFO] - The following profiles are active: dev
+21-03-26 18:56:03 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 18:56:47 [INFO] - Started ICLPProcessApplicationTests in 47.028 seconds (JVM running for 48.488)
+21-03-26 18:56:47 [INFO] - Initializing ITAG file..
+21-03-26 19:08:53 [INFO] - Starting ICLPProcessApplicationTests using Java 1.8.0_281 on BSHYDCOR-L350 with PID 13256 (started by urvashic in D:\WORKSPACE\Sprint-3\ICLP_BRANCH\TPMS\ICLP)
+21-03-26 19:08:53 [INFO] - The following profiles are active: dev
+21-03-26 19:08:55 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 19:09:35 [INFO] - Started ICLPProcessApplicationTests in 42.867 seconds (JVM running for 44.301)
+21-03-26 19:09:35 [INFO] - Initializing ICLP file..
+21-03-26 19:17:25 [INFO] - Starting ICLPProcessApplicationTests using Java 1.8.0_281 on BSHYDCOR-L350 with PID 15776 (started by urvashic in D:\WORKSPACE\Sprint-3\ICLP_BRANCH\TPMS\ICLP)
+21-03-26 19:17:25 [INFO] - The following profiles are active: dev
+21-03-26 19:17:28 [INFO] - Agency info fetched from T_Agency table successfully.
+21-03-26 19:18:08 [INFO] - Started ICLPProcessApplicationTests in 43.096 seconds (JVM running for 44.682)
+21-03-26 19:18:08 [INFO] - Initializing ICLP file..

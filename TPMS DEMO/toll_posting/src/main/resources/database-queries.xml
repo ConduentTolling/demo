@@ -1,0 +1,116 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+			<map>
+				<entry key="GET_T_AGENCY"
+					value="SELECT AGENCY_ID,AGENCY_NAME,AGENCY_SHORT_NAME,DEVICE_PREFIX,IS_HOME_AGENCY,SCHEDULED_PRICING_FLAG,CLMM_ADJ_ALLOWED,IS_IAG_STYLE_RECIPROCITY,CALCULATE_TOLL_AMOUNT,PARENT_AGENCY_ID,STMT_DESCRIPTION FROM CRM.T_AGENCY"></entry>
+
+				<entry key="GET_T_PLAZA"
+					value="SELECT PLAZA_ID,EXTERN_PLAZA_ID,AGENCY_ID ,REVENUE_TIME ,PLAZA_GROUP ,PLAZA_TYPE_IND ,CALCULATE_TOLL_AMOUNT,LPR_ENABLED FROM MASTER.T_PLAZA"></entry>
+
+				<!-- <entry key="GET_T_LANE" value="SELECT LANE_ID ,EXTERN_LANE_ID,PLAZA_ID 
+					,LPR_ENABLED,'Y' CALCULATE_TOLL_AMOUNT,HOV_OFFSET ,HOV_MIN_DELTA_TIME,HOV_MAX_DELTA_TIME 
+					FROM MASTER.T_LANE where lane_id in (18897)"></entry> -->
+
+				<entry key="GET_T_LANE"
+					value="SELECT LANE_ID ,EXTERN_LANE_ID,PLAZA_ID 
+					,LPR_ENABLED,CALCULATE_TOLL_AMOUNT,HOV_OFFSET ,HOV_MIN_DELTA_TIME,HOV_MAX_DELTA_TIME 
+					FROM MASTER.T_LANE"></entry>
+
+				<entry key="GET_T_PROCESS_PARAMETERS"
+					value="SELECT AGENCY_ID,PLAZA_ID,PARAM_NAME,PARAM_CODE,PARAM_VALUE,PARAM_DESC FROM master.T_PROCESS_PARAMETERS where PARAM_CODE='TX_REJECTION_ACCOUNT'"></entry>
+
+				<entry key="GET_T_PROCESS_PARAMETERS_ICTX"
+					value="SELECT * FROM MASTER.T_PROCESS_PARAMETERS WHERE PARAM_NAME='IAG_AGENCY_SYS_ACCOUNT_ID' ORDER BY 1"></entry>
+
+
+				<entry key="GET_TOLL_AMOUNT_VALUE"
+					value="SELECT AGENCY_ID,PLAZA_ID,PARAM_NAME,PARAM_CODE,PARAM_VALUE,PARAM_DESC FROM master.T_PROCESS_PARAMETERS where PARAM_NAME='IAG_TOLL_AMOUNT_REJECT'"></entry>
+
+				<entry key="GET_HOME_AGENCY_ACCOUNT"
+					value="SELECT AGENCY_ID,PLAZA_ID,PARAM_NAME,PARAM_CODE,PARAM_VALUE,PARAM_DESC FROM master.T_PROCESS_PARAMETERS where PARAM_NAME='HOME_AGENCY_SYS_ACCOUNT_ID'"></entry>
+
+				<entry key="GET_T_TOLL_POST_LIMIT"
+					value="SELECT PLAZA_AGENCY_ID,ETC_TX_STATUS,ALLOWED_DAYS,POACHING_LIMIT FROM MASTER.T_TOLL_POST_LIMIT"></entry>
+
+				<entry key="GET_T_AGENCY_HOLIDAY"
+					value="SELECT AGENCY_ID,HOLIDAY,DAYS_IND,DESCRIPTION FROM MASTER.T_AGENCY_HOLIDAY"></entry>
+
+				<entry key="GET_T_PLAN_POLICY"
+					value="SELECT PP.PLAN_TYPE, nvl(PP.EXPIRATION_MONTH,12) as EXPIRATION_MONTH, nvl(PP.EXPIRATION_DAY,0) as EXPIRATION_DAY, DECODE(NVL(PP.IS_CHARGE_FEE,'N'), 'Y', 'T', 'N', 'F') AS IS_CHARGE_FEE , decode(NVL(PP.IS_ANNUAL_PLAN,'N'),'Y', 'T', 'N', 'F')as is_annual_plan, PP.MIN_DAYS_FOR_RENEWAL, PP.PLAN_DAYS, PP.MAX_TRIPS, PP.MIN_TRIPS, decode(NVL(PP.RESIDENT_LIMITED,'N'),'Y', 'T', 'N', 'F')as resident_limited, decode(NVL(PP.IS_COMMUTE,'N'), 'Y', 'T', 'N', 'F') as is_commute, decode(nvl(PP.PLAZA_LIMITED,'N'),'Y', 'T', 'N', 'F')as plaza_limited, decode(NVL(PP.IS_DEVICE_SPECIFIC,'N'), 'Y', 'T', 'N', 'F')as is_device_specific, decode(NVL(PP.CHARGE_UNUSED_TRIPS,'N'),'Y', 'T', 'N', 'F',CHARGE_UNUSED_TRIPS)as charge_unused_trips, decode(NVL(PP.MANUAL_SUSPENSION,'N'),'Y', 'T', 'N', 'F')as manual_suspension, decode(NVL(PP.AUTOMATIC_REACTIVATION,'N'), 'Y', 'T', 'N', 'F')as automatic_reactivation, PP.MAP_AGENCY_ID, nvl(PP.PLAN_AGENCY_PRIORITY,0), decode(NVL(PP.IS_REVENUE_PLAN,'N'),'Y', 'T', 'N', 'F')as is_revenue_plan, decode(NVL(PP.CHARGE_PLAN_BALANCE,'N'), 'Y', 'T', 'N', 'F')as charge_plan_balance, PP.RENEW_REQ_TRIPS, nvl(PP.RENEW_REQ_DAYS,0), decode(PP.IS_PRORATE_FEE,'Y', 'T', 'N', 'F')as is_prorate_fee, PP.MIN_SUSPENSION_DAYS, decode(NVL(PP.RENEW_LIMIT_IND,'N'),'Y', 'T', 'N', 'F')as renew_limit_ind, decode(NVL(PP.MONTHLY_PLAN,'N'),'Y', 'T', 'N', 'F')as monthly_plan, PP.NUMBER_OF_PERIODS, PP.PLAN_BIT, decode(NVL(PP.CHARGE_PER_DEVICE,'N'),'Y','T','N','F')as charge_per_device, decode(NVL(PP.APPLY_USAGE_CREDIT,'N'),'Y','T','N','F')as apply_usage_credit, nvl(PP.RECON_LAG_PERIOD, 0), decode(NVL(PP.IS_POST_PAID,'N'),'Y', 'T', 'N', 'F')as is_post_paid, decode(NVL(PP.IS_ACCOUNT_LEVEL_DISCOUNT,'N'),'Y', 'T', 'N', 'F')as is_account_level_discount, decode(NVL(PP.IS_TRIP_LIMITED,'N'),'Y', 'T', 'N', 'F')as is_trip_limited, decode(NVL(PP.IS_SERVICE_FEE_EXEMPT,'N'),'Y', 'T', 'N', 'F')as is_service_fee_exempt, decode(NVL(PP.IS_STMT_FEE_EXEMPT,'N'),'Y', 'T', 'N', 'F')as is_stmt_fee_exempt, decode(NVL(PP.IS_CALENDAR_PERIOD,'N'),'Y', 'T', 'N', 'F')as is_calendar_period FROM CRM.v_plan_policy PP WHERE  PP.PLAN_TYPE is not null ORDER BY PP.PLAN_TYPE"></entry>
+
+				<entry key="GET_T_CODES"
+					value="SELECT CODE_TYPE,CODE_ID,CODE_VALUE,DISPLAY_VALUE,DISPLAY_VALUE_LONG FROM MASTER.T_CODES WHERE CODE_TYPE in ('ACCT_ACT_STATUS','ACCT_FIN_STATUS','REBILL_PAY_TYPE','DEVICE_STATUS_TYPE','ACCOUNT_TYPE')"></entry>
+
+				<entry key="GET_T_AGENCY_PLAZA_LANE"
+					value="SELECT  P.PLAZA_ID, P.EXTERN_PLAZA_ID, L.LANE_ID, L.EXTERN_LANE_ID, P.AGENCY_ID, P.DEFAULT_PLAN_ID, P.REVENUE_TIME, P.SECTION_ID,  NVL(A.SCHEDULED_PRICING_FLAG,'N') as SCHEDULED_PRICING_FLAG,  P.PLAZA_SEQ_NUMBER,  A.CURRENT_IAG_VERSION,  NVL(A.IS_IAG_STYLE_RECIPROCITY,'F') as IS_IAG_STYLE_RECIPROCITY,  DECODE(NVL(A.CALCULATE_TOLL_AMOUNT,'F'),'Y','T','N','F',NVL(A.CALCULATE_TOLL_AMOUNT,'F')) as CALCULATE_TOLL_AMOUNT,  DECODE(NVL(A.IS_HOME_AGENCY,'F'),'Y','T','N','F',NVL(A.IS_HOME_AGENCY,'F')) as IS_HOME_AGENCY,  NVL(P.MILEAGE,0) as MILEAGE ,  NVL(P.PLAZA_GROUP,0) as PLAZA_GROUP,   DECODE(NVL(P.CALCULATE_TOLL_AMOUNT,'F'),'Y','T','N','F',NVL(P.CALCULATE_TOLL_AMOUNT,'F')) as CALCULATE_TOLL_AMOUNT, NVL(P.PLAZA_TYPE_IND,'?') as PLAZA_TYPE_IND  FROM  T_PLAZA P, T_LANE L, T_AGENCY A  WHERE  L.PLAZA_ID = P.PLAZA_ID  AND  P.AGENCY_ID = A.AGENCY_ID  ORDER BY L.LANE_ID"></entry>
+
+				<!-- <entry key="GET_ACCOUNT_INFO_USING_DEVICE_NO"
+					value="SELECT  status_timestamp, DEVICE_NO as deviceNumber,nvl(ETC_ACCOUNT_ID,0) as ETC_ACCOUNT_ID, nvl(DEVICE_STATUS,4) as DEVICE_STATUS, to_char(trunc(status_timestamp),'yyyy-mm-dd') AS DATE_CHANGED, to_char( (status_timestamp), 'hh24:mi:ss') AS TIME_CHANGED FROM  CRM.V_DEVICE WHERE  DEVICE_NO = :DEVICE_NO"></entry>  AND status_timestamp &lt;= :TX_TIME_STAMP
+ -->
+				<entry key="GET_ACCOUNT_INFO_USING_DEVICE_NO"
+					value="SELECT status_timestamp, device_no AS devicenumber, nvl(etc_account_id, 0) AS etc_account_id, nvl(device_status, 4) AS device_status, to_char(trunc(status_timestamp), 'yyyy-mm-dd') AS date_changed, to_char((status_timestamp), 'hh24:mi:ss') AS time_changed FROM crm.v_device A WHERE device_no = :DEVICE_NO AND STATUS_TIMESTAMP = (SELECT MAX(STATUS_TIMESTAMP) FROM CRM.V_DEVICE B WHERE A.DEVICE_NO = B.DEVICE_NO AND STATUS_TIMESTAMP &lt;= :TX_TIME_STAMP)"></entry>
+			 	
+				<entry key="GET_ACCOUNT_INFO_USING_H_DEVICE_NO"
+					value="SELECT  status_timestamp, DEVICE_NO as deviceNumber,nvl(ETC_ACCOUNT_ID,0) as ETC_ACCOUNT_ID, nvl(DEVICE_STATUS,4) as DEVICE_STATUS, to_char(trunc(status_timestamp),'yyyy-mm-dd') AS DATE_CHANGED, to_char( (status_timestamp), 'hh24:mi:ss') AS TIME_CHANGED FROM  CRM.V_H_DEVICE WHERE  DEVICE_NO = :DEVICE_NO"></entry> <!-- AND status_timestamp &lt;= :TX_TIME_STAMP -->
+
+				<entry key="GET_T_HA_DEVICES"
+					value="SELECT DEVICE_NO,IAG_TAG_STATUS from T_HA_DEVICES WHERE DEVICE_NO = :DEVICE_NO"></entry>
+
+				<entry key="GET_ACCOUNT_INFO_USING_ETC_ACCOUNT_NO"
+					value="SELECT E.ETC_ACCOUNT_ID,S.ACCT_FIN_STATUS,S.CURRENT_BALANCE*100 CURRENT_BALANCE,S.POSTPAID_BALANCE*100 POST_PAID_BALANCE,E.POSTPAID_UNBILLED_BALANCE*100 POST_PAID_UNBILLED_BALANCE, E.ACCOUNT_TYPE,E.AGENCY_ID,E.ACCT_ACT_STATUS as ACCT_ACCOUNT_STATUS, R.REBILL_PAY_TYPE,NVL(E.REBILL_THRESHOLD*100,0) REBILL_THRESHOLD, SUBSTR(NVL(R.CC_ACCOUNT_NUMBER_ENCRYPT,'000000'),1,20) CC_ACCOUNT_NUMBER_ENCRYPT, NVL(R.ABA_NUMBER,'000000') ABA_NUMBER, NVL(TO_CHAR(R.CC_EXPIRATION_DATE , 'YYYY-MM-DD'), '1990-01-01') CC_EXPIRATION_DATE, S.LAST_TOLL_TX_TIMESTAMP as LAST_TOLL_TX_TIMESTAMP, NVL(R.CC_ACCOUNT_NUMBER_ENCRYPT,'000000') CC_ACCOUNT_NUMBER_ENCRYPT1, NVL(E.POST_PAID_STATUS,0) POST_PAID_STATUS, DECODE(NVL(UNREGISTERED,'N'),'T',1,'Y',1,0) UNREGISTERED FROM CRM.V_ETC_ACCOUNT E, FPMS.T_FPMS_ACCOUNT S, ( SELECT REBILL_PAY_TYPE, CC_ACCOUNT_NUMBER_ENCRYPT,CC_EXPIRATION_DATE, ABA_NUMBER, ETC_ACCOUNT_ID  FROM CRM.V_REBILL WHERE ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID  ORDER BY CASE WHEN REBILL_PAY_TYPE IN (2,4,7,8) THEN 0 ELSE 1 END ) R WHERE S.ETC_ACCOUNT_ID = E.ETC_ACCOUNT_ID AND R.ETC_ACCOUNT_ID = S.ETC_ACCOUNT_ID AND E.ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID AND to_date(e.open_date) &lt;= to_date(:TX_DATE) AND ROWNUM &lt; 2 "></entry>
+					<!--FOR UPDATE OF S.CURRENT_BALANCE WAIT 10-->
+				
+				<entry key="GET_ACCOUNT_INFO_USING_ETC_ACCOUNT_NO_1"
+					value="SELECT E.ETC_ACCOUNT_ID,S.ACCT_FIN_STATUS,S.CURRENT_BALANCE*100 CURRENT_BALANCE ,S.POSTPAID_BALANCE*100 POST_PAID_BALANCE,E.POSTPAID_UNBILLED_BALANCE*100 POST_PAID_UNBILLED_BALANCE, E.ACCOUNT_TYPE,E.AGENCY_ID,E.ACCT_ACT_STATUS as ACCT_ACCOUNT_STATUS, NVL(E.REBILL_THRESHOLD*100,0) REBILL_THRESHOLD, S.LAST_TOLL_TX_TIMESTAMP as LAST_TOLL_TX_TIMESTAMP, NVL(E.POST_PAID_STATUS,0) POST_PAID_STATUS, DECODE(NVL(UNREGISTERED,'N'),'T',1,'Y',1,0) UNREGISTERED FROM CRM.V_ETC_ACCOUNT E, FPMS.T_FPMS_ACCOUNT S WHERE S.ETC_ACCOUNT_ID = E.ETC_ACCOUNT_ID AND E.ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID AND ROWNUM &lt; 2"></entry>
+					<!--FOR UPDATE OF S.CURRENT_BALANCE WAIT 10-->
+				
+				<entry key="GET_ACCOUNT_PLAN_INFO"
+					value="SELECT ETC_ACCOUNT_ID,APD_ID,plan_start_date, plan_end_date, nvl(DEVICE_NO,'***********') as device_no,nvl(PLAN_TYPE,0) as plan_type,0 as STATUS,nvl(trip_count,0) as TRIP_COUNT,'T' as ACTIVE_FLAG FROM CRM.V_ACCOUNT_PLAN_DETAIL WHERE ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID AND PLAN_START_DATE &lt;= :TX_DATE AND :TX_DATE &lt;= nvl(plan_end_date,sysdate)
+					     UNION ALL SELECT ETC_ACCOUNT_ID,APD_ID,plan_start_date, plan_end_date, nvl(DEVICE_NO,'***********') as device_no,nvl(PLAN_TYPE,0) as plan_type,0 as STATUS,0 as TRIP_COUNT,'F' as ACTIVE_FLAG FROM CRM.V_H_ACCOUNT_PLAN_DETAIL WHERE ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID AND PLAN_START_DATE &lt;= :TX_DATE AND :TX_DATE &lt;= plan_end_date"></entry>
+
+				<entry key="GET_T_TOLL_PRICE_SCHEDULE"
+					value="SELECT P.DAYS_IND,T.PLAN_TYPE_ID PLAN_TYPE,T.REVENUE_TYPE_ID REVENUE_TYPE,T.FULL_FARE as FULL_FARE,T.DISCOUNT_FARE as DISCOUNT_FARE,T.EXTRA_AXLE_CHARGE as EXTRA_AXLE_CHARGE, T.TRIP_PER_TRX as TRIP_PER_TRX, T.PRICE_SCHEDULE_ID as PRICE_SCHEDULE_ID, P.IS_PEAK as IS_PEAK FROM MASTER.T_TOLL_PRICE_SCHEDULE P, MASTER.T_TOLL_SCHEDULE T WHERE P.EFFECTIVE_DATE &lt;= :TX_DATE  AND P.EXPIRY_DATE &gt;= :TX_DATE AND  P.AGENCY_ID = :AGENCY_ID  AND T.PRICE_SCHEDULE_ID = P.PRICE_SCHEDULE_ID  AND T.EFFECTIVE_DATE &lt;= :TX_DATE  AND T.EXPIRY_DATE &gt;= :TX_DATE   AND T.PLAZA_ID = :PLAZA_ID   AND T.ENTRY_PLAZA_ID = :ENTRY_PLAZA_ID   AND T.VEHICLE_CLASS = :VEHICLE_CLASS"></entry>
+
+				<entry key="GET_T_TOLL_SCHEDULE"
+					value="SELECT T.PLAN_TYPE_ID PLAN_TYPE,T.REVENUE_TYPE_ID REVENUE_TYPE, T.FULL_FARE as FULL_FARE,T.DISCOUNT_FARE as DISCOUNT_FARE,T.EXTRA_AXLE_CHARGE as EXTRA_AXLE_CHARGE, T.TRIP_PER_TRX as TRIP_PER_TRX, T.PRICE_SCHEDULE_ID as PRICE_SCHEDULE_ID, T.PLAZA_ID as PLAZA_ID FROM MASTER.T_TOLL_SCHEDULE T WHERE T.EFFECTIVE_DATE &lt;= :TX_DATE  AND T.EXPIRY_DATE &gt;= :TX_DATE   AND T.PLAZA_ID = :PLAZA_ID   AND nvl(T.ENTRY_PLAZA_ID,0) = :ENTRY_PLAZA_ID   AND T.VEHICLE_CLASS = :VEHICLE_CLASS"></entry>
+
+				<entry key="GET_ACCOUNT_BALANCE"
+					value="SELECT CURRENT_BALANCE*100 as CURRENT_BALANCE from FPMS.T_FPMS_ACCOUNT  where ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID"></entry>
+
+				<entry key="INSERT_T_TOLL_EXCEPTION"
+					value="INSERT INTO TPMS.T_TOLL_EXCEPTION (LANE_TX_ID,TX_DATE,TX_DATE_TIME,POSTED_DATE,DEPOSITE_ID,ROW_ID,TX_STATUS,REVENUE_DATE) VALUES (:LANE_TX_ID,:TX_DATE,:TX_DATE_TIME,:POSTED_DATE,:DEPOSITE_ID,:ROW_ID,:TX_STATUS,:REVENUE_DATE)"></entry>
+
+				<entry key="GET_ACCOUNT_PLAN_INFO_IN_MASTER"
+					value="SELECT
+						    etc_account_id,
+						    apd_id,
+						    plan_start_date,
+						    plan_end_date,
+						    nvl(device_no, '***********')      AS device_no,
+						    nvl(plan_type, 0)                  AS plan_type,
+						    0                                  AS status,
+						    nvl(trip_count, 0)                 AS trip_count,
+						    'F'                                AS active_flag
+						FROM
+						    crm.v_account_plan_detail
+						UNION ALL
+						SELECT
+						    etc_account_id,
+						    apd_id,
+						    plan_start_date,
+						    plan_end_date,
+						    nvl(device_no, '***********')       AS device_no,
+						    nvl(plan_type, 0)                   AS plan_type,
+						    0                                  AS status,
+						    0                                  AS trip_count,
+						    'T'                                AS active_flag
+						FROM
+						    crm.v_h_account_plan_detail"></entry>
+
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

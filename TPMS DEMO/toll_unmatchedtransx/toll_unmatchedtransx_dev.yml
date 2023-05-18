@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: toll-unmatchedtransx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: toll-unmatchedtransx
+  replicas: 1
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate: 
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: toll-unmatchedtransx
+    spec:
+      containers:
+      - name: toll-unmatchedtransx
+    # enter the path to your image, be sure to include the correct region prefix     
+        image: iad.ocir.io/iddewqtahvnn/tolling_dev_cont_registry:latest
+        env:
+        - name: DB_TPMS_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-security-tpms
+              key: spring.db.tpms.username
+        - name: DB_TPMS_PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: db-security-tpms
+              key: spring.db.tpms.password
+        - name: HOME_STREAM_ID
+          valueFrom:
+            configMapKeyRef:
+              name: tpms-oci-streamid
+              key: config.home.streamid
+        - name: STREAM_ID
+          valueFrom:
+            configMapKeyRef:
+              name: tpms-oci-streamid
+              key: config.streamid
+        - name: AWAY_STREAM_ID
+          valueFrom:
+            configMapKeyRef:
+              name: tpms-oci-streamid
+              key: config.away.streamid
+        - name: VIOLATION_STREAM_ID
+          valueFrom:
+            configMapKeyRef:
+              name: tpms-oci-streamid
+              key: config.violation.streamid
+        volumeMounts:
+        - name: nfs
+          mountPath: "/DevokeFss/"
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+      imagePullSecrets:
+    # enter the name of the secret you created  
+      - name: ocirsecret
+      dnsConfig:
+        nameservers:
+        - 169.254.169.254
+      volumes:
+      - name: nfs
+        persistentVolumeClaim:
+          claimName: oke-fsspvc
+          readOnly: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: toll-unmatchedtransx-service
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: toll-unmatchedtransx

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;IcrxScheduler&apos;" deleteContents="false" description="Delete resource &apos;IcrxScheduler&apos;" element1="/IcrxScheduler" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1635402781647"/>
+</session>

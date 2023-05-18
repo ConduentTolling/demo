@@ -1,0 +1,5 @@
+21-03-22 10:37:19 [INFO] - Starting ItagProcessApplicationTests using Java 15.0.1 on BSHYDCOR-L350 with PID 12512 (started by urvashic in D:\WORKSPACE\TPMS\ITAG)
+21-03-22 10:37:19 [INFO] - The following profiles are active: dev
+21-03-22 10:37:22 [INFO] - Started ItagProcessApplicationTests in 3.182 seconds (JVM running for 4.251)
+21-03-22 10:37:22 [INFO] - Initializing ITAG file..
+21-03-22 10:37:22 [INFO] - Getting mapping configuration from table..

@@ -1,0 +1,15 @@
+21-03-01 20:30:00 [INFO] - Starting ItagProcessApplicationTests using Java 1.8.0_281 on MININT-D75JJC3 with PID 5852 (started by MAYURIG1 in C:\Users\mayurig1\Documents\workspace-spring-tool-suite-4-4.0.2.RELEASE\ITAG)
+21-03-01 20:30:00 [INFO] - The following profiles are active: dev
+21-03-01 20:30:13 [INFO] - Started ItagProcessApplicationTests in 14.744 seconds (JVM running for 19.028)
+21-03-01 20:31:02 [INFO] - Starting ItagProcessApplication using Java 1.8.0_281 on MININT-D75JJC3 with PID 17664 (C:\Users\mayurig1\Documents\workspace-spring-tool-suite-4-4.0.2.RELEASE\ITAG\target\classes started by MAYURIG1 in C:\Users\mayurig1\Documents\workspace-spring-tool-suite-4-4.0.2.RELEASE\ITAG)
+21-03-01 20:31:02 [INFO] - The following profiles are active: dev
+21-03-01 20:31:08 [INFO] - Started ItagProcessApplication in 7.404 seconds (JVM running for 10.078)
+21-03-01 21:02:57 [INFO] - Starting ItagProcessApplicationTests using Java 1.8.0_281 on MININT-D75JJC3 with PID 13476 (started by MAYURIG1 in C:\Users\mayurig1\Documents\workspace-spring-tool-suite-4-4.0.2.RELEASE\ITAG)
+21-03-01 21:02:57 [INFO] - The following profiles are active: dev
+21-03-01 21:03:22 [INFO] - Started ItagProcessApplicationTests in 26.149 seconds (JVM running for 29.851)
+21-03-01 21:03:56 [INFO] - Starting ItagProcessApplication using Java 1.8.0_281 on MININT-D75JJC3 with PID 18148 (C:\Users\mayurig1\Documents\workspace-spring-tool-suite-4-4.0.2.RELEASE\ITAG\target\classes started by MAYURIG1 in C:\Users\mayurig1\Documents\workspace-spring-tool-suite-4-4.0.2.RELEASE\ITAG)
+21-03-01 21:03:56 [INFO] - The following profiles are active: dev
+21-03-01 21:04:02 [INFO] - Started ItagProcessApplication in 6.327 seconds (JVM running for 11.014)
+21-03-01 21:05:59 [INFO] - file details FileNameDetailDto [fromAgencyId=016, fileName=016_20200713210431.ITAG, fileDateTime=null]
+21-03-01 21:12:27 [INFO] - file details FileNameDetailDto [fromAgencyId=016, fileName=016_20200713210431.ITAG, fileDateTime=2020-07-13T21:04:31]
+21-03-01 21:12:33 [INFO] - Validated file name 016_20200713210431.ITAG

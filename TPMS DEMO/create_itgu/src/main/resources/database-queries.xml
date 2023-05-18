@@ -1,0 +1,181 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+
+				<entry key="GET_OUTPUT_FILE_CONFIGURATION_INFO"
+					value="SELECT 
+					ID,         
+					AGENCY_ID,        
+					FILE_DESCRIPTION,  
+					FILE_FORMAT,  
+					FILE_TYPE,  
+					PARENT_DIRECTORY, 
+					PROCESSED_DIRECTORY, 
+					PROCESS_TYPE 
+					FROM 
+					TPMS.T_OUTPUT_FIELD_MAPPING
+					WHERE 
+					    FILE_TYPE=:FILE_TYPE 
+					AND 
+						AGENCY_ID =:AGENCY_ID
+					AND 
+						FILE_FORMAT =:FILE_FORMAT" />
+
+
+
+				<entry key="GET_OUTPUT_FIELD_VALIDATION_DETAILS"
+					value="SELECT FIELD_TYPE, 
+							FIELD_NAME,
+                            FIELD_INDEX_POSITION,
+                            FIELD_LENGTH,
+                            JUSTIFICATION,
+                            PAD_CHARACTER,
+                            FORMAT,
+							DEFAULT_VALUE,
+							CHARACTER_ENCODING
+					FROM 
+							TPMS.T_OUTPUT_FIELD_MAPPING_DETAIL 
+							T_OUTPUT_FIELD_MAPPING_DETAIL  
+					INNER JOIN 
+							TPMS.T_OUTPUT_FIELD_MAPPING 
+							T_OUTPUT_FIELD_MAPPING 
+					ON  
+							T_OUTPUT_FIELD_MAPPING_DETAIL.FIELD_MAPPING_PK_ID=T_OUTPUT_FIELD_MAPPING.ID 
+					WHERE  
+							AGENCY_ID =:AGENCY_ID 
+					AND 
+							FILE_TYPE=:FILE_TYPE
+					ORDER BY 
+							FIELD_INDEX_POSITION" />
+
+
+				<entry key="LOAD_T_AGENCY"
+					value="SELECT agency_id,
+			       agency_name,
+			       Upper(agency_short_name),
+			       lpad(device_prefix, 4, '0') device_prefix,
+			       is_home_agency,
+			       To_number(parent_agency_id),
+			       scheduled_pricing_flag,
+			       clmm_adj_allowed,
+			       current_iag_version,
+			       is_iag_style_reciprocity,
+			       calculate_toll_amount,
+			       consortium,
+			       lpad(file_prefix, 4, '0') file_prefix
+			FROM   CRM.t_agency
+			ORDER  BY agency_id"></entry>
+
+				<entry key="LOAD_DEVICES_FROM_T_TAG_STATUS_ALLSORTED"
+					value="SELECT DISTINCT
+					lpad(TRIM(CAST(t.etc_account_id AS CHAR(8))), 12, '0') etc_account_id,
+					t.device_no,
+					LPAD(CASE
+				    WHEN  LENGTH (t.device_no) &lt;= 11 THEN substr(t.device_no, 1, 3)
+				    WHEN  LENGTH (t.device_no) &gt; 11 THEN substr(t.device_no, 1, 4)
+				    END, 4, '0') device_prefix,
+				    CASE
+				    WHEN  LENGTH (t.device_no) &lt;= 11 THEN substr(t.device_no, 4, 8)
+				    WHEN  LENGTH (t.device_no) &gt; 11 THEN substr(t.device_no, 5, 10)
+				    END AS serial_no,
+				    t.tag_owning_agency,
+				    t.account_type,
+				    nvl(TRIM(t.account_type_cd), '*') as accountTypeCd,
+				    t.from_plaza,
+				    t.to_plaza,
+				    t.account_status,
+				    t.device_status,
+				    t.financial_status,
+				    t.iag_coded_class,
+				    decode(t.rev_plan_count, 0, 'F', 'T') is_rev_plan_count,
+				    t.is_companion_tag,
+				    t.ts_ctrl_str,
+				    t.mta_ctrl_str,
+				    t.rio_ctrl_str,
+				    t.mtag_plan_str,
+				    t.prevalidation_flag,
+				    CAST(t.itag_tag_status AS CHAR) itag_tag_status,
+				    t.itag_info,
+				    t.ftag_plan_info,
+				    CAST(t.ftag_tag_status AS CHAR) ftag_tag_status,
+				    CAST(t.nysta_tag_status AS CHAR)nysta_tag_status,
+				    CAST(t.nysba_tag_status AS CHAR) nysba_tag_status,
+				    CAST(t.mta_tag_status AS CHAR) mta_tag_status, 
+				    CAST(nvl(TRIM(t.thwy_acct), ' ') AS CHAR(9)) thwy_acct,
+				    CAST(t.pa_tag_status AS CHAR) pa_tag_status,
+				    nvl(TRIM(t.TAG_CLASS), '****') tagClass,
+				    nvl(TRIM(t.TAG_TYPE), '*') tagType,
+				    nvl(TRIM(t.TAG_PROTOCOL), '***') tagProtocol,
+				    nvl(TRIM(t.TAG_MOUNT), '*') tagMount,
+				    nvl(TRIM(t.ACCOUNT_NO), '*') accountNo
+				FROM
+				    tpms.t_tag_status_allsorted    t,
+				    crm.v_device                  vd,
+				    crm.v_device_model             vm
+				WHERE
+				        t.device_no = :device_no
+				    AND vm.device_type_id (+) = vd.device_type_id
+				    AND 'F' = 'F'
+	   		            AND vd.device_status IN (
+				        SELECT
+				            code_id
+				        FROM
+				            master.t_codes
+				        WHERE
+				                code_type = 'DEVICE_STATUS'
+				            AND code_value IN (
+				                'DAMAGED',
+				                'DAMAGEDNOFEE',
+				                'DELETED',
+				                'DISASTER',
+				                'EXPIRED',
+				                'FOUND',
+				                'INTRANSIT',
+				                'INVENTORY',
+				                'LOST',
+				                'LOSTINMAIL',
+				                'RETAINED',
+				                'RETURNDEF',
+				                'RETURNED',
+				                'REVOKED',
+				                'SHIPVEND',
+				                'SOLD',
+				                'STOLEN',
+				                'SWAPNORETURN',
+				                'TESTED',
+				                'LOSTTRANSIT',
+				                'ACTIVE'
+				            )
+				    ) 
+				    AND vd.device_status != 20"></entry>
+<!-- upper(TRIM(vm.model_desc)) model_desc, -->
+
+				<entry key="SELECT_HOME_DEVICE_PREFIX"
+					value="SELECT lpad(device_prefix, 4, '0') device_prefix
+					FROM   CRM.t_agency
+					WHERE  is_home_agency IN ( 'T', 'Y' )
+					ORDER  BY device_prefix"></entry>
+					
+ 				<entry key="LOAD_DEVICE_NO_FROM_T_INCR_TAG_STATUS_ALLSORTED"
+					value="Select DISTINCT device_no from TPMS.T_INCR_TAG_STATUS_ALLSORTED"></entry> 
+
+				<entry key="SELECT_T_CODE"
+					value="select code_type codeType, code_id codeId, code_value codeValue from MASTER.t_codes"></entry>
+				
+				<entry key="SELECT_LAST_DOWNLOAD_TS"
+					value="select to_char((NVL(max(update_ts),SYSDATE)), 'YYYYMMDDHH24MISS') from master.t_xfer_control where date_created &gt; sysdate - 1 and file_type = 'ITAG' and rownum &lt;2"></entry>
+
+				<entry key="SELECT_LAST_DOWNLOAD_TS_NEW"
+					value="SELECT SUBSTR(XFER_FILE_NAME, 6, 14) 
+							FROM master.t_xfer_control 
+							where date_created &gt; sysdate - 1 
+							and file_type = 'ITAG' 
+							and rownum &lt; 2"></entry>
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

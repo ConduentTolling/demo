@@ -1,0 +1,523 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+				<entry key="SELECT_LAST_EVAL_DATE"
+					value="SELECT   to_char(last_rundate,'dd-MM-yyyy' ) FROM fpms.t_stmt_run_date WHERE stmt_run_id =:STMTRUNID " />
+			
+				<entry key="SELECT_INFO_FROM_T_LANE_TX_RECON_POLICY"
+					value="SELECT * FROM T_LANE_TX_RECON_POLICY" />
+
+				<entry key="GET_FILE_INFO_CONFIGURATION"
+					value="SELECT SOURCE_DIRECTORY srcDir,
+							PROCESSED_DIRECTORY procDir,
+							UNPROCSSED_DIRECTORY unProcDir,
+							ACK_DIRECTORY ackDir,
+							WORKING_DIRECTORY  workingDir 
+					FROM  
+							T_FIELD_MAPPING 
+					WHERE 
+							FILE_TYPE=:FILE_TYPE 
+					AND 
+							AGENCY_ID =:AGENCY_ID
+					AND 
+							FILE_FORMAT =:FILE_FORMAT" />
+
+				<entry key="GET_T_CODES"
+					value="SELECT * FROM MASTER.T_CODES WHERE CODE_TYPE IN ('TX_STATUS','ACCOUNT_TYPE','ACCT_FIN_STATUS')"></entry>
+
+				<entry key="GET_ACCOUNT_INFO"
+					value="SELECT ACCOUNT_TYPE, UNREGISTERED,ETC_ACCOUNT_ID
+									       FROM CRM.V_ETC_ACCOUNT
+									      WHERE ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID"></entry>
+
+				<entry key="GET_RESGISTERED_STATUS"
+					value="SELECT (CASE WHEN (
+					                     TRUNC( TO_DATE(:TX_DATE,'YYYYMMDD') ) -
+					             (CASE WHEN TRUNC(NVL(FIRST_TOLL_TIMESTAMP,TO_DATE('17-NOV-1958','DD-MON-YYYY')))
+					                           = TRUNC(TO_DATE('17-NOV-1958','DD-MON-YYYY'))
+					                      THEN TRUNC(TO_DATE(:TX_DATE,'YYYYMMDD'))
+					                      ELSE TRUNC(FIRST_TOLL_TIMESTAMP)
+					                 END) - 2 &gt; 0 ) THEN 'Y' ELSE 'N' END)
+					        FROM FPMS.T_FPMS_ACCOUNT
+					        WHERE ETC_ACCOUNT_ID = :IN_ETCACCT_ID"></entry>
+
+				<entry key="GET_V_POLICY"
+					value="SELECT * FROM CRM.V_PLAN_POLICY"></entry>
+				<entry key="GET_V_VEHICLE"
+					value="SELECT * FROM MASTER.T_Vehicle_Class"></entry>
+				<entry key="GET_V_RECON_POLICY"
+					value="SELECT * FROM T_LANE_TX_RECON_POLICY"></entry>
+				<entry key="GET_LANE_ID_EXT_LANE_INFO"
+					value="SELECT L.LANE_ID ,L.EXTERN_LANE_ID,P.EXTERN_PLAZA_ID,P.AGENCY_ID,P.PLAZA_ID,
+										P.DEFAULT_PLAN_ID,P.REVENUE_TIME,NVL(P.PLAZA_TYPE_IND,' ') AS PLAZA_TYPE_IND,NVL(P.END_PLAZA_IND,' ') AS END_PLAZA_IND
+										,P.SECTION_ID FROM MASTER.T_LANE L, MASTER.T_PLAZA P WHERE L.PLAZA_ID = P.PLAZA_ID ORDER BY L.LANE_ID ASC"></entry>
+
+
+				<entry key="GET_ATP_FILE_ID"
+					value="select seq_atp_file_id.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_FIELD_VALIDATION_DETAILS"
+					value="SELECT FIELD_TYPE, 
+							FIELD_NAME,
+							START_POSITION,
+							END_POSITION,
+							VALIDATION_TYPE,
+							VALIDATION_VALUE,
+							FIELD_INDEX_POSITION,
+							IS_POJO_VALUE 
+					FROM 
+							T_FIELD_MAPPING_DETAIL 
+							T_FIELD_MAPPING_DETAIL  
+					INNER JOIN 
+							T_FIELD_MAPPING 
+							T_FIELD_MAPPING 
+					ON  
+							T_FIELD_MAPPING_DETAIL.FIELD_MAPPING_PK_ID=T_FIELD_MAPPING.ID 
+					WHERE  
+							AGENCY_ID =:AGENCY_ID 
+					AND 
+							FILE_TYPE='ICTX'
+					ORDER BY 
+							FIELD_INDEX_POSITION"></entry>
+
+				<entry key="GET_FIELD_VALIDATION_DETAILS_ITXC"
+					value="SELECT FIELD_TYPE, 
+							FIELD_NAME,
+							START_POSITION,
+							END_POSITION,
+							VALIDATION_TYPE,
+							VALIDATION_VALUE,
+							FIELD_INDEX_POSITION,
+							IS_POJO_VALUE 
+					FROM 
+							T_FIELD_MAPPING_DETAIL 
+							T_FIELD_MAPPING_DETAIL  
+					INNER JOIN 
+							T_FIELD_MAPPING 
+							T_FIELD_MAPPING 
+					ON  
+							T_FIELD_MAPPING_DETAIL.FIELD_MAPPING_PK_ID=T_FIELD_MAPPING.ID 
+					WHERE  
+							AGENCY_ID =:AGENCY_ID 
+					AND 
+							FILE_TYPE='ITXC'
+					ORDER BY 
+							FIELD_INDEX_POSITION"></entry>
+
+				<entry key="INSERT_INTO_FILE_CHECKPOINT"
+					value="INSERT INTO T_LANE_TX_CHECKPOINT 
+							(
+							FILE_NAME,
+							FILE_TYPE,
+							PROCESS_NAME,
+							PROCESS_ID,
+							PROCESS_STATUS,
+							TX_DATE,
+							LANE_TX_ID,
+							SERIAL_NUMBER,
+							FILE_COUNT,
+							PROCESSED_COUNT,
+							SUCCESS_COUNT,
+							EXCEPTION_COUNT,
+							UPDATE_TS
+				) 
+				VALUES
+							(:FILE_NAME,
+							:FILE_TYPE,
+							:PROCESS_NAME,
+							:PROCESS_ID,
+							:PROCESS_STATUS,
+							:TX_DATE,
+							:LANE_TX_ID,
+							:SERIAL_NUMBER,
+							:FILE_COUNT,
+							:PROCESSED_COUNT,
+							:SUCCESS_COUNT,
+							:EXCEPTION_COUNT,
+							:UPDATE_TS)"></entry>
+
+				<entry key="CHECK_FILE_DOWNLOADED"
+					value="SELECT XFER_CONTROL_ID, XFER_FILE_ID, XFER_FILE_NAME, DATE_CREATED, 
+					TIME_CREATED, FILE_SIZE, FILE_CHECKSUM, NUM_RECS, HASH_TOTAL, XFER_PATH,
+					 XFER_XMIT_STATUS, XFER_RETRY, UPDATE_TS, FILE_TYPE
+					FROM 
+							MASTER.T_XFER_CONTROL 
+					WHERE 
+							XFER_FILE_NAME=:XFER_FILE_NAME 
+					AND 
+							XFER_XMIT_STATUS=:XFER_XMIT_STATUS"></entry>
+
+
+				<entry key="INSERT_INTO_T_QATP_STATSTICS"
+					value="INSERT INTO T_QATP_STATSTICS 
+						(FILE_TYPE,
+						FILE_NAME,
+						INSERT_DATE,
+						INSERT_TIME,
+						RECORD_COUNT,
+						AMOUNT,
+						IS_PROCESSED,
+						PROCESS_DATE,
+						PROCESS_TIME,
+						PROCESS_REC_COUNT,
+						UPDATE_TS) 
+				VALUES(	:FILE_TYPE,
+						:FILE_NAME,
+						:INSERT_DATE,
+						:INSERT_TIME,
+						:RECORD_COUNT,
+						:AMOUNT,
+						:IS_PROCESSED,
+						:PROCESS_DATE,
+						:PROCESS_TIME,
+						:PROCESS_REC_COUNT,
+						:UPDATE_TS
+				)"></entry>
+
+				<entry key="UPDATE_ADDRESS_ID_IN_T_QATP_STATSTICS"
+					value="update INVALID_ADDRESS_ID
+					SET
+						INVALID_ADDRESS_ID:=INVALID_ADDRESS_ID"></entry>
+
+				<entry key="UPDATE_FILE_STATUS_INTO_CHECKPOINT"
+					value="Update T_LANE_TX_CHECKPOINT 
+					SET 
+						PROCESS_STATUS = :PROCESS_STATUS, 
+						FILE_COUNT=:FILE_COUNT,
+						UPDATE_TS=:UPDATE_TS,
+						PROCESSED_COUNT=:PROCESSED_COUNT,
+						SUCCESS_COUNT=:SUCCESS_COUNT,
+						EXCEPTION_COUNT=:EXCEPTION_COUNT,
+						LANE_TX_ID=:LANE_TX_ID
+					WHERE 
+						FILE_NAME =:FILE_NAME 
+					AND 
+						FILE_TYPE =:FILE_TYPE"></entry>
+
+
+				<entry key="SELECT_INFO_FROM_T_AGENCY"
+					value="SELECT AGENCY_ID,
+					  AGENCY_NAME,
+					  AGENCY_SHORT_NAME,
+					  CONSORTIUM,
+					  DEVICE_PREFIX,
+					  IS_HOME_AGENCY,
+					  PARENT_AGENCY_ID,
+					  FILE_PREFIX
+					  FROM 
+					  CRM.T_AGENCY
+					  WHERE AGENCY_ID IN (SELECT PARENT_AGENCY_ID FROM CRM.T_AGENCY)
+					  AND IS_HOME_AGENCY = 'N'
+					  AND CONSORTIUM = 'IAG'
+					  AND DEVICE_PREFIX &lt;'100'
+					 ORDER BY AGENCY_ID"></entry>
+
+				<entry key="SELECT_HOME_AGENCY_LIST"
+					value="SELECT AGENCY_ID,
+					  AGENCY_NAME,
+					  AGENCY_SHORT_NAME,
+					  DEVICE_PREFIX,
+					  IS_HOME_AGENCY,
+					  FILE_PREFIX,
+					  PARENT_AGENCY_ID
+					  from CRM.t_agency where is_home_agency ='Y'"></entry>
+
+
+
+				<entry key="INSERT_FILE_ACK_INTO_ACK_TABLE"
+					value="INSERT INTO T_IA_ACK_STATUS 
+					(
+						ACK_FILE_NAME,
+						ACK_FILE_DATE,
+						ACK_FILE_TIME,
+						ACK_FILE_STATUS,
+						TRX_FILE_NAME,
+						RECON_FILE_NAME,
+						FILE_TYPE,
+						FROM_AGENCY,
+						TO_AGENCY,
+						EXTERN_FILE_ID,
+						ATP_FILE_ID)
+				VALUES 
+					(	
+						:ACK_FILE_NAME,
+						:ACK_FILE_DATE,
+						:ACK_FILE_TIME,
+						:ACK_FILE_STATUS,
+						:TRX_FILE_NAME,
+						:RECON_FILE_NAME,
+						:FILE_TYPE,
+						:FROM_AGENCY,
+						:TO_AGENCY,
+						:EXTERN_FILE_ID,
+						:ATP_FILE_ID)"></entry>
+
+				<entry key="ETC_ACCOUNT_2"
+					value="SELECT NVL(ETC_ACCOUNT_ID,0) ETC_ACCOUNT_ID,IS_PREVALIDATED, DEVICE_STATUS
+              FROM ( SELECT ETC_ACCOUNT_ID, IS_PREVALIDATED, DEVICE_STATUS
+                       FROM CRM.V_H_DEVICE
+                      WHERE DEVICE_NO = :DEVICE_NO
+                        AND STATUS_TIMESTAMP &lt;= :TX_TIMESTAMP
+                      ORDER BY STATUS_TIMESTAMP DESC
+                    ) WHERE ROWNUM &lt; 2"></entry>
+
+				<!-- <entry key = "ETC_ACCOUNT_1" value="SELECT NVL(ETC_ACCOUNT_ID,0) 
+					ETC_ACCOUNT_ID,IS_PREVALIDATED, DEVICE_STATUS FROM ( SELECT ETC_ACCOUNT_ID, 
+					IS_PREVALIDATED, DEVICE_STATUS FROM CRM.V_DEVICE A, MASTER.T_CODES B WHERE 
+					DEVICE_NO = :DEVICE_NO AND STATUS_TIMESTAMP &lt;= TO_TIMESTAMP(:TX_TIMESTAMP,'YYYYMMDDHH24MISS') 
+					AND B.CODE_TYPE = 'DEVICE_STATUS' AND B.CODE_ID = A.DEVICE_STATUS AND B.CODE_VALUE 
+					= 'ACTIVE' ORDER BY STATUS_TIMESTAMP DESC ) WHERE ROWNUM &lt; 2"></entry> -->
+
+				<entry key="ETC_ACCOUNT_1"
+					value="SELECT NVL(ETC_ACCOUNT_ID,0) ETC_ACCOUNT_ID,IS_PREVALIDATED, DEVICE_STATUS
+					      FROM
+					          ( SELECT ETC_ACCOUNT_ID, IS_PREVALIDATED, DEVICE_STATUS
+					              FROM CRM.V_DEVICE A, MASTER.T_CODES B
+					             WHERE DEVICE_NO = :DEVICE_NO
+					               AND STATUS_TIMESTAMP &lt;= :TX_TIMESTAMP
+					               AND B.CODE_TYPE = 'DEVICE_STATUS'
+					               AND B.CODE_ID = A.DEVICE_STATUS
+					               AND B.CODE_VALUE = 'ACTIVE'
+					             ORDER BY STATUS_TIMESTAMP DESC
+					           ) WHERE ROWNUM &lt; 2"></entry>
+
+				<entry key="ETC_ACCOUNT_3"
+					value="SELECT IAG_TAG_STATUS, ETC_ACCOUNT_ID, DEVICE_STATUS
+              FROM TPMS.T_HA_DEVICES A, CRM.V_DEVICE B
+             WHERE A.DEVICE_NO = B.DEVICE_NO
+               AND A.DEVICE_NO = SUBSTR(:DEVICE_NO,1,11)
+               AND TO_DATE(:TX_DATE,'YYYYMMDD') BETWEEN START_DATE AND END_DATE
+               AND ROWNUM &lt; 2"></entry>
+
+
+				<entry key="INSERT_ADDRESS_ID_INTO_ADDRESS"
+					value="INSERT INTO T_OA_ADDRESS
+						(
+							INVALID_ADDRESS_ID   
+						)
+						VALUES
+						(
+							INAVLID_ADDRESS_ID
+							
+						)"></entry>
+
+
+				<entry key="INSERT_T_TRAN_DETAIL"
+					value="INSERT INTO TPMS.T_TRAN_DETAIL (LANE_TX_ID, TX_EXTERN_REF_NO, TX_TYPE, TX_SUB_TYPE, TOLL_SYSTEM_TYPE, 
+					TOLL_REVENUE_TYPE, ENTRY_TX_TIMESTAMP, ENTRY_PLAZA_ID, ENTRY_LANE_ID, ENTRY_TX_SEQ_NUMBER, ENTRY_DATA_SOURCE,
+					 ENTRY_VEHICLE_SPEED, PLAZA_AGENCY_ID, PLAZA_ID, LANE_ID, TX_DATE, TX_TIMESTAMP, LANE_MODE, LANE_STATE, 
+					 TRX_LANE_SERIAL, DEVICE_NO, AVC_CLASS, TAG_IAG_CLASS, TAG_CLASS, TAG_AXLES, ACTUAL_CLASS, ACTUAL_AXLES,
+					  EXTRA_AXLES, PLATE_STATE, PLATE_NUMBER, PLATE_TYPE, PLATE_COUNTRY, READ_PERF, WRITE_PERF, PROG_STAT,
+					   COLLECTOR_NUMBER, IMAGE_CAPTURED, VEHICLE_SPEED, SPEED_VIOLATION, RECIPROCITY_TRX, IS_VIOLATION, 
+					   IS_LPR_ENABLED, FULL_FARE_AMOUNT, DISCOUNTED_AMOUNT, UNREALIZED_AMOUNT, EXT_FILE_ID, RECEIVED_DATE,
+					    ACCOUNT_TYPE, ACCT_AGENCY_ID,ETC_ACCOUNT_ID, ETC_SUBACCOUNT, DST_FLAG, IS_PEAK,FARE_TYPE,UPDATE_TS,LANE_DATA_SOURCE, 
+					LANE_TYPE,LANE_HEALTH,AVC_AXLES,TOUR_SEGMENT_ID,BUF_READ,READER_ID,TOLL_AMOUNT,DEBIT_CREDIT,ETC_VALID_STATUS,
+					DISCOUNTED_AMOUNT_2,VIDEO_FARE_AMOUNT,PLAN_TYPE,RESERVED,ATP_FILE_ID,EXPECTED_REVENUE_AMOUNT,
+					CASH_FARE_AMOUNT,POSTED_FARE_AMOUNT,ETC_FARE_AMOUNT,TRANSACTION_INFO,PLAN_CHARGED,TX_STATUS
+				,POSTED_DATE,DEPOSIT_ID 
+					 ) values
+                           (:LANE_TX_ID, :TX_EXTERN_REF_NO, :TX_TYPE, :TX_SUB_TYPE, :TOLL_SYSTEM_TYPE, :TOLL_REVENUE_TYPE,
+                            :ENTRY_TX_TIMESTAMP, :ENTRY_PLAZA_ID, :ENTRY_LANE_ID, :ENTRY_TX_SEQ_NUMBER, :ENTRY_DATA_SOURCE, 
+                            :ENTRY_VEHICLE_SPEED, :PLAZA_AGENCY_ID, :PLAZA_ID, :LANE_ID, NVL(:TX_DATE,
+                            TO_DATE('1857-01-01','YYYY-MM-DD')), :TX_TIMESTAMP, :LANE_MODE, :LANE_STATE, :TRX_LANE_SERIAL,
+                             :DEVICE_NO, :AVC_CLASS, :TAG_IAG_CLASS, :TAG_CLASS, :TAG_AXLES, :ACTUAL_CLASS, :ACTUAL_AXLES,
+                              :EXTRA_AXLES, :PLATE_STATE, :PLATE_NUMBER, :PLATE_TYPE, :PLATE_COUNTRY, :READ_PERF, :WRITE_PERF,
+                               :PROG_STAT, :COLLECTOR_NUMBER, :IMAGE_CAPTURED, :VEHICLE_SPEED, :SPEED_VIOLATION, :RECIPROCITY_TRX,
+                                :IS_VIOLATION, :IS_LPR_ENABLED, :FULL_FARE_AMOUNT, :DISCOUNTED_AMOUNT, :UNREALIZED_AMOUNT, :EXT_FILE_ID,
+                                 :RECEIVED_DATE, :ACCOUNT_TYPE, :ACCT_AGENCY_ID,:ETC_ACCOUNT_ID,:ETC_SUBACCOUNT,:DST_FLAG,:IS_PEAK,
+                                 :FARE_TYPE,:UPDATE_TS,:LANE_DATA_SOURCE,:LANE_TYPE,:LANE_HEALTH,:AVC_AXLES,:TOUR_SEGMENT_ID,:BUF_READ,
+                                 :READER_ID,:TOLL_AMOUNT,:DEBIT_CREDIT,:ETC_VALID_STATUS,:DISCOUNTED_AMOUNT_2,:VIDEO_FARE_AMOUNT,
+                                 :PLAN_TYPE,:RESERVED,:ATP_FILE_ID,:EXPECTED_REVENUE_AMOUNT,
+                                 :CASH_FARE_AMOUNT,:POSTED_FARE_AMOUNT,:ETC_FARE_AMOUNT,:TRANSACTION_INFO,
+                                :PLAN_CHARGED,:TX_STATUS
+                          	, :POSTED_DATE,:DEPOSIT_ID
+                                )"></entry>
+
+
+				<entry key="INSERT_INTO_T_QATP_STATISTICS"
+					value="INSERT INTO TPMS.T_QATP_STATISTICS (
+						    ATP_FILE_ID,
+						    FILE_TYPE,
+						    FILE_NAME,
+						    INSERT_DATE,
+						    INSERT_TIME,
+						    RECORD_COUNT,
+						    AMOUNT,
+						    IS_PROCESSED,
+						    PROCESS_DATE,
+						    PROCESS_TIME,
+						    PROCESS_REC_COUNT,
+						    UPDATE_TS,
+						    XFER_CONTROL_ID
+						) VALUES (
+						    :ATP_FILE_ID,
+						    :FILE_TYPE,
+						    :FILE_NAME,
+						    :INSERT_DATE,
+						    :INSERT_TIME,
+						    :RECORD_COUNT,
+						    :AMOUNT,
+						    :IS_PROCESSED,
+						    :PROCESS_DATE,
+						    :PROCESS_TIME,
+						    :PROCESS_REC_COUNT,
+						    :UPDATE_TS,
+						    :XFER_CONTROL_ID
+						)"></entry>
+
+
+				<entry key="GEN_SEQ_ATP_FILE_ID"
+					value="SELECT SEQ_ATP_FILE_ID.NEXTVAL AS NEXTSEQ FROM DUAL"></entry>
+
+				<entry key="GET_T_QATP_STATISTICS"
+					value="SELECT *  FROM TPMS.T_QATP_STATISTICS WHERE FILE_NAME=:FILE_NAME"></entry>
+
+
+				<entry key="UPDATE_STATUS_INTO_T_QATP_STATISTICS"
+					value="UPDATE TPMS.T_QATP_STATISTICS
+						SET
+						    RECORD_COUNT = :RECORD_COUNT,
+						    IS_PROCESSED = :IS_PROCESSED,
+						    PROCESS_REC_COUNT = :PROCESS_REC_COUNT,
+						    AMOUNT = :AMOUNT,
+						    UPDATE_TS = :UPDATE_TS
+						WHERE
+						    ATP_FILE_ID = :ATP_FILE_ID
+						    AND FILE_TYPE = :FILE_TYPE
+						    AND FILE_NAME = :FILE_NAME"></entry>
+
+
+				<entry key="INSERT_IAG_FILE_STATS"
+					value="INSERT INTO TPMS.T_IA_FILE_STATS (
+							XFER_CONTROL_ID,
+						    ICTX_FILE_NAME,
+						    PROCESSED_FLAG,
+						    INPUT_COUNT,
+						    FROM_AGENCY,
+						    TO_AGENCY,
+						    FILE_DATE,
+							UPDATE_TS,
+						    FILE_TYPE
+						) VALUES (
+							:XFER_CONTROL_ID,
+						    :ICTX_FILE_NAME,
+						    :PROCESSED_FLAG,
+						    :INPUT_COUNT,
+						    :FROM_AGENCY,
+						    :TO_AGENCY,
+						    :FILE_DATE,
+							:UPDATE_TS,
+						    :FILE_TYPE
+						)"></entry>
+
+<entry key="GET_ACCOUNT_INFO"
+					value="SELECT T.ETC_ACCOUNT_ID,  T.FIRST_TOLL_TIMESTAMP,
+                                 Tx.EVAL_START_DATE AS EVAL_START_DATE,
+                                   Tx.EVAL_END_DATE AS EVAL_END_DATE,
+                                   T.OPEN_DATE,T.LAST_TOLL_TX_TIMESTAMP,
+                    			 NVL(T.REBILL_AMOUNT,0) as REBILL_AMOUNT,
+                                   A.AGENCY_ID,T.ACCOUNT_TYPE,
+                                   A.ACCOUNT_NO,
+                                   A.PRIMARY_REBILL_PAY_TYPE_CD as payType,
+                                   A.LANG_ID                         
+                  FROM FPMS.T_FPMS_ACCOUNT T, CRM.v_etc_account A,FPMS.T_FPMS_ACCOUNT_EXT Tx 
+                WHERE T.ETC_ACCOUNT_ID = A.ETC_ACCOUNT_ID and
+                tx.ETC_ACCOUNT_ID=T.ETC_ACCOUNT_ID and
+                tx.ETC_ACCOUNT_ID=A.ETC_ACCOUNT_ID
+                     AND ((A.anniversary_dom =:ANNIVERSAY_DOM ) 
+                    and tx.EVAL_START_DATE is not null and (tx.EVAL_END_DATE + 90 &lt; trunc(sysdate)))
+                  AND A.acct_act_status =:ACCT_ACT_STATUS 
+                  AND A.ACCOUNT_TYPE in (1,2,3,5,7,9,13,11)  
+                  AND NVL(A.PRIMARY_REBILL_PAY_TYPE, 1) NOT IN (15,16 )
+                  --AND A.AGENCY_ID in (1,2,3)  
+                  AND NVL (A.UNREGISTERED, 'N') = 'N'
+                UNION ALL
+                SELECT T.ETC_ACCOUNT_ID,
+                                   T.FIRST_TOLL_TIMESTAMP,
+                                   Tx.EVAL_START_DATE AS EVAL_START_DATE,
+                                   Tx.EVAL_END_DATE AS EVAL_END_DATE,
+                                   T.OPEN_DATE,
+                                   T.LAST_TOLL_TX_TIMESTAMP,
+                                   NVL(T.REBILL_AMOUNT,0) as REBILL_AMOUNT,
+                                   A.AGENCY_ID,
+                                   T.ACCOUNT_TYPE,
+                                   A.ACCOUNT_NO,
+                                   A.PRIMARY_REBILL_PAY_TYPE_CD as payType,
+                                   A.LANG_ID
+                  FROM FPMS.T_FPMS_ACCOUNT T, CRM.v_etc_account A,FPMS.T_FPMS_ACCOUNT_EXT Tx       
+                WHERE EVAL_END_DATE IS NULL
+                                   AND T.ETC_ACCOUNT_ID = A.ETC_ACCOUNT_ID
+                                   and  tx.ETC_ACCOUNT_ID=T.ETC_ACCOUNT_ID 
+                                   and tx.ETC_ACCOUNT_ID=A.ETC_ACCOUNT_ID
+                                   AND A.acct_act_status =:ACCT_ACT_STATUS
+                                   AND A.ACCOUNT_TYPE in (1,2,3,5,7,9,13,11)   
+                                   AND NVL(A.PRIMARY_REBILL_PAY_TYPE, 1) NOT IN (15,16 ) 
+                                    --AND A.AGENCY_ID in (1,2,3)
+                                    AND A.anniversary_dom =:ANNIVERSAY_DOM
+                                   AND NVL (A.UNREGISTERED, 'N') = 'N'"></entry>
+
+<entry key="GET_SUM_POSTFAREAMOUNT"
+					value="SELECT sum(nvl(POSTED_FARE_AMOUNT,0.00))
+						FROM FPMS.T_ACCOUNT_TOLL
+    					 WHERE etc_account_id =:ETC_ACCOUNT_ID
+    					 AND posted_date between  :POSTED_START_DATE AND :POSTED_END_DATE 
+        					--AND tx_timestamp between  cast(:POSTED_START_DATE AS timestamp) AND  cast(:POSTED_END_DATE AS timestamp)
+     					AND tx_status &lt;=:STATUS
+     					AND plan_type_id not in (13,176,175,265,266) 
+    					 AND tx_type_ind &lt;&gt; 'C'"></entry>
+					
+<entry key="UPDATE_EVAL_START_DATE"
+				value="UPDATE FPMS.T_FPMS_ACCOUNT_EXT 
+				SET EVAL_START_DATE=sysdate +1 ,EVAL_END_DATE=sysdate +90 WHERE ETC_ACCOUNT_ID=:ETC_ACCOUNT_ID"></entry>
+<entry key="UPDATE_REBILL_AMOUNT"
+				value="UPDATE FPMS.T_FPMS_ACCOUNT SET REBILL_AMOUNT=:REBILL_AMOUNT WHERE ETC_ACCOUNT_ID=:ETC_ACCOUNT_ID "></entry>
+<entry key="UPDATE_STMT_RUN_DATE"
+			value=" UPDATE FPMS.T_STMT_RUN_DATE SET LAST_RUNDATE=sysdate WHERE STMT_RUN_ID=401 AND FILE_TYPE='QVAL' "></entry>				
+								
+<entry key="GET_QVAL_POLICY_DATA"
+			value="SELECT * FROM T_QEVAL_POLICY"></entry>
+<entry key="GET_V_ACCOUNT_PLAN_DETAIL"
+		value="SELECT * FROM CRM.V_ACCOUNT_PLAN_DETAIL"></entry>
+
+<entry key="GET_T_PRICING_INFO"
+value="SELECT * FROM FPMS.T_PRICING"></entry>	
+
+<entry key="GET_ISSUE_TYPE_MAPPING"
+value= "SELECT * FROM FPMS.T_ISSUE_TYPE_MAPPING"></entry>
+
+<entry key="INSERT_INTO_T_STATEMENT_MESSAAGE"
+			value="INSERT INTO  FPMS.T_STATEMENT_MESSAGE  
+			 (STATEMENT_MESSAGE_TYPE,APPLICABEL_DATE,EXPIRY_DATE,PARAM_VALUE,UPDATE_TS,MESSAGE,MESSAGE1)
+			VALUES(1,SYSDATE,SYSDATE,:ETC_ACCOUNT_ID,CURRENT_TIMESTAMP,:MESSAGE1,:MESSAGE2)"></entry>
+			
+			
+<entry key="INSERT_INTO_STATISTICS"
+value=" INSERT INTO FPMS.T_QEVAL_STATISTICS (STMT_RUN_ID,STMT_RUN_DATE,TOTAL_REC_PROCESSED,REBILL_UP_COUNT,REBILL_DOWN_COUNT,SKIP_REC_CNT)
+  VALUES (:STMTRUNID,SYSDATE,:TOTALRECPROCESSED,:REBILLUPCOUNT,:REBILLDOWNCOUNT,:SKIPRECCOUNT)"></entry>
+				<!-- ATP_FILE_ID, FILE_SEQ_NUMBER, -->
+				<!-- ,POSTED_DATE,DEPOSIT_ID -->
+				<!-- , :POSTED_DATE,:DEPOSIT_ID -->
+				<!-- <entry key="SELECT_LAST_SUCCESSFUL_FILE_NAME" value="SELECT FILE_NAME, 
+					UPDATE_TS FROM ( SELECT * FROM T_LANE_TX_CHECKPOINT WHERE FILE_TYPE =: FILE_TYPE 
+					AND PROCESS_STATUS = 'C' AND FILE_NAME LIKE CONCAT(:FILE_NAME, '%') ORDER 
+					BY START_DATE DESC ) WHERE ROWNUM &lt; 2"></entry> -->
+<entry key="GET_MAIL_DATA"
+value= "   SELECT EA.etc_account_id,EA.AGENCY_ID,VA.PARENT_AGENCY_ID,EA.ACCOUNT_NO as accountNumber,SYSDATE as CURRENT_DATE,EA.ACCOUNT_TYPE,C.FIRST_NAME,
+		C.MIDDLE_INITIAL AS MIDDLE_NAME,C.LAST_NAME,AD.STREET_1 AS ADDLINE1,AD.STREET_2 AS ADDLINE2,
+		AD.CITY,AD.STATE,AD.ZIP_CODE,AD.ZIP_PLUS_4 as ZIPPLUS,AD.CITY AS COUNTRY,
+		EA.COMPANY_NAME,EA.EMAIL_ADDRESS AS EMAILID,EA.LANG_PREFERENCE as language,EA.CORR_DELIVERY_MODE as deliveryType 
+		FROM CRM.V_ETC_ACCOUNT EA,CRM.V_CUSTOMER_NAME C,CRM.V_ADDRESS AD,CRM.V_AGENCY VA 
+		WHERE EA.ETC_ACCOUNT_ID=C.ETC_ACCOUNT_ID
+		AND EA.ETC_ACCOUNT_ID =AD.ETC_ACCOUNT_ID
+		AND C.ETC_ACCOUNT_ID= AD.ETC_ACCOUNT_ID
+		AND EA.AGENCY_ID=VA.AGENCY_ID AND AD.address_type_cd=:ADDRESS_TYPE
+		and EA.ETC_ACCOUNT_ID=:ETC_ACCOUNT_ID"></entry>
+		
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

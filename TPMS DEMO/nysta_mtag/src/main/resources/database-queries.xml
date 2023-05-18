@@ -1,0 +1,311 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+
+				<entry key="GET_OUTPUT_FILE_CONFIGURATION_INFO"
+					value="SELECT 
+					ID,         
+					AGENCY_ID,        
+					FILE_DESCRIPTION,  
+					FILE_FORMAT,  
+					FILE_TYPE,  
+					PARENT_DIRECTORY, 
+					PROCESSED_DIRECTORY, 
+					PROCESS_TYPE 
+					FROM 
+					TPMS.T_OUTPUT_FIELD_MAPPING
+					WHERE 
+					    FILE_TYPE=:FILE_TYPE 
+					AND 
+						AGENCY_ID =:AGENCY_ID
+					AND 
+						FILE_FORMAT =:FILE_FORMAT" />
+
+
+
+				<entry key="GET_OUTPUT_FIELD_VALIDATION_DETAILS"
+					value="SELECT FIELD_TYPE, 
+							FIELD_NAME,
+                            FIELD_INDEX_POSITION,
+                            FIELD_LENGTH,
+                            JUSTIFICATION,
+                            PAD_CHARACTER,
+                            FORMAT,
+							DEFAULT_VALUE,
+							CHARACTER_ENCODING
+					FROM 
+							TPMS.T_OUTPUT_FIELD_MAPPING_DETAIL 
+							T_OUTPUT_FIELD_MAPPING_DETAIL  
+					INNER JOIN 
+							TPMS.T_OUTPUT_FIELD_MAPPING 
+							T_OUTPUT_FIELD_MAPPING 
+					ON  
+							T_OUTPUT_FIELD_MAPPING_DETAIL.FIELD_MAPPING_PK_ID=T_OUTPUT_FIELD_MAPPING.ID 
+					WHERE  
+							AGENCY_ID =:AGENCY_ID 
+					AND 
+							FILE_TYPE=:FILE_TYPE
+					ORDER BY 
+							FIELD_INDEX_POSITION" />
+
+
+				<entry key="LOAD_T_AGENCY"
+					value="SELECT agency_id,
+			       agency_name,
+			       Upper(agency_short_name),
+			       device_prefix,
+			       is_home_agency,
+			       To_number(parent_agency_id),
+			       scheduled_pricing_flag,
+			       clmm_adj_allowed,
+			       current_iag_version,
+			       is_iag_style_reciprocity,
+			       calculate_toll_amount,
+			       consortium,
+			       file_prefix
+			FROM   CRM.t_agency
+			ORDER  BY agency_id"></entry>
+
+				<entry key="LOAD_DEVICES_FROM_T_TAG_STATUS_ALLSORTED"
+					value="SELECT distinct
+				    lpad(TRIM(CAST(t.etc_account_id AS CHAR(8))), 12, '0') etc_account_id,
+					t.device_no,
+					CASE
+				    WHEN  LENGTH (t.device_no) &lt;= 11 THEN substr(t.device_no, 1, 3)
+				    WHEN  LENGTH (t.device_no) &gt; 11 THEN substr(t.device_no, 1, 4)
+				    END AS device_prefix,
+				    CASE
+				    WHEN  LENGTH (t.device_no) &lt;= 11 THEN substr(t.device_no, 4, 8)
+				    WHEN  LENGTH (t.device_no) &gt; 11 THEN substr(t.device_no, 5, 10)
+				    END AS serial_no,
+				    t.tag_owning_agency as tagOwningAgency,
+				    t.account_type,
+				    nvl(TRIM(t.account_type_cd), '*') as accountTypeCd,
+				    t.from_plaza,
+				    t.to_plaza,
+				    t.account_status,
+				    t.device_status,
+				    t.financial_status,
+				    t.iag_coded_class,
+				    decode(t.rev_plan_count, 0, 'F', 'T') is_rev_plan_count,
+				    t.is_companion_tag,
+				    t.ts_ctrl_str,
+				    t.mta_ctrl_str,
+				    t.rio_ctrl_str,
+				    t.mtag_plan_str,
+				    t.prevalidation_flag,
+				    CAST(t.itag_tag_status AS CHAR) itag_tag_status,
+				    t.itag_info,
+				    t.ftag_plan_info,
+				    CAST(t.ftag_tag_status AS CHAR) ftag_tag_status,
+				    CAST(t.nysta_tag_status AS CHAR)nysta_tag_status,
+				    CAST(t.nysba_tag_status AS CHAR) nysba_tag_status,
+				    CAST(t.mta_tag_status AS CHAR) mta_tag_status, 
+				    CAST(nvl(TRIM(t.thwy_acct), ' ') AS CHAR(9)) thwy_acct,
+				    upper(TRIM(vm.model_desc)) model_desc,
+				    CAST(t.pa_tag_status AS CHAR) pa_tag_status,
+				    nvl(TRIM(t.TAG_CLASS), '****') tagClass,
+				    nvl(TRIM(t.TAG_TYPE), '*') tagType,
+				    nvl(TRIM(t.TAG_PROTOCOL), '***') tagProtocol,
+				    nvl(TRIM(t.TAG_MOUNT), '*') tagMount,
+				    nvl(TRIM(t.ACCOUNT_NO), '*') accountNo,
+					nvl(TRIM(t.AGENCY_ID), '0') agencyId
+				FROM
+				    tpms.t_tag_status_allsorted    t
+                    inner join (
+                         select device_no, max(update_ts) as MaxDate
+                            from tpms.t_tag_status_allsorted
+                         group by device_no
+                    ) tm on t.device_no = tm.device_no and t.update_ts = tm.MaxDate,
+				    crm.v_device                   vd left join
+				    crm.v_device_model             vm on vm.device_type_id = vd.device_type_id
+				WHERE
+				        t.device_no = vd.device_no
+				    AND 'F' = 'F'
+	   		            AND vd.device_status IN (
+				        SELECT
+				            code_id
+				        FROM
+				            master.t_codes
+				        WHERE
+				                code_type = 'DEVICE_STATUS'
+				            AND code_value IN (
+				                'DAMAGED',
+				                'DAMAGEDNOFEE',
+				                'DELETED',
+				                'DISASTER',
+				                'EXPIRED',
+				                'FOUND',
+				                'INTRANSIT',
+				                'INVENTORY',
+				                'LOST',
+				                'LOSTINMAIL',
+				                'RETAINED',
+				                'RETURNDEF',
+				                'RETURNED',
+				                'REVOKED',
+				                'SHIPVEND',
+				                'SOLD',
+				                'STOLEN',
+				                'SWAPNORETURN',
+				                'TESTED',
+				                'LOSTTRANSIT',
+				                'ACTIVE'
+				            )
+				    ) 
+				    AND vd.device_status != 20
+				    AND t.itag_tag_status in(1,2,3)
+				    AND t.nysta_tag_status in(1,2,3)
+				    AND t.nysba_tag_status in(1,2,3)"></entry>
+
+
+				<entry key="SELECT_HOME_DEVICE_PREFIX"
+					value="SELECT device_prefix
+					FROM   CRM.t_agency
+					WHERE  is_home_agency IN ( 'T', 'Y' )
+					ORDER  BY device_prefix"></entry>
+
+
+				<entry key="SELECT_T_CODE"
+					value="select code_type codeType, code_id codeId, code_value codeValue, DISPLAY_VALUE displayValue from MASTER.t_codes"></entry>
+
+					<entry key="SELECT_AWAY_AGENCY_LIST"
+						value="SELECT AGENCY_ID,
+						  AGENCY_NAME,
+						  AGENCY_SHORT_NAME,
+						  CONSORTIUM,
+						  DEVICE_PREFIX,
+						  IS_HOME_AGENCY,
+						  PARENT_AGENCY_ID,
+						  FILE_PREFIX
+						  FROM 
+						  CRM.T_AGENCY
+						  WHERE AGENCY_ID IN (SELECT PARENT_AGENCY_ID FROM CRM.T_AGENCY)
+						  AND IS_HOME_AGENCY = 'N'
+						  AND CONSORTIUM = 'IAG'
+						 ORDER BY AGENCY_ID">
+					</entry>
+					
+					<entry key="SELECT_HOME_AGENCY"
+						value="SELECT AGENCY_ID,
+						  AGENCY_NAME,
+						  AGENCY_SHORT_NAME,
+						  CONSORTIUM,
+						  DEVICE_PREFIX,
+						  IS_HOME_AGENCY,
+						  PARENT_AGENCY_ID,
+						  FILE_PREFIX
+						  FROM 
+						  CRM.T_AGENCY
+						  WHERE AGENCY_ID IN (SELECT PARENT_AGENCY_ID FROM CRM.T_AGENCY)
+						  AND IS_HOME_AGENCY = 'Y'
+						  AND CONSORTIUM = 'IAG'
+						 ORDER BY AGENCY_ID">
+					</entry>
+
+				<entry key="INSERT_INTO_T_INTER_AGENCY_FILE_XFER_TABLE"
+					value="INSERT INTO TPMS.T_INTER_AGENCY_FILE_XFER 
+					(
+						FILE_EXTENSION,
+						FROM_DEVICE_PREFIX,
+						TO_DEVICE_PREFIX,
+						FILE_DATE,
+						FILE_TIME_STRING,
+						RECORD_COUNT,
+						XFER_TYPE,
+						PROCESS_STATUS,
+						UPDATE_TS,
+						FILE_NAME)
+				VALUES 
+					(	
+						:FILE_EXTENSION,
+						:FROM_DEVICE_PREFIX,
+						:TO_DEVICE_PREFIX,
+						:FILE_DATE,
+						:FILE_TIME_STRING,
+						:RECORD_COUNT,
+						:XFER_TYPE,
+						:PROCESS_STATUS,
+						:UPDATE_TS,
+						:FILE_NAME)"></entry>
+
+
+				<entry key="INSERT_INTO_T_TAGSTATUS_STATISTICS"
+					value="Insert into TPMS.T_TAGSTATUS_STATISTICS 
+						(
+						FILENAME,
+						FILEDATE,
+						ITAG_MERGED,
+						DEVICE_PREFIX,
+						GOOD,
+						LBAL,
+						ZERO,
+						LOST,
+						STOLEN,
+						INVENTORY,
+						TOTAL,
+						UPDATE_TS,
+						VERSION,
+						INVALID,
+						REJECTED) 
+					values (
+						:FILENAME,
+						:FILEDATE,
+						:ITAG_MERGED,
+						:DEVICE_PREFIX,
+						:GOOD,
+						:LBAL,
+						:ZERO,
+						:LOST,
+						:STOLEN,
+						:INVENTORY,
+						:TOTAL,
+						:UPDATE_TS,
+						:VERSION,
+						:INVALID,
+						:REJECTED)">
+				</entry>
+				
+				<entry key ="CHECK_IF_STATISTICS_ALREADY_EXISTS"
+						value="SELECT
+							COUNT(*)
+							FROM TPMS.T_TAGSTATUS_STATISTICS
+							WHERE
+							FILENAME = :FILENAME  AND FILEDATE = :FILEDATE AND ITAG_MERGED = :ITAG_MERGED">
+				</entry>
+
+				<entry key ="CHECK_IF_FILE_ALREADY_EXISTS"
+						value="SELECT
+							FILE_NAME
+							FROM TPMS.T_INTER_AGENCY_FILE_XFER
+							WHERE
+							FILE_NAME = :FILENAME">
+				</entry>
+				
+				<entry key ="UPDATE_TS_FOR_EXISTING_FILENAME"
+						value="UPDATE TPMS.T_INTER_AGENCY_FILE_XFER
+						SET
+						UPDATE_TS = :UPDATE_TS
+						WHERE
+						FILE_NAME = :FILENAME">
+				</entry>
+				
+				<entry key="SELECT_LAST_SUCCESSFUL_ITAG_FILE"
+					value="SELECT FILE_NAME
+					FROM (
+					SELECT T.FILE_NAME, T.FILE_DATE, MAX(T.FILE_DATE) OVER () AS LATEST
+					FROM TPMS.T_INTER_AGENCY_FILE_XFER T
+					WHERE 
+					FILE_EXTENSION =:FILE_EXTENSION
+					AND FROM_DEVICE_PREFIX =:FROM_DEVICE_PREFIX
+					) T
+					WHERE T.FILE_DATE = T.LATEST"></entry>
+
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

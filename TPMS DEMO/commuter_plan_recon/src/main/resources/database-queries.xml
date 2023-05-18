@@ -1,0 +1,256 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+
+				
+<!-- UUCT Processing -->
+
+				<entry key = "LOAD_TRIP_DETAILS_FROM_T_TRIP_HISTORY"
+
+						value = "select * from TPMS.t_trip_history where nvl(recon_flag,'F') = 'F' or NVL(recon_date,'17-Nov-1858') = '17-Nov-1858' ">
+
+				</entry>
+				
+				<entry key = "LOAD_TRIP_DETAILS_FROM_T_TRIP_HISTORY_FOR_POST"
+
+						value = "select * from TPMS.t_trip_history where (nvl(recon_flag,'F') = 'F' or NVL(recon_date,'17-Nov-1858') = '17-Nov-1858')
+                                 and ( plan_type in('400','401')) ">
+
+				</entry>
+				
+				<entry key = "LOAD_PLAN_DETAILS_FROM_T_POST_USAGE_PLAN_POLICY"
+						value = "select * from MASTER.T_POST_USAGE_PLAN_POLICY ">
+				</entry>
+				
+				<entry key = "LOAD_PLAN_DETAILS_FROM_T_POST_USAGE_PLAN_POLICY_ACCTOPLAN"
+						value = "select * from MASTER.T_POST_USAGE_PLAN_POLICY where PLAN_NAME = :PLAN_NAME">
+				</entry>
+				
+				
+				<entry key = "UPDATE_T_TRIP_HISTORY_TABLE_FOR_TRIP_LEFT_ZERO"
+						value = "UPDATE TPMS.T_TRIP_HISTORY
+							SET 
+							RECON_FLAG = :RECON_FLAG,
+							RECON_DATE = :RECON_DATE,
+							UPDATE_TS = :UPDATE_TS
+							WHERE
+							TRIPS_LEFT = :TRIPS_LEFT
+							AND
+							APD_ID =:APD_ID">
+				</entry>
+				
+				<entry key = "UPDATE_T_TRIP_HISTORY_TABLE"
+						value = "UPDATE TPMS.T_TRIP_HISTORY
+							SET 
+							RECON_FLAG = :RECON_FLAG,
+							RECON_DATE = :RECON_DATE,
+
+							UPDATE_TS = :UPDATE_TS,
+							AMOUNT_CHARGED = :AMOUNT_CHARGED,
+							TRIPS_CHARGED =:TRIPS_CHARGED
+							WHERE
+							TRIP_START_DATE = :TRIP_START_DATE
+							AND 
+							APD_ID =:APD_ID">
+				</entry>
+
+
+                 <entry key = "UPDATE_T_TRIP_HISTORY_TABLE_ACCTSUSPEND"
+						value = "UPDATE TPMS.T_TRIP_HISTORY
+							SET 
+							RECON_FLAG = :RECON_FLAG,
+							RECON_DATE = :RECON_DATE,
+
+							UPDATE_TS = :UPDATE_TS
+							WHERE
+							APD_ID =:APD_ID
+							AND
+							TRIP_START_DATE = :TRIP_START_DATE">
+				</entry>
+
+
+
+
+				<entry key = "GET_PLAN_TYPE_FROM_V_ACCOUNT_PLAN_DETAIL_TABLE"
+						value = "SELECT PLAN_TYPE FROM CRM.V_ACCOUNT_PLAN_DETAIL
+							WHERE
+							ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID">
+				</entry>
+				
+				<entry key = "GET_PLAN_NAME_FROM_V_PLAN_POLICY_TABLE"
+						value = "SELECT PLAN_NAME FROM CRM.V_PLAN_POLICY
+							WHERE
+							PLAN_TYPE = :PLAN_TYPE">
+				</entry>
+				
+				
+				
+				<entry key = "GET_ACCOUNT_TYPE_FROM_V_ETC_ACCOUNT_TABLE"
+						value = "SELECT ACCOUNT_TYPE_CD FROM CRM.V_ETC_ACCOUNT
+							WHERE
+							ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID">
+				</entry>
+				
+				<entry key = "GET_AGENCY_ID_FROM_V_ETC_ACCOUNT_TABLE"
+						value = "SELECT AGENCY_ID FROM CRM.V_ETC_ACCOUNT
+							WHERE
+							ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID">
+				</entry>
+
+				
+				<entry key = "GET_ACCOUNT_SUSPENDED_FROM_V_ETC_ACCOUNT_TABLE"
+						value = "SELECT ACCOUNT_SUSPENDED FROM CRM.V_ETC_ACCOUNT
+							WHERE
+							ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID">
+				</entry>
+				
+				<entry key = "GET_ACCOUNT_STATUS_CD_FROM_V_ETC_ACCOUNT_TABLE"
+						value = "SELECT ACCOUNT_STATUS_CD FROM CRM.V_ETC_ACCOUNT
+							WHERE
+							ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID">
+				</entry>
+
+
+
+				
+				<entry key = "GET_USER_INFO_FROM_T_BATCH_USER_TABLE"
+						value = "SELECT * FROM MASTER.T_BATCH_USER
+							WHERE
+							USER_ID = :USER_ID">
+				</entry>
+
+				<entry key = "GET_MAP_AGENCY_ID_FROM_V_PLAN_POLICY_TABLE"
+						value = "SELECT MAP_AGENCY_ID FROM CRM.V_PLAN_POLICY
+							WHERE
+							PLAN_NAME = :PLAN_NAME">
+				</entry>
+
+				
+				<entry key = "GET_PLAN_RENEEW_FROM_V_PLAN_POLICY_TABLE"
+						value = "SELECT AUTOMATIC_REACTIVATION FROM CRM.V_PLAN_POLICY
+							WHERE
+							PLAN_TYPE = :PLAN_TYPE">
+				</entry>
+				
+				
+				
+				<entry key = "GET_NUMDAYS_PROCESSPARAM"
+						value = "SELECT PARAM_VALUE from MASTER.T_PROCESS_PARAMETERS where PARAM_GROUP = :PARAM_GROUP">
+				</entry>
+				
+				<entry  key ="GET_PLAN_DAYS"
+				        value="SELECT PLAN_DAYS FROM CRM.V_PLAN_POLICY WHERE PLAN_TYPE = :PLAN_TYPE">
+				
+				
+				</entry>
+
+                   <entry  key ="GET_MINTRIP"
+				        value="SELECT MIN_TRIPS FROM CRM.V_PLAN_POLICY WHERE PLAN_TYPE = :PLAN_TYPE">
+					
+				</entry>
+
+				<entry key = "CHECK_IF_RECORD_EXISTS_IN_T_PAYMENT_TABLE"
+						value = "SELECT * FROM FPMS.T_PAYMENT
+							WHERE
+							ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID">
+				</entry>
+
+				
+				<entry key = "CHECK_RECORD_EXISTS_FOR_NEXTPERIOD"
+						value = "SELECT * FROM TPMS.t_trip_history 
+						   where ETC_ACCOUNT_ID=:ETC_ACCOUNT_ID
+						   and extract(month from TRIP_START_DATE)=:month 
+							">
+				</entry>
+				
+				<entry key = "INSERT_T_TRIP_HISTORY"
+						value = "INSERT INTO TPMS.T_TRIP_HISTORY (
+						APD_ID,
+						TRIP_START_DATE,
+						TRIP_END_DATE,
+						RECON_DATE,
+						TRIPS_MADE,
+						TRIPS_CHARGED,
+						LATE_TRIPS,
+						AMOUNT_CHARGED,
+						RECON_FLAG,
+						TRIPS_LEFT,
+						UPDATE_TS,
+						LAST_TX_DATE,
+						USAGE_AMOUNT,
+						FULL_FARE_AMOUNT,
+						DISCOUNTED_AMOUNT,
+						ETC_ACCOUNT_ID,
+						PLAN_TYPE,
+						LAST_LANE_TX_ID,
+						LAST_TX_POST_TIMESTAMP,
+						COMPOSITE_TRANSACTION_ID,
+						CSC_LOOKUP_KEY) 
+						
+						values  (
+						:APD_ID,
+						:TRIP_START_DATE,
+						:TRIP_END_DATE,
+						:RECON_DATE,
+						:TRIPS_MADE,
+						:TRIPS_CHARGED,
+						:LATE_TRIPS,
+						:AMOUNT_CHARGED,
+						:RECON_FLAG,
+						:TRIPS_LEFT,
+						:UPDATE_TS,
+						:LAST_TX_DATE,
+						:USAGE_AMOUNT,
+						:FULL_FARE_AMOUNT,
+						:DISCOUNTED_AMOUNT,
+						:ETC_ACCOUNT_ID,
+						:PLAN_TYPE,
+						:LAST_LANE_TX_ID,
+						:LAST_TX_POST_TIMESTAMP,
+						:COMPOSITE_TRANSACTION_ID,
+						:CSC_LOOKUP_KEY
+							)">
+				</entry>
+				
+				
+				
+               <entry key="TLATEST_TRIP_ENDDATE"
+                      value="select * from (select trip_end_date from t_trip_history where etc_account_id = :ETC_ACCOUNT_ID order by trip_end_date desc ) where rownum &lt;2 ">
+               </entry>
+
+				<entry key = "CHECK_IF_RECORD_EXISTS_IN_T_TRANSACTION_TABLE"
+						value = "SELECT * FROM FPMS.T_TRANSACTION
+							WHERE
+							ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID">
+				</entry>
+				
+				<!-- &gt; -->
+				<entry key = "CHECK_IF_RECORD_EXISTS_IN_T_TRANSACTION_TABLE_new"
+						value = "SELECT * FROM FPMS.T_TRANSACTION
+							WHERE
+							ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID
+							and extract(month from POSTED_DATE)  =:MONTHVAL
+							and tran_code in ('T1681700010030031', 'T1681700010020021','T1681700010010011','T1681800010010011','T1681800010020021','T1681800010030031')">
+				</entry>
+				
+				<entry key = "GET_LIST_OF_FINANCIALS_NOT_CLOSED"
+						value = "SELECT * FROM FPMS.T_TOUR_OF_DUTY
+							WHERE
+							USER_ID = :USER_ID
+							AND
+							STATUS = :STATUS
+							AND
+							FINANCIALS = :FINANCIALS">
+				</entry>
+
+			<entry key="SELECT_INFO_FROM_T_PROCESS_PARAMTERS" 
+				value="SELECT * FROM MASTER.T_PROCESS_PARAMETERS where PARAM_GROUP = :PARAM_GROUP">
+				</entry>	
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

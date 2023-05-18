@@ -1,0 +1,27 @@
+# Build stage
+FROM maven:3.6.0-jdk-11-slim AS build
+
+#WORKDIR /src 
+COPY load_all_process_ictx/src /home/app/src
+
+COPY load_all_process_ictx/pom.xml /home/app
+
+RUN mvn -f /home/app/pom.xml clean package 
+
+# Package stage
+#
+
+FROM openjdk:11-jre-slim
+
+COPY --from=build /home/app/target/*.jar /usr/local/lib/app.jar
+
+COPY load_all_process_ictx/Wallet_OLTPQA /usr/local/lib/Wallet_OLTPQA
+
+COPY  load_all_process_ictx/oci_api_key_qa.pem /usr/local/lib/oci_api_key_qa.pem
+
+COPY load_all_process_ictx/config_qa.txt /usr/local/lib/config_qa.txt
+
+
+EXPOSE 8080
+
+ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/app.jar --spring.profiles.active=qa"]

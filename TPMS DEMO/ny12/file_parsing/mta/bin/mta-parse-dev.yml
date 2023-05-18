@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mta-parse-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mta-parse
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mta-parse
+    spec:
+      containers:
+      - name: mta-parse
+    # enter the path to your image, be sure to include the correct region prefix    
+        
+        image: iad.ocir.io/iddewqtahvnn/tolling_dev_cont_registry:latest
+
+        volumeMounts:
+        - name: nfs
+          mountPath: "/DevokeFss/"
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+      imagePullSecrets:
+    # enter the name of the secret you created  
+      - name: ocirsecret
+      volumes:
+      - name: nfs
+        persistentVolumeClaim:
+          claimName: oke-fsspvc
+          readOnly: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mta-parse-service
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+    nodePort: 30006
+  selector:
+    app: mta-parse

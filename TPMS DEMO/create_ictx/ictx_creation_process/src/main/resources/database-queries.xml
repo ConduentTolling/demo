@@ -1,0 +1,668 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+			<map>
+				<entry key="GET_T_AGENCY"
+					value="SELECT AGENCY_ID agencyId, DEVICE_PREFIX devicePrefix ,IS_HOME_AGENCY isHomeAgency, PARENT_AGENCY_ID parentAgencyId, CALCULATE_TOLL_AMOUNT calculateTollAmount, AGENCY_SHORT_NAME agencyShortName FROM CRM.T_AGENCY"></entry>
+
+				<entry key="GET_T_LANE"
+					value="SELECT LANE_ID ,EXTERN_LANE_ID,PLAZA_ID ,LPR_ENABLED,CALCULATE_TOLL_AMOUNT,HOV_OFFSET ,HOV_MIN_DELTA_TIME,HOV_MAX_DELTA_TIME FROM MASTER.T_LANE"></entry>
+
+				<entry key="GET_HOME_LANE_PLAZA_LIST"
+					value="Select MASTER.t_plaza.EXTERN_PLAZA_ID,MASTER.t_lane.EXTERN_LANE_ID, MASTER.t_lane.LANE_ID,MASTER.t_lane.PLAZA_ID,MASTER.t_plaza.AGENCY_ID from MASTER.t_lane FULL OUTER JOIN MASTER.t_plaza on MASTER.t_lane.PLAZA_ID = MASTER.t_plaza.PLAZA_ID where MASTER.t_plaza.AGENCY_ID in (select CRM.t_agency.PARENT_AGENCY_ID from CRM.t_agency where is_home_agency ='Y') and LENGTH(MASTER.t_plaza.EXTERN_PLAZA_ID)>0 and LENGTH(MASTER.t_lane.EXTERN_LANE_ID)>0 order by 1 desc"></entry>
+					
+				<entry key="GET_T_VEHICLE_CLASS"
+					value="select agency_id, agency_class, vehicle_type, base_axle_count, extern_agency_class from MASTER.t_vehicle_class"></entry>
+
+				<entry key="GET_T_DISTANCE_DISCOUNT"
+					value="Select  agency_id,plaza_id,extern_plaza_id,lane_id,extern_lane_id,group_id,time_ind,time_out_value,entry_exit_ind from MASTER.T_DISTANCE_DISCOUNT"></entry>
+
+
+				<entry key="GET_T_AWAY_TRANSACTION"
+					value="Select distinct LANE_TX_ID, 
+								TX_EXTERN_REF_NO, 
+								TX_SEQ_NUMBER, 
+								EXTERN_FILE_ID, 
+								PLAZA_AGENCY_ID, 
+								PLAZA_ID, LANE_ID, 
+								TX_TIMESTAMP, 
+								TX_MOD_SEQ, 
+								TX_TYPE, 
+								TX_SUB_TYPE, 
+								TOLL_SYSTEM_TYPE, 
+								LANE_MODE, 
+								LANE_TYPE, 
+								LANE_STATE, 
+								LANE_HEALTH, 
+								COLLECTOR_ID, 
+								TOUR_SEGMENT_ID, 
+								ENTRY_DATA_SOURCE, 
+								ENTRY_LANE_ID, 
+								ENTRY_PLAZA_ID, 
+								ENTRY_TIMESTAMP, 
+								ENTRY_TX_SEQ_NUMBER, 
+								ENTRY_VEHICLE_SPEED, 
+								LANE_TX_STATUS, 
+								LANE_TX_TYPE, 
+								TOLL_REVENUE_TYPE, 
+								ACTUAL_CLASS, 
+								ACTUAL_AXLES, 
+								ACTUAL_EXTRA_AXLES, 
+								COLLECTOR_CLASS, 
+								COLLECTOR_AXLES, 
+								PRECLASS_CLASS, 
+								PRECLASS_AXLES, 
+								POSTCLASS_CLASS, 
+								POSTCLASS_AXLES, 
+								FORWARD_AXLES, 
+								REVERSE_AXLES, 
+								FULL_FARE_AMOUNT, 
+								DISCOUNTED_AMOUNT, 
+								COLLECTED_AMOUNT, 
+								UNREALIZED_AMOUNT, 
+								IS_DISCOUNTABLE, 
+								IS_MEDIAN_FARE, 
+								POSTED_FARE_AMOUNT, 
+								IS_PEAK, 
+								PRICE_SCHEDULE_ID, 
+								VEHICLE_SPEED, 
+								RECEIPT_ISSUED, 
+								DEVICE_NO, 
+								ACCOUNT_TYPE, 
+								DEVICE_CODED_CLASS, 
+								DEVICE_AGENCY_CLASS, 
+								DEVICE_IAG_CLASS, 
+								DEVICE_AXLES, 
+								ETC_ACCOUNT_ID, 
+								ACCOUNT_AGENCY_ID, 
+								READ_AVI_CLASS, 
+								READ_AVI_AXLES, 
+								DEVICE_PROGRAM_STATUS, 
+								BUFFERED_READ_FLAG, 
+								LANE_DEVICE_STATUS, 
+								POST_DEVICE_STATUS, 
+								PRE_TXN_BALANCE, 
+								PLAN_TYPE_ID, 
+								ETC_TX_STATUS, 
+								SPEED_VIOL_FLAG, 
+								IMAGE_TAKEN, 
+								PLATE_COUNTRY, 
+								PLATE_STATE, 
+								PLATE_NUMBER, 
+								PLATE_TYPE as plateType, 
+								REVENUE_DATE, 
+								POSTED_DATE, 
+								ATP_FILE_ID, 
+								IS_REVERSED, 
+								CORR_REASON_ID, 
+								RECON_DATE, 
+								RECON_STATUS_IND, 
+								RECON_SUB_CODE_IND, 
+								EXTERN_FILE_DATE, 
+								MILEAGE, 
+								DEVICE_READ_COUNT, 
+								DEVICE_WRITE_COUNT, 
+								ENTRY_DEVICE_READ_COUNT, 
+								ENTRY_DEVICE_WRITE_COUNT, 
+								DEPOSIT_ID, 
+								TX_DATE, 
+								CSC_LOOKUP_KEY, 
+								UPDATE_TS, 
+								VIDEO_FARE_AMOUNT 
+							FROM TPMS.T_AGENCY_TX_PENDING 
+							WHERE ACCOUNT_AGENCY_ID like :ACCOUNT_AGENCY_ID AND DST_ATP_FILE_ID IS  NULL"></entry>
+							
+			<entry key="GET_T_AWAY_TRANSACTION_ALL_AGENCY"
+					value="Select distinct LANE_TX_ID, 
+								TX_EXTERN_REF_NO, 
+								TX_SEQ_NUMBER, 
+								EXTERN_FILE_ID, 
+								PLAZA_AGENCY_ID, 
+								PLAZA_ID, LANE_ID, 
+								TX_TIMESTAMP, 
+								TX_MOD_SEQ, 
+								TX_TYPE, 
+								TX_SUB_TYPE, 
+								TOLL_SYSTEM_TYPE, 
+								LANE_MODE, 
+								LANE_TYPE, 
+								LANE_STATE, 
+								LANE_HEALTH, 
+								COLLECTOR_ID, 
+								TOUR_SEGMENT_ID, 
+								ENTRY_DATA_SOURCE, 
+								ENTRY_LANE_ID, 
+								ENTRY_PLAZA_ID, 
+								ENTRY_TIMESTAMP, 
+								ENTRY_TX_SEQ_NUMBER, 
+								ENTRY_VEHICLE_SPEED, 
+								LANE_TX_STATUS, 
+								LANE_TX_TYPE, 
+								TOLL_REVENUE_TYPE, 
+								ACTUAL_CLASS, 
+								ACTUAL_AXLES, 
+								ACTUAL_EXTRA_AXLES, 
+								COLLECTOR_CLASS, 
+								COLLECTOR_AXLES, 
+								PRECLASS_CLASS, 
+								PRECLASS_AXLES, 
+								POSTCLASS_CLASS, 
+								POSTCLASS_AXLES, 
+								FORWARD_AXLES, 
+								REVERSE_AXLES, 
+								FULL_FARE_AMOUNT, 
+								DISCOUNTED_AMOUNT, 
+								COLLECTED_AMOUNT, 
+								UNREALIZED_AMOUNT, 
+								IS_DISCOUNTABLE, 
+								IS_MEDIAN_FARE, 
+								POSTED_FARE_AMOUNT, 
+								IS_PEAK, 
+								PRICE_SCHEDULE_ID, 
+								VEHICLE_SPEED, 
+								RECEIPT_ISSUED, 
+								DEVICE_NO, 
+								ACCOUNT_TYPE, 
+								DEVICE_CODED_CLASS, 
+								DEVICE_AGENCY_CLASS, 
+								DEVICE_IAG_CLASS, 
+								DEVICE_AXLES, 
+								ETC_ACCOUNT_ID, 
+								ACCOUNT_AGENCY_ID, 
+								READ_AVI_CLASS, 
+								READ_AVI_AXLES, 
+								DEVICE_PROGRAM_STATUS, 
+								BUFFERED_READ_FLAG, 
+								LANE_DEVICE_STATUS, 
+								POST_DEVICE_STATUS, 
+								PRE_TXN_BALANCE, 
+								PLAN_TYPE_ID, 
+								ETC_TX_STATUS, 
+								SPEED_VIOL_FLAG, 
+								IMAGE_TAKEN, 
+								PLATE_COUNTRY, 
+								PLATE_STATE, 
+								PLATE_NUMBER, 
+								PLATE_TYPE as plateType, 
+								REVENUE_DATE, 
+								POSTED_DATE, 
+								ATP_FILE_ID, 
+								IS_REVERSED, 
+								CORR_REASON_ID, 
+								RECON_DATE, 
+								RECON_STATUS_IND, 
+								RECON_SUB_CODE_IND, 
+								EXTERN_FILE_DATE, 
+								MILEAGE, 
+								DEVICE_READ_COUNT, 
+								DEVICE_WRITE_COUNT, 
+								ENTRY_DEVICE_READ_COUNT, 
+								ENTRY_DEVICE_WRITE_COUNT, 
+								DEPOSIT_ID, 
+								TX_DATE, 
+								CSC_LOOKUP_KEY, 
+								UPDATE_TS, 
+								VIDEO_FARE_AMOUNT 
+							FROM TPMS.T_AGENCY_TX_PENDING 
+							WHERE DST_ATP_FILE_ID IS  NULL
+							and ACCOUNT_AGENCY_ID in (SELECT AGENCY_ID FROM CRM.T_AGENCY where IS_HOME_AGENCY = 'N')"></entry>
+
+				<entry key="GET_T_CORR_AWAY_TRANSACTION"
+				    value="SELECT
+				    			 NVL(a.correction_reason,0) as CORR_REASON_ID, 
+								 b.lane_tx_id,
+								 NVL(b.tx_extern_ref_no, ' ') as tx_extern_ref_no,
+								 NVL(b.tx_seq_number, 0) as tx_seq_number,
+								 NVL(b.extern_file_id, 0) as extern_file_id,
+								 NVL(b.plaza_agency_id, 0) as plaza_agency_id,
+								 NVL(b.plaza_id, 0) as plaza_id,
+								 NVL(a.CORRECTED_EXIT_LANE_ID, b.lane_id) as lane_id,
+								 to_char(b.tx_timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') as tx_timestamp,
+								 b.tx_mod_seq2 as txModSeq,
+								 NVL(b.tx_type_ind, ' ') as tx_type,
+								 NVL(b.tx_subtype_ind, ' ') as tx_subtype,
+								 NVL(b.toll_system_type, ' ') as toll_system_type,
+								 NVL(b.lane_mode, 0) as lane_mode,
+								 NVL(b.lane_type, 0) as lane_type,
+								 NVL(b.lane_state, 0) as lane_state,
+								 NVL(b.lane_health, 0) as lane_health,
+								 NVL(b.collector_id, 0) as collector_id,
+								 NVL(b.tour_segment_id, 0) as tour_segment_id,
+								 NVL(b.entry_data_source, '*') as entry_data_source,
+								 NVL(a.CORRECTED_ENTRY_LANE_ID,  b.entry_lane_id) as entry_lane_id,
+								 NVL(b.entry_plaza_id, 0) as entry_plaza_id,
+                                 case
+                                 when a.CORRECTED_ENTRY_TS is not null then
+								 to_char(a.CORRECTED_ENTRY_TS, 'YYYY-MM-DD HH24:MI:SS.FF3')
+                                 else to_char(b.entry_timestamp)
+                                 end as entry_timestamp,
+								 NVL(b.entry_tx_seq_number, 0) as entry_tx_seq_number,
+								 NVL(b.entry_vehicle_speed, 0) as entry_vehicle_speed,
+								 NVL(b.lane_tx_status, 0) as lane_tx_status,
+								 NVL(b.lane_tx_type, 0) as lane_tx_type,
+								 NVL(b.toll_revenue_type, 0) as toll_revenue_type,
+                                 NVL(a.CORRECTED_CLASS, b.actual_class) as actual_class,
+								 NVL(b.actual_axles, 0) as actual_axles,
+								 NVL(b.actual_extra_axles, 0) as actual_extra_axles,
+								 NVL(b.collector_class, 0) as collector_class,
+								 NVL(b.collector_axles, 0) as collector_axles,
+								 NVL(b.preclass_class, 0) as preclass_class,
+								 NVL(b.preclass_axles, 0) as preclass_axles,
+								 NVL(b.postclass_class, 0) as postclass_class,
+								 NVL(b.postclass_axles, 0) as postclass_axles,
+								 NVL(b.forward_axles, 0) as forward_axles,
+								 NVL(b.reverse_axles, 0) as reverse_axles,
+								 NVL(b.full_fare_amount, 0) * 100 as full_fare_amount,
+								 NVL(b.discounted_amount, 0) * 100 as discounted_amount,
+								 NVL(b.collected_amount, 0) * 100 as collected_amount,
+								 NVL(b.unrealized_amount, 0) * 100 as unrealized_amount,
+								 NVL(a.CORRECTED_TOLL, b.posted_fare_amount) as posted_fare_amount,
+								 NVL(a.CORRECTED_TOLL, b.video_fare_amount) as video_fare_amount,
+								 NVL(b.is_discountable, 'F') as is_discountable,
+								 NVL(b.is_median_fare, 'F') as is_median_fare,
+								 NVL(b.is_peak, 'F') as is_peak,
+								 NVL(b.price_schedule_id, 0) as price_schedule_id,
+								 NVL(b.vehicle_speed, 0) as vehicle_speed,
+								 NVL(b.receipt_issued, 0) as receipt_issued,
+								 NVL(b.device_no, ' ') as device_no,
+								 NVL(b.account_type, 0) as account_type,
+								 NVL(b.device_coded_class, 0) as device_coded_class,
+								 NVL(b.device_agency_class, 0) as device_agency_class,
+								 NVL(b.device_iag_class, 0) as device_iag_class,
+								 NVL(b.device_axles, 0) as device_axles,
+								 NVL(b.etc_account_id, 0) as etc_account_id,
+								 NVL(b.account_agency_id, 0) as account_agency_id,
+								 NVL(b.read_avi_class, 0) as read_avi_class,
+								 NVL(b.read_avi_axles, 0) as read_avi_axles,
+								 NVL(b.device_program_status, ' ') as device_program_status,
+								 NVL(b.buffered_read_flag, ' ') as buffered_read_flag,
+								 NVL(b.pre_txn_balance, 0) as pre_txn_balance,
+								 NVL(b.plan_type_id, 0) as plan_type_id,
+								 NVL(b.etc_tx_status, 0) as etc_tx_status,
+								 NVL(b.speed_viol_flag, ' ') as speed_viol_flag,
+								 NVL(b.image_taken, ' ') as image_taken,
+								 NVL(b.plate_country, ' ') as plate_country,
+								 DECODE(NVL(TRIM(b.plate_state), ' '),
+								        ' ', '**',
+								             NVL(b.plate_state, '**')) as plate_state, 
+								 DECODE(NVL(TRIM(b.plate_number), ' '),
+								        ' ', '**********',
+								             NVL(b.plate_number, '**********')) as plate_number,
+								 to_char(b.revenue_date, 'YYYY-MM-DD HH24:MI:SS') as revenue_date,
+								 to_char(b.posted_date, 'YYYY-MM-DD HH24:MI:SS') as posted_date,
+								 NVL(b.atp_file_id, 0) as atp_file_id,
+								 NVL(b.is_reversed, ' ') as is_reversed,
+								 to_char(b.recon_date, 'YYYY-MM-DD HH24:MI:SS') as recon_date,
+								 NVL(b.recon_status_ind, 0) as recon_status_ind,
+								 NVL(b.recon_sub_code_ind, 0) as recon_sub_code_ind,
+								 to_char(b.extern_file_date, 'YYYY-MM-DD HH24:MI:SS') as extern_file_date,
+								 NVL(b.mileage, 0) as mileage,
+								 NVL(b.device_read_count, 0) as device_read_count,
+								 NVL(b.device_write_count, 0) as device_write_count,
+								 NVL(b.entry_device_read_count, 0) as entry_device_read_count,      
+								 NVL(b.entry_device_write_count, 0) as entry_device_write_count,
+								 NVL(b.deposit_id,' ') as deposit_id,
+								 to_char(b.TX_DATE, 'YYYY-MM-DD HH24:MI:SS') as TX_DATE,
+								 '' as csc,
+								 to_char(b.update_ts, 'YYYY-MM-DD HH24:MI:SS.FF3') as update_ts
+				FROM tpms.t_itxc_iag_q a
+                Left Join fpms.t_account_toll b on a.lane_tx_id = b.lane_tx_id 
+      			where B.DEVICE_NO LIKE :DEVICE_PREFIX"></entry>
+      			
+      			<entry key="GET_T_CORR_AWAY_TRANSACTION_ALL_AGENCY"
+				    value="SELECT
+				    			 NVL(a.correction_reason,0) as CORR_REASON_ID, 
+								 b.lane_tx_id,
+								 NVL(b.tx_extern_ref_no, ' ') as tx_extern_ref_no,
+								 NVL(b.tx_seq_number, 0) as tx_seq_number,
+								 NVL(b.extern_file_id, 0) as extern_file_id,
+								 NVL(b.plaza_agency_id, 0) as plaza_agency_id,
+								 NVL(b.plaza_id, 0) as plaza_id,
+								 NVL(a.CORRECTED_EXIT_LANE_ID, b.lane_id) as lane_id,
+								 to_char(b.tx_timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') as tx_timestamp,
+								 b.tx_mod_seq2 as txModSeq,
+								 NVL(b.tx_type_ind, ' ') as tx_type,
+								 NVL(b.tx_subtype_ind, ' ') as tx_subtype,
+								 NVL(b.toll_system_type, ' ') as toll_system_type,
+								 NVL(b.lane_mode, 0) as lane_mode,
+								 NVL(b.lane_type, 0) as lane_type,
+								 NVL(b.lane_state, 0) as lane_state,
+								 NVL(b.lane_health, 0) as lane_health,
+								 NVL(b.collector_id, 0) as collector_id,
+								 NVL(b.tour_segment_id, 0) as tour_segment_id,
+								 NVL(b.entry_data_source, '*') as entry_data_source,
+								 NVL(a.CORRECTED_ENTRY_LANE_ID,  b.entry_lane_id) as entry_lane_id,
+								 NVL(b.entry_plaza_id, 0) as entry_plaza_id,
+                                 case
+                                 when a.CORRECTED_ENTRY_TS is not null then
+								 to_char(a.CORRECTED_ENTRY_TS, 'YYYY-MM-DD HH24:MI:SS.FF3')
+                                 else to_char(b.entry_timestamp)
+                                 end as entry_timestamp,
+								 NVL(b.entry_tx_seq_number, 0) as entry_tx_seq_number,
+								 NVL(b.entry_vehicle_speed, 0) as entry_vehicle_speed,
+								 NVL(b.lane_tx_status, 0) as lane_tx_status,
+								 NVL(b.lane_tx_type, 0) as lane_tx_type,
+								 NVL(b.toll_revenue_type, 0) as toll_revenue_type,
+                                 NVL(a.CORRECTED_CLASS, b.actual_class) as actual_class,
+								 NVL(b.actual_axles, 0) as actual_axles,
+								 NVL(b.actual_extra_axles, 0) as actual_extra_axles,
+								 NVL(b.collector_class, 0) as collector_class,
+								 NVL(b.collector_axles, 0) as collector_axles,
+								 NVL(b.preclass_class, 0) as preclass_class,
+								 NVL(b.preclass_axles, 0) as preclass_axles,
+								 NVL(b.postclass_class, 0) as postclass_class,
+								 NVL(b.postclass_axles, 0) as postclass_axles,
+								 NVL(b.forward_axles, 0) as forward_axles,
+								 NVL(b.reverse_axles, 0) as reverse_axles,
+								 NVL(b.full_fare_amount, 0) * 100 as full_fare_amount,
+								 NVL(b.discounted_amount, 0) * 100 as discounted_amount,
+								 NVL(b.collected_amount, 0) * 100 as collected_amount,
+								 NVL(b.unrealized_amount, 0) * 100 as unrealized_amount,
+								 NVL(a.CORRECTED_TOLL, b.posted_fare_amount) as posted_fare_amount,
+								 NVL(a.CORRECTED_TOLL, b.video_fare_amount) as video_fare_amount,
+								 NVL(b.is_discountable, 'F') as is_discountable,
+								 NVL(b.is_median_fare, 'F') as is_median_fare,
+								 NVL(b.is_peak, 'F') as is_peak,
+								 NVL(b.price_schedule_id, 0) as price_schedule_id,
+								 NVL(b.vehicle_speed, 0) as vehicle_speed,
+								 NVL(b.receipt_issued, 0) as receipt_issued,
+								 NVL(b.device_no, ' ') as device_no,
+								 NVL(b.account_type, 0) as account_type,
+								 NVL(b.device_coded_class, 0) as device_coded_class,
+								 NVL(b.device_agency_class, 0) as device_agency_class,
+								 NVL(b.device_iag_class, 0) as device_iag_class,
+								 NVL(b.device_axles, 0) as device_axles,
+								 NVL(b.etc_account_id, 0) as etc_account_id,
+								 NVL(b.account_agency_id, 0) as account_agency_id,
+								 NVL(b.read_avi_class, 0) as read_avi_class,
+								 NVL(b.read_avi_axles, 0) as read_avi_axles,
+								 NVL(b.device_program_status, ' ') as device_program_status,
+								 NVL(b.buffered_read_flag, ' ') as buffered_read_flag,
+								 NVL(b.pre_txn_balance, 0) as pre_txn_balance,
+								 NVL(b.plan_type_id, 0) as plan_type_id,
+								 NVL(b.etc_tx_status, 0) as etc_tx_status,
+								 NVL(b.speed_viol_flag, ' ') as speed_viol_flag,
+								 NVL(b.image_taken, ' ') as image_taken,
+								 NVL(b.plate_country, ' ') as plate_country,
+								 DECODE(NVL(TRIM(b.plate_state), ' '),
+								        ' ', '**',
+								             NVL(b.plate_state, '**')) as plate_state, 
+								 DECODE(NVL(TRIM(b.plate_number), ' '),
+								        ' ', '**********',
+								             NVL(b.plate_number, '**********')) as plate_number,
+								 to_char(b.revenue_date, 'YYYY-MM-DD HH24:MI:SS') as revenue_date,
+								 to_char(b.posted_date, 'YYYY-MM-DD HH24:MI:SS') as posted_date,
+								 NVL(b.atp_file_id, 0) as atp_file_id,
+								 NVL(b.is_reversed, ' ') as is_reversed,
+								 to_char(b.recon_date, 'YYYY-MM-DD HH24:MI:SS') as recon_date,
+								 NVL(b.recon_status_ind, 0) as recon_status_ind,
+								 NVL(b.recon_sub_code_ind, 0) as recon_sub_code_ind,
+								 to_char(b.extern_file_date, 'YYYY-MM-DD HH24:MI:SS') as extern_file_date,
+								 NVL(b.mileage, 0) as mileage,
+								 NVL(b.device_read_count, 0) as device_read_count,
+								 NVL(b.device_write_count, 0) as device_write_count,
+								 NVL(b.entry_device_read_count, 0) as entry_device_read_count,      
+								 NVL(b.entry_device_write_count, 0) as entry_device_write_count,
+								 NVL(b.deposit_id,' ') as deposit_id,
+								 to_char(b.TX_DATE, 'YYYY-MM-DD HH24:MI:SS') as TX_DATE,
+								 '' as csc,
+								 to_char(b.update_ts, 'YYYY-MM-DD HH24:MI:SS.FF3') as update_ts
+				FROM tpms.t_itxc_iag_q a
+                Left Join fpms.t_account_toll b on a.lane_tx_id = b.lane_tx_id"></entry>
+				    
+				<entry key="GET_T_PLAZA"
+					value="SELECT PLAZA_ID,EXTERN_PLAZA_ID,AGENCY_ID,REVENUE_TIME FROM MASTER.T_PLAZA"></entry>
+
+				<entry key="GET_ATP_FILE_SEQUENCE"
+					value="select  TPMS.SEQ_ATP_FILE_ID.nextval as nextseq from dual"></entry>
+					
+					<entry key="GET_ATP_FILE_SEQUENCE_IAG"
+					value="select  TPMS.SEQ_ATP_FILE_ID_IAG.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_QATP_STATISTICS"
+					value="Select ATP_FILE_ID, FILE_TYPE, FILE_NAME,	 INSERT_DATE,	 INSERT_TIME,	 RECORD_COUNT,	 AMOUNT,	 IS_PROCESSED,	 PROCESS_DATE,	 PROCESS_TIME,	 PROCESS_REC_COUNT,	 UPDATE_TS,	 XFER_CONTROL_ID from T_QATP_STATISTICS where ATP_FILE_ID=:ATP_FILE_ID"></entry>
+				<entry key="GET_QATP_STATISTICS_FROM_FILE_NAME"
+					value="Select ATP_FILE_ID, FILE_TYPE, FILE_NAME,	 INSERT_DATE,	 INSERT_TIME,	 RECORD_COUNT,	 AMOUNT,	 IS_PROCESSED,	 PROCESS_DATE,	 PROCESS_TIME,	 PROCESS_REC_COUNT,	 UPDATE_TS,	 XFER_CONTROL_ID from T_QATP_STATISTICS where FILE_NAME=:FILE_NAME"></entry>
+				
+				<entry key="GET_IAG_FILE_STATISTICS"
+					value=" Select INPUT_FILE_NAME, OUTPUT_FILE_NAME, XFER_CONTROL_ID, ATP_FILE_ID, INPUT_REC_COUNT, OUTPUT_REC_COUNT, FROM_AGENCY, TO_AGENCY, UPDATE_TS FROM TPMS.T_IAG_FILE_STATISTICS WHERE OUTPUT_FILE_NAME =:OUTPUT_FILE_NAME AND XFER_CONTROL_ID=:XFER_CONTROL_ID AND FROM_AGENCY=:FROM_AGENCY AND TO_AGENCY=:TO_AGENCY"></entry>
+				
+				<entry key="GET_IAG_FILE_STATISTICS_BY_XFER_CONTROL_ID"
+					value=" Select INPUT_FILE_NAME, OUTPUT_FILE_NAME, XFER_CONTROL_ID, ATP_FILE_ID, INPUT_REC_COUNT, OUTPUT_REC_COUNT, FROM_AGENCY, TO_AGENCY, UPDATE_TS FROM TPMS.T_IAG_FILE_STATISTICS WHERE OUTPUT_FILE_NAME =:OUTPUT_FILE_NAME AND XFER_CONTROL_ID=:XFER_CONTROL_ID"></entry>
+				
+				
+				<entry key="UPDATE_IAG_FILE_STATISTICS"
+					
+					value=" Update TPMS.T_IAG_FILE_STATISTICS set UPDATE_TS=:UPDATE_TS,ATP_FILE_ID=:ATP_FILE_ID WHERE OUTPUT_FILE_NAME =:OUTPUT_FILE_NAME AND XFER_CONTROL_ID=:XFER_CONTROL_ID AND FROM_AGENCY=:FROM_AGENCY AND TO_AGENCY=:TO_AGENCY"></entry>
+					
+					<entry key="UPDATE_IAG_FILE_STATISTICS_VALUES"
+					
+					value=" Update TPMS.T_IAG_FILE_STATISTICS set INPUT_FILE_NAME=:INPUT_FILE_NAME, ATP_FILE_ID=:ATP_FILE_ID, INPUT_REC_COUNT=:INPUT_REC_COUNT, OUTPUT_REC_COUNT=:OUTPUT_REC_COUNT, UPDATE_TS=:UPDATE_TS, TO_AGENCY=:TO_AGENCY WHERE OUTPUT_FILE_NAME =:OUTPUT_FILE_NAME AND XFER_CONTROL_ID=:XFER_CONTROL_ID"></entry>
+					
+
+				<entry key="INSERT_IAG_FILE_STATISTICS"
+					value=" INSERT INTO TPMS.T_IAG_FILE_STATISTICS(INPUT_FILE_NAME, OUTPUT_FILE_NAME,
+ XFER_CONTROL_ID, ATP_FILE_ID, INPUT_REC_COUNT, OUTPUT_REC_COUNT, FROM_AGENCY,
+ TO_AGENCY, UPDATE_TS) VALUES (:INPUT_FILE_NAME,:OUTPUT_FILE_NAME,:XFER_CONTROL_ID,:ATP_FILE_ID,:INPUT_REC_COUNT,:OUTPUT_REC_COUNT,:FROM_AGENCY,:TO_AGENCY,:UPDATE_TS)"></entry>
+				
+				<entry key="INSERT_IA_FILE_STATS"
+					value=" INSERT INTO TPMS.T_IA_FILE_STATS (ICTX_FILE_NAME,XFER_CONTROL_ID,PROCESSED_FLAG,DEPOSIT_ID,FILE_SEQ_NUMBER,FILE_TYPE, FILE_DATE, ATP_FILE_ID, INPUT_COUNT, OUTPUT_COUNT, FROM_AGENCY,  TO_AGENCY, UPDATE_TS) VALUES (:ICTX_FILE_NAME,:XFER_CONTROL_ID,:PROCESSED_FLAG,:DEPOSIT_ID,:FILE_SEQ_NUMBER,:FILE_TYPE,:FILE_DATE,:ATP_FILE_ID,:INPUT_COUNT,:OUTPUT_COUNT,:FROM_AGENCY,:TO_AGENCY,:UPDATE_TS)"></entry>
+					
+					<entry key="CHECK_ATP_FILE_ID_IN_IA_FILE_STATS"
+					value="Select ATP_FILE_ID FROM TPMS.T_IA_FILE_STATS WHERE ICTX_FILE_NAME = :ICTX_FILE_NAME"></entry>
+ 
+ <entry key="UPDATE_IA_FILE_STATS"
+					value="UPDATE TPMS.T_IA_FILE_STATS SET ICTX_FILE_NAME=:ICTX_FILE_NAME,OUTPUT_COUNT=:OUTPUT_COUNT,FROM_AGENCY=:FROM_AGENCY,TO_AGENCY=:TO_AGENCY,UPDATE_TS=:UPDATE_TS where ATP_FILE_ID=:ATP_FILE_ID"></entry>
+	
+	<entry key="UPDATE_RECORD_COUNT_IN_IA_FILE_STATS"
+					value="UPDATE TPMS.T_IA_FILE_STATS SET INPUT_COUNT=:INPUT_COUNT where ICTX_FILE_NAME=:ICTX_FILE_NAME"></entry>
+					
+					<entry key="UPDATE_RECORD_COUNT_IN_IAG_FILE_STATISTICS"
+					value="UPDATE TPMS.T_IAG_FILE_STATISTICS SET OUTPUT_REC_COUNT=:OUTPUT_REC_COUNT where OUTPUT_FILE_NAME=:OUTPUT_FILE_NAME"></entry>
+	
+				<entry key="GET_ICTX_SEQUENCE_FILE_001"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_001.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_002"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_002.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_003"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_003.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_004"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_004.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_005"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_005.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_006"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_006.nextval as nextseq from dual"></entry>
+				<entry key="GET_ICTX_SEQUENCE_FILE_007"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_007.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_008"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_008.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_009"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_009.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_010"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_010.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_011"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_011.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_012"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_012.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_013"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_013.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_014"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_014.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_015"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_015.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_016"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_016.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_017"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_017.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_018"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_018.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_019"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_019.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_020"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_020.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_021"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_021.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_022"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_022.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_023"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_023.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_024"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_024.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_025"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_025.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_026"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_026.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_027"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_027.nextval as nextseq from dual"></entry>
+
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_028"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_028.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_029"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_029.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_030"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_030.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_031"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_031.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_032"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_032.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_033"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_033.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_036"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_016.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_044"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_044.nextval as nextseq from dual"></entry>
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_099"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_099.nextval as nextseq from dual"></entry>
+					
+				<entry key="GET_ICTX_SEQUENCE_FILE_HUB"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_HUB.nextval as nextseq from dual"></entry>	
+
+				<entry key="UPDATE_T_TRANS_TABLE"
+					value="update T_TRAN_DETAIL set tx_type=?, tx_sub_type=?, etc_tx_status=?
+where LANE_TX_ID=?"></entry>
+				<entry key="UPDATE_DST_ATP_FILE_ID"
+					value="UPDATE TPMS.T_AGENCY_TX_PENDING SET DST_ATP_FILE_ID=? , TX_STATUS=? WHERE LANE_TX_ID =? and DST_ATP_FILE_ID is null"></entry>
+
+
+				<entry key="GET_ATP_FILE_ID"
+					value=" Select INPUT_FILE_NAME, OUTPUT_FILE_NAME, XFER_CONTROL_ID, ATP_FILE_ID, INPUT_REC_COUNT, OUTPUT_REC_COUNT, FROM_AGENCY, TO_AGENCY, UPDATE_TS FROM TPMS.T_IAG_FILE_STATISTICS WHERE OUTPUT_FILE_NAME =:OUTPUT_FILE_NAME AND FROM_AGENCY=:FROM_AGENCY AND TO_AGENCY=:TO_AGENCY"></entry>
+
+
+
+				<entry key="DELETE_REJECTED_TX"
+					value="delete from TPMS.T_AGENCY_TX_PENDING WHERE LANE_TX_ID =?"></entry>
+					
+					<entry key="DELETE_REJECTED_TX_NEW"
+					value="delete from TPMS.T_AGENCY_TX_PENDING WHERE LANE_TX_ID =:LANE_TX_ID and TX_EXTERN_REF_NO=:TX_EXTERN_REF_NO"></entry>
+					
+				<entry key="DELETE_REJECTED_CORR"
+					value="delete from TPMS.T_ITXC_IAG_Q WHERE LANE_TX_ID =?"></entry>
+
+
+				<entry key="GET_ICTX_SEQUENCE_FILE_016"
+					value="select  TPMS.SEQ_ICTX_FILE_ID_016.nextval as nextseq from dual"></entry>
+
+
+				<entry key="GET_T_CODE"
+					value="select code_type codeType, code_id codeId, code_value codeValue, display_value displayValue from MASTER.t_codes  where CODE_TYPE = :CODE_TYPE"></entry>
+
+				<entry key="GET_RECONCILIATION_CHECKPOINT_INFO"
+					value="SELECT FILE_NAME, FILE_STATUS_IND, RECORD_COUNT FROM
+		 TPMS.T_RECONCILIATION_CHECKPOINT WHERE FILE_NAME LIKE
+		 :FILE_NAME AND FILE_STATUS_IND IN ('S','P')"></entry>
+
+				<entry
+					key="INSERT_INTIAL_ENTRY_RECONCILIATION_CHECKPOINT_INFO"
+					value=" INSERT INTO TPMS.T_RECONCILIATION_CHECKPOINT (FILE_NAME,FILE_STATUS_IND,
+ RECORD_COUNT) VALUES (:FILE_NAME,:FILE_STATUS_IND,:RECORD_COUNT)"></entry>
+
+				<entry key="UPDATE_RECONCILIATION_CHECKPOINT_INFO"
+					value="UPDATE TPMS.T_RECONCILIATION_CHECKPOINT SET FILE_STATUS_IND=?,RECORD_COUNT=? WHERE FILE_NAME =?"></entry>
+
+				<entry key="UPDATE_RECONCILIATION_CHECKPOINT_STATUS"
+					value="UPDATE TPMS.T_RECONCILIATION_CHECKPOINT SET FILE_STATUS_IND=? WHERE FILE_NAME =?"></entry>
+
+				<entry key="GET_TOLL_PRICES"
+					value="SELECT nvl(T.FULL_FARE,0) fullFareAmount, nvl(T.DISCOUNT_FARE,0) discountFareAmount, nvl(T.EXTRA_AXLE_CHARGE,0) extraAxleCharge,T.REVENUE_TYPE_ID  revenueTypeId,T.TOLL_SCHEDULE_ID tollScheduleId
+FROM MASTER.T_TOLL_SCHEDULE T WHERE T.EFFECTIVE_DATE &lt;= NVL(TO_DATE(?,'YYYY-MM-DD'),TO_DATE('1857-11-17','YYYY-MM-DD')) AND T.EXPIRY_DATE &gt;= NVL(TO_DATE(?,'YYYY-MM-DD'),TO_DATE('1857-11-17','YYYY-MM-DD')) AND T.PLAZA_ID = ? AND T.ENTRY_PLAZA_ID = ? AND T.VEHICLE_CLASS = ?  AND T.PLAN_TYPE_ID = ?
+AND T.REVENUE_TYPE_ID  = ?"></entry>
+
+				<entry key="GET_T_AWAY_TRANSACTION_DUPLICATE_CHECK"
+					value="Select LANE_TX_ID, PLAZA_ID, LANE_ID, TX_TIMESTAMP,  DEVICE_NO FROM TPMS.T_AGENCY_TX_PENDING WHERE DEVICE_NO=? AND PLAZA_ID=? AND LANE_ID=? AND TX_TIMESTAMP &gt;= TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS.FF3') AND TX_TIMESTAMP &lt;= TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS.FF3')"></entry>
+
+				<entry key="GET_T_AWAY_TRANSACTION_DUPLICATE_CHECK_NEW"
+					value="Select LANE_TX_ID, PLAZA_ID, LANE_ID, TX_TIMESTAMP,  DEVICE_NO, DST_ATP_FILE_ID FROM TPMS.T_AGENCY_TX_PENDING WHERE LANE_TX_ID=?"></entry>
+				
+				<entry key="GET_T_AWAY_TRANSACTION_DUPLICATE_CHECK_FRM_FPMS"
+					value="Select LANE_TX_ID, PLAZA_ID, LANE_ID, TX_TIMESTAMP,  DEVICE_NO FROM FPMS.T_ACCOUNT_TOLL WHERE DEVICE_NO=? AND PLAZA_ID=? AND LANE_ID=? AND TX_TIMESTAMP &gt;= TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS.FF3') AND TX_TIMESTAMP &lt;= TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS.FF3')"></entry>
+
+				<entry key="GET_T_TOLL_POST_LIMIT_BY_AGENCY_AND_ETC_TX_STATUS"
+					value="select PLAZA_AGENCY_ID plazaAgencyId, ETC_TX_STATUS etcTxStatus,POACHING_LIMIT poachingLimit from MASTER.T_TOLL_POST_LIMIT WHERE  ETC_TX_STATUS = ? "></entry>
+
+
+				<entry key="UPDATE_T_TRANS_TABLE_ETC_TX_STATUS"
+					value="update T_TRAN_DETAIL set etc_tx_status=?
+where LANE_TX_ID=?"></entry>
+
+				<entry key="GET_ITOL_AMOUNT_T_TRAN_DETAIL"
+					value="SELECT ITOL_FARE_AMOUNT  FROM T_TRAN_DETAIL WHERE LANE_TX_ID ="></entry>
+
+				<entry key="GET_CUT_OFF_DATE"
+					value="select param_name paramName, param_value paramValue from MASTER.t_process_parameters where param_name in (:PARAM_NAME)"></entry>
+					
+				<entry key="UPDATE_EXPECTED_REVENUE_AMOUNT_AND_REVENUE_DATE"
+					value="update TPMS.T_AGENCY_TX_PENDING set EXPECTED_REVENUE_AMOUNT=:EXPECTED_REVENUE_AMOUNT,REVENUE_DATE=:REVENUE_DATE where LANE_TX_ID = :LANE_TX_ID"></entry>
+					
+					<entry key="UPDATE_POSTED_TOLL_AMOUNT"
+					value="update TPMS.T_AGENCY_TX_PENDING set POSTED_FARE_AMOUNT=:POSTED_FARE_AMOUNT,DISCOUNTED_AMOUNT=:DISCOUNTED_AMOUNT,FULL_FARE_AMOUNT=:FULL_FARE_AMOUNT where LANE_TX_ID = :LANE_TX_ID"></entry>
+			
+				<entry key="GET_T_FILE_STATISTICS_BY_FILEID"
+					value="SELECT *  FROM TPMS.T_IAG_FILE_STATISTICS WHERE XFER_CONTROL_ID =:XFER_CONTROL_ID"></entry>
+
+			<entry key="INSERT_INTO_T_AGENCY_TX_PENDING"
+					value="INSERT INTO TPMS.T_AGENCY_TX_PENDING(LANE_TX_ID,TX_EXTERN_REF_NO,TX_SEQ_NUMBER,EXTERN_FILE_ID,PLAZA_AGENCY_ID,PLAZA_ID,LANE_ID,TX_TIMESTAMP,TX_MOD_SEQ,TX_TYPE,TX_SUB_TYPE,TOLL_SYSTEM_TYPE,LANE_MODE,LANE_TYPE,LANE_STATE,LANE_HEALTH,COLLECTOR_ID,TOUR_SEGMENT_ID,ENTRY_DATA_SOURCE,ENTRY_LANE_ID,ENTRY_PLAZA_ID,ENTRY_TIMESTAMP,ENTRY_TX_SEQ_NUMBER,ENTRY_VEHICLE_SPEED,LANE_TX_STATUS,LANE_TX_TYPE,TOLL_REVENUE_TYPE,ACTUAL_CLASS,ACTUAL_AXLES,ACTUAL_EXTRA_AXLES,COLLECTOR_CLASS,COLLECTOR_AXLES,PRECLASS_CLASS,PRECLASS_AXLES,POSTCLASS_CLASS,POSTCLASS_AXLES,FORWARD_AXLES,REVERSE_AXLES,ETC_FARE_AMOUNT,POSTED_FARE_AMOUNT,COLLECTED_AMOUNT,UNREALIZED_AMOUNT,IS_DISCOUNTABLE,IS_MEDIAN_FARE,IS_PEAK,PRICE_SCHEDULE_ID,VEHICLE_SPEED,RECEIPT_ISSUED,DEVICE_NO,ACCOUNT_TYPE,DEVICE_CODED_CLASS,DEVICE_AGENCY_CLASS,DEVICE_IAG_CLASS,DEVICE_AXLES,ETC_ACCOUNT_ID,ACCOUNT_AGENCY_ID,READ_AVI_CLASS,READ_AVI_AXLES,DEVICE_PROGRAM_STATUS,BUFFERED_READ_FLAG,LANE_DEVICE_STATUS,POST_DEVICE_STATUS,PRE_TXN_BALANCE,PLAN_TYPE_ID,ETC_TX_STATUS,SPEED_VIOL_FLAG,IMAGE_TAKEN,PLATE_COUNTRY,PLATE_STATE,PLATE_NUMBER,REVENUE_DATE,POSTED_DATE,ATP_FILE_ID,IS_REVERSED,CORR_REASON_ID,RECON_DATE,RECON_STATUS_IND,RECON_SUB_CODE_IND,EXTERN_FILE_DATE,MILEAGE,DEVICE_READ_COUNT,DEVICE_WRITE_COUNT,ENTRY_DEVICE_READ_COUNT,ENTRY_DEVICE_WRITE_COUNT,DEPOSIT_ID,TX_DATE,CSC_LOOKUP_KEY,UPDATE_TS,RECIPROCITY_TRX,EXPECTED_REVENUE_AMOUNT,SOURCE_SYSTEM,CASH_FARE_AMOUNT,VIDEO_FARE_AMOUNT,TX_STATUS) VALUES
+(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"></entry>
+			
+			
+			</map>
+
+
+		</constructor-arg>
+	</bean>
+</beans>

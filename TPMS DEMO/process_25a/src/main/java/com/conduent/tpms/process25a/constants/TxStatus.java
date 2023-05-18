@@ -1,0 +1,271 @@
+package com.conduent.tpms.process25a.constants;
+
+
+
+
+
+public enum TxStatus
+{
+	//--POST TO ACCOUNT
+	TX_STATUS_ETOL("TX_STATUS_ETOL",1),
+	TX_STATUS_VTOL("TX_STATUS_VTOL",2),
+	TX_STATUS_UTOL("TX_STATUS_UTOL",3),
+	TX_STATUS_MTOL("TX_STATUS_MTOL",4),
+	TX_STATUS_PSNT("TX_STATUS_PSNT",5),
+	TX_STATUS_PPST("TX_STATUS_PPST",6),
+	TX_STATUS_POST("TX_STATUS_POST",7),
+	TX_STATUS_NTOL("TX_STATUS_NTOL",8),
+	TX_STATUS_ITOL("TX_STATUS_ITOL",9),
+	TX_STATUS_VPST("TX_STATUS_VPST",10),
+	TX_STATUS_VIOLTOLL("TX_STATUS_VIOLTOLL",11),
+
+
+
+	//--ETC REJECTS
+	TX_STATUS_TAGINV("TX_STATUS_TAGINV",26),
+	TX_STATUS_TAGLOST("TX_STATUS_TAGLOST",27),
+	TX_STATUS_TAGSTOLEN("TX_STATUS_TAGSTOLEN",28),
+	TX_STATUS_TAGRETURNED("TX_STATUS_TAGRETURNED",29),
+	TX_STATUS_TAGDAMAGED("TX_STATUS_TAGDAMAGED",30),
+	TX_STATUS_INVTAG("TX_STATUS_INVTAG",31),
+	TX_STATUS_INVH("TX_STATUS_INVH",32),
+	TX_STATUS_INVP("TX_STATUS_INVP",33),
+	TX_STATUS_INVACC("TX_STATUS_INVACC",34),
+	TX_STATUS_INVACCLSP("TX_STATUS_INVACCLSP",35),
+	TX_STATUS_INVACPEND("TX_STATUS_INVACPEND",36),
+	TX_STATUS_INVACRVKF("TX_STATUS_INVACRVKF",37),
+	TX_STATUS_INVACCLOS("TX_STATUS_INVACCLOS",38),
+	TX_STATUS_INVACCPART("TX_STATUS_INVACCPART",39),
+	TX_STATUS_INVPLAZA("TX_STATUS_INVPLAZA",40),
+	TX_STATUS_INVDATE("TX_STATUS_INVDATE",41),
+	TX_STATUS_INVAGENCY("TX_STATUS_INVAGENCY",42),
+	TX_STATUS_DUPL("TX_STATUS_DUPL",43),
+	TX_STATUS_XLANE("TX_STATUS_XLANE",44),
+	TX_STATUS_POACHING("TX_STATUS_POACHING",45),
+	TX_STATUS_BEYOND("TX_STATUS_BEYOND",46),
+	TX_STATUS_NONVTRX("TX_STATUS_NONVTRX",47),
+	TX_STATUS_OLD3("TX_STATUS_OLD3",48),
+	TX_STATUS_QINVCLASS("TX_STATUS_QINVCLASS",49),
+	TX_STATUS_QINVEDATE("TX_STATUS_QINVEDATE",50),
+	TX_STATUS_QINVXDATE("TX_STATUS_QINVXDATE",51),
+	TX_STATUS_QINVAGENCY("TX_STATUS_QINVAGENCY",52),
+	TX_STATUS_QINVPLAZA("TX_STATUS_QINVPLAZA",53),
+	TX_STATUS_QINVMODE("TX_STATUS_QINVMODE",54),
+	TX_STATUS_QINVTAGGRP("TX_STATUS_QINVTAGGRP",55),
+	TX_STATUS_QNONVTRX("TX_STATUS_QNONVTRX",56),
+	TX_STATUS_QINVTRX("TX_STATUS_QINVTRX",57),
+	TX_STATUS_QNONNUMVAL("TX_STATUS_QNONNUMVAL",58),
+	TX_STATUS_QINVRECLEN("TX_STATUS_QINVRECLEN",59),
+	TX_STATUS_QDISC("TX_STATUS_QDISC",60),
+	TX_STATUS_QIAGREJC("TX_STATUS_QIAGREJC",61),
+	TX_STATUS_MATCHED("TX_STATUS_MATCHED",62),
+	TX_STATUS_UNMATCHED("TX_STATUS_UNMATCHED",63),
+	TX_STATUS_MATCHED_VIOL("TX_STATUS_MATCHED_VIOL",64),
+	TX_STATUS_TANDEM("TX_STATUS_TANDEM",65),
+	TX_STATUS_UNM_POSTED("TX_STATUS_UNM_POSTED",66),
+	TX_STATUS_UNM_DISCARD("TX_STATUS_UNM_DISCARD",67),
+	TX_STATUS_UNM_MAXTOLL("TX_STATUS_UNM_MAXTOLL",68),
+	TX_STATUS_UNM_EXP_DISC("TX_STATUS_UNM_EXP_DISC",69),
+
+
+
+	//--IAG REJECTS (200-299)
+
+
+
+	TX_STATUS_NOCC("TX_STATUS_NOCC",200),
+	TX_STATUS_RJIN("TX_STATUS_RJIN",201),
+	TX_STATUS_RJCX("TX_STATUS_RJCX",202),
+	TX_STATUS_DECL("TX_STATUS_DECL",203),
+	TX_STATUS_NPST("TX_STATUS_NPST",204),
+	TX_STATUS_INSU("TX_STATUS_INSU",205),
+	TX_STATUS_TAGB("TX_STATUS_TAGB",206),
+	TX_STATUS_ACCB("TX_STATUS_ACCB",207),
+	TX_STATUS_RJDP("TX_STATUS_RJDP",208),
+	TX_STATUS_OLD1("TX_STATUS_OLD1",209),
+	TX_STATUS_OLD2("TX_STATUS_OLD2",210),
+	TX_STATUS_RINV("TX_STATUS_RINV",211),
+	TX_STATUS_RJPL("TX_STATUS_RJPL",212),
+	TX_STATUS_ACCC("TX_STATUS_ACCC",213),
+
+
+
+	//--INTERMEDIATE IAG STATUS (500-599)
+	TX_STATUS_CCREQ("TX_STATUS_CCREQ",512);
+
+
+
+
+	private final String name;
+	private final int code;
+
+
+
+	private TxStatus(String name, int code) {
+		this.name = name;
+		this.code = code;
+	}
+	public static TxStatus getByCode(int code)
+	{
+		switch(code)
+		{
+		case 1:
+			return TxStatus.TX_STATUS_ETOL;
+		case 2:
+			return TxStatus.TX_STATUS_VTOL;
+		case 3:
+			return TxStatus.TX_STATUS_UTOL;
+		case 4:
+			return TxStatus.TX_STATUS_MTOL;
+		case 5:
+			return TxStatus.TX_STATUS_PSNT;
+		case 6:
+			return TxStatus.TX_STATUS_PPST;
+		case 7:
+			return TxStatus.TX_STATUS_POST;
+		case 8:
+			return TxStatus.TX_STATUS_NTOL;
+		case 9:
+			return TxStatus.TX_STATUS_ITOL;
+		case 10:
+			return TxStatus.TX_STATUS_VPST;
+		case 11:
+			return TxStatus.TX_STATUS_VIOLTOLL;
+		case 26:
+			return TxStatus.TX_STATUS_TAGINV;
+		case 27:
+			return TxStatus.TX_STATUS_TAGLOST;
+		case 28:
+			return TxStatus.TX_STATUS_TAGSTOLEN;
+		case 29:
+			return TxStatus.TX_STATUS_TAGRETURNED;
+		case 30:
+			return TxStatus.TX_STATUS_TAGDAMAGED;
+		case 31:
+			return TxStatus.TX_STATUS_INVTAG;
+		case 32:
+			return TxStatus.TX_STATUS_INVH;
+		case 33:
+			return TxStatus.TX_STATUS_INVP;
+		case 34:
+			return TxStatus.TX_STATUS_INVACC;
+		case 35:
+			return TxStatus.TX_STATUS_INVACCLSP;
+		case 36:
+			return TxStatus.TX_STATUS_INVACPEND;
+		case 37:
+			return TxStatus.TX_STATUS_INVACRVKF;
+		case 38:
+			return TxStatus.TX_STATUS_INVACCLOS;
+		case 39:
+			return TxStatus.TX_STATUS_INVACCPART;
+		case 40:
+			return TxStatus.TX_STATUS_INVPLAZA;
+		case 41:
+			return TxStatus.TX_STATUS_INVDATE;
+		case 42:
+			return TxStatus.TX_STATUS_INVAGENCY;
+		case 43:
+			return TxStatus.TX_STATUS_DUPL;
+		case 44:
+			return TxStatus.TX_STATUS_XLANE;
+		case 45:
+			return TxStatus.TX_STATUS_POACHING;
+		case 46:
+			return TxStatus.TX_STATUS_BEYOND;
+		case 47:
+			return TxStatus.TX_STATUS_NONVTRX;
+		case 48:
+			return TxStatus.TX_STATUS_OLD3;
+		case 49:
+			return TxStatus.TX_STATUS_QINVCLASS;
+		case 50:
+			return TxStatus.TX_STATUS_QINVEDATE;
+		case 51:
+			return TxStatus.TX_STATUS_QINVXDATE;
+		case 52:
+			return TxStatus.TX_STATUS_QINVAGENCY;
+		case 53:
+			return TxStatus.TX_STATUS_QINVPLAZA;
+		case 54:
+			return TxStatus.TX_STATUS_QINVMODE;
+		case 55:
+			return TxStatus.TX_STATUS_QINVTAGGRP;
+		case 56:
+			return TxStatus.TX_STATUS_QNONVTRX;
+		case 57:
+			return TxStatus.TX_STATUS_QINVTRX;
+		case 58:
+			return TxStatus.TX_STATUS_QNONNUMVAL;
+		case 59:
+			return TxStatus.TX_STATUS_QINVRECLEN;
+		case 60:
+			return TxStatus.TX_STATUS_QDISC;
+		case 61:
+			return TxStatus.TX_STATUS_QIAGREJC;
+		case 62:
+			return TxStatus.TX_STATUS_MATCHED;
+		case 63:
+			return TxStatus.TX_STATUS_UNMATCHED;
+		case 64:
+			return TxStatus.TX_STATUS_MATCHED_VIOL;
+		case 65:
+			return TxStatus.TX_STATUS_TANDEM;
+		case 66:
+			return TxStatus.TX_STATUS_UNM_POSTED;
+		case 67:
+			return TxStatus.TX_STATUS_UNM_DISCARD;
+		case 68:
+			return TxStatus.TX_STATUS_UNM_MAXTOLL;
+		case 69:
+			return TxStatus.TX_STATUS_UNM_EXP_DISC;
+
+
+
+		case 200:
+			return TxStatus.TX_STATUS_NOCC;
+		case 201:
+			return TxStatus.TX_STATUS_RJIN;
+		case 202:
+			return TxStatus.TX_STATUS_RJCX;
+		case 203:
+			return TxStatus.TX_STATUS_DECL;
+		case 204:
+			return TxStatus.TX_STATUS_NPST;
+		case 205:
+			return TxStatus.TX_STATUS_INSU;
+		case 206:
+			return TxStatus.TX_STATUS_TAGB;
+		case 207:
+			return TxStatus.TX_STATUS_ACCB;
+		case 208:
+			return TxStatus.TX_STATUS_RJDP;
+		case 209:
+			return TxStatus.TX_STATUS_OLD1;
+		case 210:
+			return TxStatus.TX_STATUS_OLD2;
+		case 211:
+			return TxStatus.TX_STATUS_RINV;
+		case 212:
+			return TxStatus.TX_STATUS_RJPL;
+		case 213:
+			return TxStatus.TX_STATUS_ACCC;
+		case 512:
+			return TxStatus.TX_STATUS_CCREQ;
+
+
+
+		default:
+			return null;
+		}
+	}
+	public String getName() {
+		return name;
+	}
+
+
+
+	public int getCode() {
+		return code;
+	}
+}

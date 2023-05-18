@@ -1,0 +1,399 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+				<entry key="COMMIT" 
+					value="commit"></entry>
+					
+	            <entry key="GET_FILE_INFO_CONFIGURATION" 
+					value="SELECT SOURCE_DIRECTORY srcDir,
+							PROCESSED_DIRECTORY procDir,
+							UNPROCSSED_DIRECTORY unProcDir,
+							ACK_DIRECTORY ackDir,
+							WORKING_DIRECTORY  workingDir 
+					FROM  
+							TPMS.T_FIELD_MAPPING 
+					WHERE 
+							FILE_TYPE=:FILE_TYPE 
+					AND 
+							AGENCY_ID =:AGENCY_ID
+					AND 
+							FILE_FORMAT =:FILE_FORMAT" />
+				
+				<entry key="GET_FIELD_VALIDATION_DETAILS"
+					value="SELECT FIELD_TYPE, 
+							FIELD_NAME,
+							START_POSITION,
+							END_POSITION,
+							VALIDATION_TYPE,
+							VALIDATION_VALUE,
+							FIELD_INDEX_POSITION,
+							IS_POJO_VALUE 
+					FROM 
+							TPMS.T_FIELD_MAPPING_DETAIL 
+							T_FIELD_MAPPING_DETAIL  
+					INNER JOIN 
+							TPMS.T_FIELD_MAPPING 
+							T_FIELD_MAPPING 
+					ON  
+							T_FIELD_MAPPING_DETAIL.FIELD_MAPPING_PK_ID=T_FIELD_MAPPING.ID 
+					WHERE  
+							AGENCY_ID =:AGENCY_ID 
+					AND 
+							FILE_TYPE='ITAG'
+					ORDER BY 
+							FIELD_INDEX_POSITION"></entry>
+
+
+				<entry key="CHECK_FILE_ALREADY_PROCESSED"
+					value="SELECT COUNT(FILE_NAME) 
+					FROM
+					   		TPMS.T_LANE_TX_CHECKPOINT 
+					WHERE
+					   		FILE_NAME = :FILE_NAME 
+					AND 
+							PROCESS_STATUS = 'C'"></entry>
+							
+							
+				<entry key="GET_AGENCY_ID"
+					value="SELECT AGENCY_ID 
+					FROM 
+							CRM.T_AGENCY 
+					WHERE 
+							FILE_PREFIX=:FILE_PREFIX"></entry>
+							
+				<entry key="INSERT_INTO_FILE_CHECKPOINT" 
+				value="INSERT INTO TPMS.T_LANE_TX_CHECKPOINT 
+							(
+							FILE_NAME,
+							FILE_TYPE,
+							PROCESS_NAME,
+							PROCESS_ID,
+							PROCESS_STATUS,
+							TX_DATE,
+							LANE_TX_ID,
+							SERIAL_NUMBER,
+							FILE_COUNT,
+							PROCESSED_COUNT,
+							SUCCESS_COUNT,
+							EXCEPTION_COUNT,
+							UPDATE_TS
+				) 
+				VALUES
+							(:FILE_NAME,
+							:FILE_TYPE,
+							:PROCESS_NAME,
+							:PROCESS_ID,
+							:PROCESS_STATUS,
+							:TX_DATE,
+							:LANE_TX_ID,
+							:SERIAL_NUMBER,
+							:FILE_COUNT,
+							:PROCESSED_COUNT,
+							:SUCCESS_COUNT,
+							:EXCEPTION_COUNT,
+							:UPDATE_TS)"></entry>
+				
+							
+				<entry key="CHECK_LAST_FILE_PROCESSED_SUCCESSFULLY"
+					value="SELECT FILE_NAME
+					FROM 
+					(SELECT * from TPMS.T_LANE_TX_CHECKPOINT 
+					WHERE 
+						FILE_TYPE=:FILE_TYPE 
+					AND 
+						PROCESS_STATUS='C' 
+					AND 
+						FILE_NAME 
+					LIKE 
+						CONCAT(:FILE_NAME, '%') 
+					ORDER BY 
+						UPDATE_TS DESC) 
+					WHERE ROWNUM &lt; 2"></entry>
+					
+			
+				<!-- <entry key="INSERT_INTO_T_OA_DEVICES"
+					value="INSERT INTO TPMS.T_OA_DEVICES 
+						(DEVICE_NO,
+						START_DATE,
+						END_DATE,
+		            	INVALID_ADDRESS_ID,
+		            	LAST_FILE_TS,
+		            	INFILE_IND,
+						UPDATE_TS,
+						FILE_AGENCY_ID,
+						IAG_TAG_STATUS) 
+				VALUES(:DEVICE_NO,
+						:START_DATE,
+						:END_DATE,
+						:INVALID_ADDRESS_ID,
+						:LAST_FILE_TS,
+						:INFILE_IND,
+						:UPDATE_TS,
+						:F_FROM_AGENCY_ID,
+						:IAG_TAG_STATUS
+				)"></entry> -->
+				
+				<entry key="INSERT_INTO_T_OA_DEVICES"
+					value="INSERT INTO TPMS.T_OA_DEVICES 
+						(DEVICE_NO,
+						TAG_HOME_AGENCY,
+						FILE_AGENCY_ID,
+						TAG_ACCOUNT_NO,
+						TAG_AC_TYPE_IND,
+						TAG_PROTOCOL,
+						TAG_TYPE,
+						TAG_MOUNT,
+						TAG_CLASS,
+						START_DATE,
+						END_DATE,
+						IAG_TAG_STATUS,
+						INFILE_IND,
+						XFER_CONTROL_ID,
+		            	LAST_FILE_TS,
+						UPDATE_TS,
+						DETAILRECORD
+		) 
+				VALUES(:DEVICE_NO,
+						:TAG_HOME_AGENCY,
+						:FILE_AGENCY_ID,
+						:TAG_ACCOUNT_NO,
+						:TAG_AC_TYPE_IND,
+						:TAG_PROTOCOL,
+						:TAG_TYPE,
+						:TAG_MOUNT,
+						:TAG_CLASS,
+						:START_DATE,
+						:END_DATE,
+						:IAG_TAG_STATUS,
+						:INFILE_IND,
+						:XFER_CONTROL_ID,
+						:LAST_FILE_TS,
+						:UPDATE_TS,
+						:DETAILRECORD
+					
+				)"></entry>
+			
+			<!-- <entry key="INSERT_INTO_T_HA_DEVICES"
+					value="INSERT INTO TPMS.T_HA_DEVICES 
+						(DEVICE_NO,
+						START_DATE,
+						END_DATE,
+		            	INVALID_ADDRESS_ID,
+		            	LAST_FILE_TS,
+		            	INFILE_IND,
+						UPDATE_TS,
+						FILE_AGENCY_ID,
+						IAG_TAG_STATUS) 
+				VALUES(:DEVICE_NO,
+						:START_DATE,
+						:END_DATE,
+						:INVALID_ADDRESS_ID,
+						:LAST_FILE_TS,
+						:INFILE_IND,
+						:UPDATE_TS,
+						:F_FROM_AGENCY_ID,
+						:IAG_TAG_STATUS
+				)"></entry> -->
+				
+				<entry key="INSERT_INTO_T_HA_DEVICES"
+			        value="INSERT INTO TPMS.T_HA_DEVICES 
+						(DEVICE_NO,
+						TAG_HOME_AGENCY,
+						FILE_AGENCY_ID,
+						TAG_ACCOUNT_NO,
+						TAG_AC_TYPE_IND,
+						TAG_PROTOCOL,
+						TAG_TYPE,
+						TAG_MOUNT,
+						TAG_CLASS,
+						START_DATE,
+						END_DATE,
+						IAG_TAG_STATUS,
+						INFILE_IND,
+						XFER_CONTROL_ID,
+		            	LAST_FILE_TS,
+						UPDATE_TS,
+						DETAILRECORD
+		) 
+				VALUES(:DEVICE_NO,
+						:TAG_HOME_AGENCY,
+						:FILE_AGENCY_ID,
+						:TAG_ACCOUNT_NO,
+						:TAG_AC_TYPE_IND,
+						:TAG_PROTOCOL,
+						:TAG_TYPE,
+						:TAG_MOUNT,
+						:TAG_CLASS,
+						:START_DATE,
+						:END_DATE,
+						:IAG_TAG_STATUS,
+						:INFILE_IND,
+						:XFER_CONTROL_ID,
+						:LAST_FILE_TS,
+						:UPDATE_TS,
+						:DETAILRECORD
+					
+				)"></entry>
+				<entry key="UPDATE_FILE_STATUS_INTO_CHECKPOINT" 
+					value="Update TPMS.T_LANE_TX_CHECKPOINT 
+					SET 
+						PROCESS_STATUS = :PROCESS_STATUS, 
+						FILE_COUNT=:FILE_COUNT,
+						UPDATE_TS=:UPDATE_TS,
+						PROCESSED_COUNT=:PROCESSED_COUNT,
+						SUCCESS_COUNT=:SUCCESS_COUNT,
+						EXCEPTION_COUNT=:EXCEPTION_COUNT
+					WHERE 
+						FILE_NAME =:FILE_NAME 
+					AND 
+						FILE_TYPE =:FILE_TYPE"></entry>
+						
+				<entry key="SELECT_INFO_FROM_T_AGENCY_AWAY" 
+				value="SELECT AGENCY_ID,
+					  AGENCY_NAME,
+					  AGENCY_SHORT_NAME,
+					  CONSORTIUM,
+					  DEVICE_PREFIX,
+					  IS_HOME_AGENCY,
+					  PARENT_AGENCY_ID,
+					  FILE_PREFIX
+					  FROM 
+					  CRM.T_AGENCY
+					  WHERE AGENCY_ID IN (SELECT PARENT_AGENCY_ID FROM CRM.T_AGENCY)
+					  AND IS_HOME_AGENCY = 'N'
+					  AND CONSORTIUM = 'IAG'
+					 ORDER BY AGENCY_ID">
+				</entry>	
+				
+				<entry key="SELECT_AGENCYID_FROM_T_AGENCY"
+				value="SELECT AGENCY_ID
+					  FROM 
+					  CRM.T_AGENCY
+					  WHERE AGENCY_ID IN (SELECT PARENT_AGENCY_ID FROM CRM.T_AGENCY)
+					  AND IS_HOME_AGENCY = 'N'
+					  AND CONSORTIUM = 'IAG'
+					  AND FILE_PREFIX= :param_name
+					 ORDER BY AGENCY_ID">
+				
+				
+				
+				</entry>
+				
+				<entry key="SELECT_AGENCYID_FROM_T_AGENCY_HOME"
+				value="SELECT AGENCY_ID
+					  FROM 
+					  CRM.T_AGENCY
+					  WHERE AGENCY_ID IN (SELECT PARENT_AGENCY_ID FROM CRM.T_AGENCY)
+					  AND IS_HOME_AGENCY = 'Y'
+					  AND CONSORTIUM = 'IAG'
+					  AND FILE_PREFIX= :param_name
+					 ORDER BY AGENCY_ID">
+				
+				
+				
+				</entry>
+				
+				<entry key="SELECT_INFO_FROM_T_AGENCY_HOME" 
+				value="SELECT AGENCY_ID,
+					  AGENCY_NAME,
+					  AGENCY_SHORT_NAME,
+					  CONSORTIUM,
+					  DEVICE_PREFIX,
+					  IS_HOME_AGENCY,
+					  PARENT_AGENCY_ID,
+					  FILE_PREFIX
+					  FROM 
+					  CRM.T_AGENCY
+					  WHERE AGENCY_ID IN (SELECT PARENT_AGENCY_ID FROM CRM.T_AGENCY)
+					  AND IS_HOME_AGENCY = 'Y'
+					  AND CONSORTIUM = 'IAG'
+					 ORDER BY AGENCY_ID">
+				</entry>	
+					 
+				<entry key="INSERT_FILE_ACK_INTO_ACK_TABLE" 
+				value="INSERT INTO TPMS.T_IA_ACK_STATUS 
+					(
+						ACK_FILE_NAME,
+						ACK_FILE_DATE,
+						ACK_FILE_TIME,
+						ACK_FILE_STATUS,
+						TRX_FILE_NAME,
+						RECON_FILE_NAME,
+						FILE_TYPE,
+						FROM_AGENCY,
+						TO_AGENCY,
+						EXTERN_FILE_ID,
+						ATP_FILE_ID)
+				VALUES 
+					(	
+						:ACK_FILE_NAME,
+						:ACK_FILE_DATE,
+						:ACK_FILE_TIME,
+						:ACK_FILE_STATUS,
+						:TRX_FILE_NAME,
+						:RECON_FILE_NAME,
+						:FILE_TYPE,
+						:FROM_AGENCY,
+						:TO_AGENCY,
+						:EXTERN_FILE_ID,
+						:ATP_FILE_ID)"></entry>
+						
+				<entry key="SELECT_LAST_SUCCESSFUL_FILE_NAME" 
+				value="SELECT 
+					  	FILE_NAME, 
+					  	UPDATE_TS 
+					FROM 
+					  (
+					    SELECT * 
+					FROM 
+					    TPMS.T_LANE_TX_CHECKPOINT 
+					WHERE 
+					    FILE_TYPE =: FILE_TYPE 
+					AND 
+						PROCESS_STATUS = 'C' 
+					AND 
+						FILE_NAME LIKE CONCAT(:FILE_NAME, '%') 
+					ORDER BY 
+					      START_DATE DESC
+					  ) 
+					WHERE 
+					  ROWNUM &lt; 2"></entry>
+					  
+				<entry key="GET_DIFFERENCE_OF_RECORDS"
+					value="select device_prefix,device_serial,tag_status, tag_plan, 'NEW' as filetype
+					from  (select device_prefix, device_serial,tag_status,tag_plan
+					         from TPMS.EXT_AWAYTAG_FILE_NEW minus
+					       select device_prefix,device_serial,tag_status, tag_plan
+					         from TPMS.EXT_AWAYTAG_FILE_OLD ) x
+					union
+					select device_prefix,device_serial,tag_status,tag_plan, 'OLD' as filetype
+					from ( select device_prefix,device_serial,tag_status,tag_plan from TPMS.EXT_AWAYTAG_FILE_OLD
+					    minus
+					       select device_prefix,device_serial,tag_status,tag_plan from TPMS.EXT_AWAYTAG_FILE_NEW) x
+					order by device_prefix,device_serial,filetype desc">
+				</entry>
+				
+				<entry key="SELECT_PROCESS_PARAMETER_THRESHOLD"
+					value="select param_value from master.t_process_parameters where param_name = :param_name">
+				</entry>
+				
+				
+				<entry key="UPDATE_DEVICE_TABLE" 
+				value="update TPMS.T_OA_DEVICES 
+				SET 
+					END_DATE=:END_DATE,
+					UPDATE_TS=:UPDATE_TS,
+					LAST_FILE_TS=:LAST_FILE_TS,
+					IAG_TAG_STATUS=:IAG_TAG_STATUS
+				WHERE 
+					DEVICE_NO=:DEVICE_NO">
+				</entry>
+				
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

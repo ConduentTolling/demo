@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: insert-t-lane-deployment
+spec:
+  selector:
+    matchLabels:
+      app:  insert-t-lane
+  replicas: 1
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate: 
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app:  insert-t-lane
+    spec:
+      containers:
+      - name:  insert-t-lane
+    # enter the path to your image, be sure to include the correct region prefix    
+        image: iad.ocir.io/iddewqtahvnn/tolling_qa_cont_registry:latest
+        env:
+        - name: DB_MASTER_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-security-master
+              key: spring.db.master.username
+        - name: DB_MASTER_PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: db-security-master
+              key: spring.db.master.password
+
+        volumeMounts:
+        - name: nfs
+          mountPath: "/QaOKEFSS/"
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+      imagePullSecrets:
+    # enter the name of the secret you created  
+      - name: ocirsecret
+      dnsConfig:
+        nameservers:
+        - 169.254.169.254
+      volumes:
+      - name: nfs
+        persistentVolumeClaim:
+          claimName: oke-fsspvc1
+          readOnly: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  insert-t-lane
+spec:
+  #type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+    #nodePort: 30016
+  selector:
+    app:  insert-t-lane

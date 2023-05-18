@@ -1,0 +1,164 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+                   <entry key="SELECT_T_RT_QUEUE"
+                   value="select LANE_TX_ID, TX_TYPE from T_RT_QUEUE"></entry>
+                   
+                   <!--  <entry key="SELECT_T_ACCOUNT_TOLL"
+                   value="select lane_tx_id, tx_extern_ref_no, posted_fare_amount, account_agency_id, revenue_date, posted_date, plate_country,
+						plate_state, plate_number,tx_type_ind, tx_status, plan_type_id from fpms.t_account_toll where lane_tx_id=:LANE_TX_ID"></entry> -->
+                   	
+				 <entry key="INSERT_INTO_T_RECONCILIATION"
+                   value="INSERT INTO t_reconciliation (LANE_TX_ID, TX_EXTERN_REF_NO, DEBIT_CREDIT, POSTED_FARE_AMOUNT, ACCOUNT_AGENCY_ID, REVENUE_DATE, POSTED_DATE, TXN_SERIAL_NUMBER, PLATE_COUNTRY, PLATE_STATE, PLATE_NUMBER, TX_STATUS, PLAN_TYPE_ID, PROCESS_STATUS, RECON_TX_STATUS, IS_FINAL_STATE, CREATE_RT, RECON_STATUS_IND, RECON_SUB_CODE_IND, PLAZA_AGENCY_ID, EXTERN_FILE_ID, PLATE_TYPE, UPDATE_TS, DELETE_FLAG) 
+				   VALUES (:laneTxId, :txExternRefNo, :debitCredit, :postedFareAmount, :accountAgencyId, :revenueDate, :postedDate, :trxSerialNumber, :plateCountry, :plateState, :plateNumber, :txStatus, :planTypeId, :processStatus, :reconTxStatus, :isFinalState, :createRt, :reconStatusInd, :reconSubCodeInd, :plazaAgencyId, :externFileId, :plateType, :updateTs, :deleteFlag)"></entry>
+                   
+                <!--  <entry key="SELECT_T_TRAN_DETAIL"
+                  value="select debit_credit, trx_lane_serial from t_tran_detail where lane_tx_id =:LANE_TX_ID"></entry>
+                 -->  
+                   <!-- <entry key="SELECT_T_AGENCY_PENDING_DETAIL"
+                   value="select lane_tx_id,tx_extern_ref_no, posted_fare_amount, account_agency_id, revenue_date, posted_date, plate_country,
+						plate_state, plate_number, tx_type, tx_status, plan_type_id from t_agency_tx_pending where lane_tx_id=:LANE_TX_ID"></entry>
+								
+				  <entry key="SELECT_T_VIOL_TX"
+                   value="select lane_tx_id, tx_extern_ref_no, posted_fare_amount, account_agency_id, revenue_date, posted_date, plate_country,
+						plate_state, plate_number, tx_type_ind, tx_status, plan_type_id from ibts.t_viol_tx where lane_tx_id=:LANE_TX_ID"></entry>
+                   
+                   <entry key="SELECT_T_ENTRY_TX"
+                   value="select lane_tx_id, tx_extern_ref_no, posted_fare_amount, account_agency_id, revenue_date, posted_date, plate_country,
+						plate_state, plate_number,tx_type_ind, tx_status, plan_type_id from T_UNMATCHED_ENTRY_TX where lane_tx_id=:LANE_TX_ID"></entry>
+                   
+                    <entry key="SELECT_T_EXIT_TX"
+                   value="select lane_tx_id, tx_extern_ref_no, posted_fare_amount, account_agency_id, revenue_date, posted_date, plate_country,
+						plate_state, plate_number,tx_type_ind, tx_status, plan_type_id from T_UNMATCHED_EXIT_TX where lane_tx_id=:LANE_TX_ID"></entry> -->
+                   
+                    <entry key="SELECT_T_TRAN_DETAIL"
+                  value="SELECT TD.* FROM T_TRAN_DETAIL TD ,
+							(SELECT * FROM t_rt_checkpoint WHERE TABLE_NAME = 'T_TRAN_DETAIL' AND UPDATE_TS = (SELECT MAX(UPDATE_TS)
+							FROM t_rt_checkpoint WHERE TABLE_NAME = 'T_TRAN_DETAIL') ) C
+							WHERE TD.LANE_TX_ID &gt; C.LANE_TX_ID_TO
+							AND TD.LANE_TX_ID &lt;= C.LANE_TX_ID_TO + 10
+							AND TD.TX_TYPE NOT IN ('C','P','I')
+							ORDER BY  TD.LANE_TX_ID ASC"></entry>
+                  
+                  <!-- value="select * from t_tran_detail where lane_tx_id in (20000151837,20000151836,20000151834,20000072164,20000072165,20000151833)"></entry> -->
+                  
+                  <entry key="SELECT_T_ACCOUNT_TOLL"
+                   value="SELECT * FROM ( SELECT * FROM FPMS.T_ACCOUNT_TOLL
+							WHERE LANE_TX_ID =:LANE_TX_ID
+							ORDER BY UPDATE_TS DESC)
+							WHERE ROWNUM &lt;2"></entry>
+						
+				<entry key="SELECT_T_AGENCY_PENDING_DETAIL"
+                   value="SELECT * FROM ( SELECT * FROM TPMS.T_AGENCY_TX_PENDING
+							WHERE LANE_TX_ID =:LANE_TX_ID
+							ORDER BY UPDATE_TS DESC)
+							WHERE ROWNUM &lt;2"></entry>
+							
+				 <entry key="SELECT_T_VIOL_TX"
+                   value="SELECT * FROM ( SELECT * FROM IBTS.T_VIOL_TX
+							WHERE LANE_TX_ID =:LANE_TX_ID
+							ORDER BY UPDATE_TS DESC)
+							WHERE ROWNUM &lt;2"></entry>
+                   
+                   <entry key="SELECT_T_EXIT_TX"
+                   value="SELECT * FROM ( SELECT * FROM TPMS.t_unmatched_exit_tx
+							WHERE LANE_TX_ID =:LANE_TX_ID
+							ORDER BY UPDATE_TS DESC)
+							WHERE ROWNUM &lt;2"></entry>
+                   
+                    <entry key="SELECT_T_ENTRY_TX"
+                   value="SELECT * FROM ( SELECT * FROM TPMS.t_unmatched_entry_tx
+							WHERE LANE_TX_ID =:LANE_TX_ID
+							ORDER BY UPDATE_TS DESC)
+							WHERE ROWNUM &lt;2"></entry>	
+						
+                  <entry key="INSERT_T_RT_CHECKPOINT"
+                  value="INSERT INTO T_RT_CHECKPOINT (LANE_TX_ID, LANE_TX_ID_TO, TABLE_NAME, UPDATE_TS) 
+					VALUES (:LANE_TX_ID, :LANE_TX_ID_TO, :TABLE_NAME, :UPDATE_TS)"></entry>
+                  
+                  <entry key="GET_RECON_POLICY_INFO"
+                  value="select RECON_TX_STATUS,IS_FINAL_STATE,CREATE_RT from t_lane_tx_recon_policy where code_id=:CODE_ID and plaza_agency_id=:PLAZA_AGENCY_ID and code_type=:CODE_TYPE"></entry>
+                  
+                  
+                   <entry key="GET_RT_MAPPPING_INFO"
+                  value="select RECON_STATUS_IND,RECON_SUB_CODE_IND from t_rt_mapping where PLAZA_AGENCY_ID=:PLAZA_AGENCY_ID and ACCOUNT_AGENCY_ID=:ACCOUNT_AGENCY_ID and PLAN_TYPE=:PLAN_TYPE and RECON_TX_STATUS=:RECON_TX_STATUS"></entry>
+                
+                <entry key="INSERT_T_RT_CHECKPOINT_LASTRUN"
+                  value="INSERT INTO T_RT_CHECKPOINT (LAST_RUN_DATETIME, UPDATE_TS, TABLE_NAME) 
+					VALUES (:LAST_RUN_DATETIME, :UPDATE_TS, :TABLE_NAME)"></entry>
+					
+				<!-- <entry key="GET_RECON_INFO_FOR_UPDATE"
+                   value="select rc.LANE_TX_ID, rc.POSTED_DATE, rc.TX_STATUS,
+							rc.RECON_TX_STATUS, rc.IS_FINAL_STATE, rc.CREATE_RT,rc.RECON_STATUS_IND,
+							rc.RECON_SUB_CODE_IND, rc.PLAZA_AGENCY_ID 
+							from t_reconciliation rc, fpms.t_account_toll at, t_rt_checkpoint rt
+							where rc.LANE_TX_ID = at.LANE_TX_ID
+							and rc.IS_FINAL_STATE = 'F'
+							and at.UPDATE_TS &gt;= rt.LAST_RUN_DATETIME"></entry> -->
+							
+				<entry key="GET_RECON_INFO_FOR_UPDATE"
+                   value="select  rc.* from t_reconciliation rc,
+          					fpms.t_account_toll at
+							where rc.lane_tx_id = at.lane_tx_id
+							and rc.IS_FINAL_STATE = 'F'
+							and at.UPDATE_TS &gt;= (SELECT MAX(LAST_RUN_DATETIME)
+                     		FROM t_rt_checkpoint
+                     		WHERE TABLE_NAME = 'T_RECONCILIATION')
+						UNION ALL
+							select  rc.* from t_reconciliation rc,
+          					TPMS.T_AGENCY_TX_PENDING atp
+							where rc.lane_tx_id = atp.lane_tx_id
+							and rc.IS_FINAL_STATE = 'F'
+							and atp.UPDATE_TS &gt;= (SELECT MAX(LAST_RUN_DATETIME)
+                     		FROM t_rt_checkpoint
+                     		WHERE TABLE_NAME = 'T_RECONCILIATION')
+						UNION ALL
+							select  rc.* from t_reconciliation rc,
+          					IBTS.T_VIOL_TX vt
+							where rc.lane_tx_id = vt.lane_tx_id
+							and rc.IS_FINAL_STATE = 'F'
+							and vt.UPDATE_TS &gt;= (SELECT MAX(LAST_RUN_DATETIME)
+                     		FROM t_rt_checkpoint
+                     		WHERE TABLE_NAME = 'T_RECONCILIATION')
+						UNION ALL
+							select  rc.* from t_reconciliation rc,
+         					TPMS.t_unmatched_exit_tx uxt
+							where rc.lane_tx_id = uxt.lane_tx_id
+							and rc.IS_FINAL_STATE = 'F'
+							and uxt.UPDATE_TS &gt;= (SELECT MAX(LAST_RUN_DATETIME)
+                     		FROM t_rt_checkpoint
+                    	 	WHERE TABLE_NAME = 'T_RECONCILIATION')
+						UNION ALL
+							select  rc.* from t_reconciliation rc,
+         					TPMS.t_unmatched_entry_tx uet
+							where rc.lane_tx_id = uet.lane_tx_id
+							and rc.IS_FINAL_STATE = 'F'
+							and uet.UPDATE_TS &gt;= (SELECT MAX(LAST_RUN_DATETIME)
+                     		FROM t_rt_checkpoint
+                     		WHERE TABLE_NAME = 'T_RECONCILIATION')
+                     	UNION ALL
+							select  rc.* from t_reconciliation rc,
+          					TPMS.T_TRAN_DETAIL tran
+							where rc.lane_tx_id = tran.lane_tx_id
+							and rc.IS_FINAL_STATE = 'F'
+							and tran.UPDATE_TS &gt;= (SELECT MAX(LAST_RUN_DATETIME)
+                     		FROM t_rt_checkpoint
+                     		WHERE TABLE_NAME = 'T_RECONCILIATION')"></entry>
+                
+                <entry key="UPDATE_RECONCILIATION"
+                  value="update TPMS.t_reconciliation set RECON_TX_STATUS=:RECON_TX_STATUS, IS_FINAL_STATE=:IS_FINAL_STATE, POSTED_DATE=:POSTED_DATE, CREATE_RT=:CREATE_RT where LANE_TX_ID=:LANE_TX_ID"></entry>
+			
+			<!-- select to_char(posted_date, 'YYYYMMDDHH24MISS') from t_reconciliation where lane_tx_id = 20000051845; -->
+			<entry key="GET_T_PLAZA"
+					value="SELECT PLAZA_ID,EXTERN_PLAZA_ID,AGENCY_ID,LPR_ENABLED FROM MASTER.T_PLAZA order by plaza_id"></entry>
+					
+			<entry key="GET_ALL_T_LANE"
+					value="select LANE_ID,EXTERN_LANE_ID,PLAZA_ID,LPR_ENABLED from MASTER.T_LANE"></entry>
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

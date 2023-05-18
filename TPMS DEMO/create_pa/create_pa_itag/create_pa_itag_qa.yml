@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: create-pa-itag-deployment
+spec:
+  selector:
+    matchLabels:
+      app:  create-pa-itag
+  replicas: 1
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate: 
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app:  create-pa-itag
+    spec:
+      containers:
+      - name:  create-pa-itag
+    # enter the path to your image, be sure to include the correct region prefix    
+        image: iad.ocir.io/iddewqtahvnn/tolling_qa_cont_registry:latest
+        env:
+        - name: DB_TPMS_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-security-tpms
+              key: spring.db.tpms.username
+        - name: DB_TPMS_PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: db-security-tpms
+              key: spring.db.tpms.password
+
+        volumeMounts:
+        - name: nfs
+          mountPath: "/QaOKEFSS/"
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+      imagePullSecrets:
+    # enter the name of the secret you created  
+      - name: ocirsecret
+      volumes:
+      - name: nfs
+        persistentVolumeClaim:
+          claimName: oke-fsspvc1
+          readOnly: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  create-pa-itag-service
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app:  create-pa-itag

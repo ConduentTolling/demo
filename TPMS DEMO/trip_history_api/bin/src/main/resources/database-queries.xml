@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+			<map>
+					
+				<entry key="GET_TRIP_HISTORY_DETAILS"
+					value="select APD_ID, TRIP_START_DATE, TRIP_END_DATE, RECON_DATE, TRIPS_MADE, TRIPS_CHARGED, LATE_TRIPS, AMOUNT_CHARGED, RECON_FLAG, TRIPS_LEFT, UPDATE_TS, LAST_TX_DATE, USAGE_AMOUNT, FULL_FARE_AMOUNT, DISCOUNTED_AMOUNT, ETC_ACCOUNT_ID, PLAN_TYPE, LAST_LANE_TX_ID, LAST_TX_POST_TIMESTAMP, COMPOSITE_TRANSACTION_ID, CSC_LOOKUP_KEY from T_TRIP_HISTORY"></entry>       
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

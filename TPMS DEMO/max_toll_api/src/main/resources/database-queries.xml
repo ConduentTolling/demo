@@ -1,0 +1,93 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+				<!-- <entry key="GET_DEVICE_STATUS" value="SELECT A.ETC_ACCOUNT_ID etcAccountId, 
+					A.DEVICE_STATUS deviceStatus, A.IS_PREVALIDATED isPrevalidated , A.RETAIL_TAG_STATUS 
+					retailTagStatus FROM CRM.V_DEVICE A WHERE DEVICE_NO = :DEVICE_NUMBER AND 
+					STATUS_TIMESTAMP = (SELECT MAX(STATUS_TIMESTAMP) FROM CRM.V_DEVICE B WHERE 
+					A.DEVICE_NO = B.DEVICE_NO AND STATUS_TIMESTAMP &lt;= NVL(:TX_TIMESTAMP,TO_TIMESTAMP( 
+					'1857-01-01 00:00:00.000' ,'YYYY-MM-DD HH24:MI:SS.FF3'))) "></entry> -->
+				
+			<entry key="GET_INFO_FROM_T_TRAN_DETAIL"
+					value="SELECT LANE_TX_ID , TX_TIMESTAMP as txTimeStamp , TX_DATE , TOLL_REVENUE_TYPE , ACTUAL_CLASS , PLAZA_AGENCY_ID , PLAN_TYPE , LANE_ID , PLAZA_ID, RECIPROCITY_TRX ,TX_SUB_TYPE,DEVICE_NO,ENTRY_PLAZA_ID from TPMS.T_TRAN_DETAIL where LANE_TX_ID = :LANE_TX_ID">
+			</entry>
+
+			<entry key="GET_SESSION_ID_INFO"
+					value="select p.plaza_id, p.agency_id, l.section_id,v.scheduled_pricing_flag	
+                from master.t_plaza p ,master.t_lane l, crm.v_agency v
+                where v.agency_id = p.agency_id
+                and  p.plaza_id = l.plaza_id
+                and  LANE_ID = :LANE_ID">
+			</entry>
+
+			<entry key="GET_TERMINAL_INFO"
+					value="SELECT * from MASTER.T_HIGHWAY_SECTION where SECTION_ID = :SECTION_ID">
+			</entry>
+
+			<entry key="GET_T_AGENCY_HOLIDAY"
+					value="SELECT * FROM MASTER.T_AGENCY_HOLIDAY
+							WHERE AGENCY_ID = :AGENCY_ID AND HOLIDAY = :TX_DATE">
+			</entry>
+
+			<entry key="GET_PRICE_SCHEDULE_ID"
+					value = " select price_schedule_id from tpms.t_toll_price_schedule
+                   where agency_id = :PLAZA_AGENCY_ID
+                   and effective_date &lt;= (:EFFECTIVE_DATE)  
+                   and expiry_date &gt;= (:EXPIRY_DATE)
+                   and days_ind = :DAYS_IND
+                   and start_time &lt;= (:START_TIME)
+                   and end_time &lt;= (:END_TIME) AND ROWNUM &lt; 2 ">
+			</entry>
+
+			<entry key="GET_PRICE_SCHEDULE_ID"
+						value=" SELECT P.PRICE_SCHEDULE_ID 
+								FROM MASTER.T_TOLL_PRICE_SCHEDULE P								
+								WHERE P.EFFECTIVE_DATE &lt;= TO_DATE(:TX_DATE,'yyyy-mm-dd')
+								AND P.EXPIRY_DATE &gt;= TO_DATE(:TX_DATE,'yyyy-mm-dd')
+								AND P.DAYS_IND = :DAYS_IND
+								AND P.AGENCY_ID = :AGENCY_ID
+								AND TO_DATE('18nov1900' || P.START_TIME, 'ddmonyyyy hh24:mi:ss') &lt;= TO_DATE('18nov1900' || :START_TIME, 'ddmonyyyy hh24:mi:ss')
+								AND TO_DATE('18nov1900' || P.END_TIME, 'ddmonyyyy hh24:mi:ss') &gt;= TO_DATE('18nov1900' || :START_TIME, 'ddmonyyyy hh24:mi:ss')
+								AND ROWNUM &lt; 2 ">
+				</entry>
+
+
+
+			<entry key="GET_DISCOUNTED_AMOUNT"
+					value = " select discount_fare
+                from master.t_toll_schedule
+                where effective_date &lt;= :EFFECTIVE_DATE 			
+                and expiry_date &gt;= :EXPIRY_DATE
+                and plaza_id = :PLAZA_ID							
+                and entry_plaza_id = :TERMINAL_PLAZA				
+                and vehicle_class = :ACTUAL_CLASS						
+                and revenue_type_id = :TOLL_REVENUE_TYPE					
+                and price_schedule_id = :PRICE_SCHEDULE_ID						
+                and plan_type_id = :PLAN_TYPE ">
+			</entry>
+			
+			<entry key="GET_FULL_FARE_AMOUNT"
+					value = " select full_fare
+                from master.t_toll_schedule
+                where effective_date &lt;= :EFFECTIVE_DATE 			
+                and expiry_date &gt;= :EXPIRY_DATE
+                and plaza_id = :PLAZA_ID							
+                and entry_plaza_id = :TERMINAL_PLAZA				
+                and vehicle_class = :ACTUAL_CLASS						
+                and revenue_type_id = :TOLL_REVENUE_TYPE					
+                and price_schedule_id = :PRICE_SCHEDULE_ID						
+                and plan_type_id = :PLAN_TYPE ">
+			</entry>
+			
+	<entry key="GET_TRNX_INFO"
+					value="SELECT * from TPMS.T_TRAN_DETAIL where LANE_TX_ID =:LANE_TX_ID">
+			</entry>
+
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

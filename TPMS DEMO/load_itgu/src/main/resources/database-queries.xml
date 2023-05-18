@@ -1,0 +1,283 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+				<entry key="COMMIT" 
+					value="commit"></entry>
+					
+	            <entry key="GET_FILE_INFO_CONFIGURATION" 
+					value="SELECT SOURCE_DIRECTORY srcDir,
+							PROCESSED_DIRECTORY procDir,
+							UNPROCSSED_DIRECTORY unProcDir,
+							ACK_DIRECTORY ackDir,
+							WORKING_DIRECTORY  workingDir 
+					FROM  
+							TPMS.T_FIELD_MAPPING 
+					WHERE 
+							FILE_TYPE=:FILE_TYPE 
+					AND 
+							AGENCY_ID =:AGENCY_ID
+					AND 
+							FILE_FORMAT =:FILE_FORMAT" />
+				
+				<entry key="GET_FIELD_VALIDATION_DETAILS"
+					value="SELECT FIELD_TYPE, 
+							FIELD_NAME,
+							START_POSITION,
+							END_POSITION,
+							VALIDATION_TYPE,
+							VALIDATION_VALUE,
+							FIELD_INDEX_POSITION,
+							IS_POJO_VALUE 
+					FROM 
+							TPMS.T_FIELD_MAPPING_DETAIL 
+							T_FIELD_MAPPING_DETAIL  
+					INNER JOIN 
+							TPMS.T_FIELD_MAPPING 
+							T_FIELD_MAPPING 
+					ON  
+							T_FIELD_MAPPING_DETAIL.FIELD_MAPPING_PK_ID=T_FIELD_MAPPING.ID 
+					WHERE  
+							AGENCY_ID =:AGENCY_ID 
+					AND 
+							FILE_TYPE='ITGU'
+					ORDER BY 
+							FIELD_INDEX_POSITION"></entry>
+
+
+				<entry key="CHECK_FILE_ALREADY_PROCESSED"
+					value="SELECT COUNT(FILE_NAME) 
+					FROM
+					   		TPMS.T_LANE_TX_CHECKPOINT 
+					WHERE
+					   		FILE_NAME = :FILE_NAME 
+					AND 
+							PROCESS_STATUS = 'C'"></entry>
+							
+							
+				<entry key="GET_AGENCY_ID"
+					value="SELECT AGENCY_ID 
+					FROM 
+							CRM.T_AGENCY 
+					WHERE 
+							FILE_PREFIX=:FILE_PREFIX"></entry>
+							
+				<entry key="INSERT_INTO_FILE_CHECKPOINT" 
+				value="INSERT INTO TPMS.T_LANE_TX_CHECKPOINT 
+							(
+							FILE_NAME,
+							FILE_TYPE,
+							PROCESS_NAME,
+							PROCESS_ID,
+							PROCESS_STATUS,
+							TX_DATE,
+							LANE_TX_ID,
+							SERIAL_NUMBER,
+							FILE_COUNT,
+							PROCESSED_COUNT,
+							SUCCESS_COUNT,
+							EXCEPTION_COUNT,
+							UPDATE_TS
+				) 
+				VALUES
+							(:FILE_NAME,
+							:FILE_TYPE,
+							:PROCESS_NAME,
+							:PROCESS_ID,
+							:PROCESS_STATUS,
+							:TX_DATE,
+							:LANE_TX_ID,
+							:SERIAL_NUMBER,
+							:FILE_COUNT,
+							:PROCESSED_COUNT,
+							:SUCCESS_COUNT,
+							:EXCEPTION_COUNT,
+							:UPDATE_TS)"></entry>
+					
+				<entry key="INSERT_INTO_T_OA_DEVICES"
+					value="INSERT INTO TPMS.T_OA_DEVICES 
+						(DEVICE_NO,
+						TAG_HOME_AGENCY,
+						FILE_AGENCY_ID,
+						TAG_ACCOUNT_NO,
+						TAG_AC_TYPE_IND,
+						TAG_PROTOCOL,
+						TAG_TYPE,
+						TAG_MOUNT,
+						TAG_CLASS,
+						START_DATE,
+						END_DATE,
+						IAG_TAG_STATUS,
+						INFILE_IND,
+						XFER_CONTROL_ID,
+		            	LAST_FILE_TS,
+						UPDATE_TS,
+						DETAILRECORD
+		) 
+				VALUES(:DEVICE_NO,
+						:TAG_HOME_AGENCY,
+						:FILE_AGENCY_ID,
+						:TAG_ACCOUNT_NO,
+						:TAG_AC_TYPE_IND,
+						:TAG_PROTOCOL,
+						:TAG_TYPE,
+						:TAG_MOUNT,
+						:TAG_CLASS,
+						:START_DATE,
+						:END_DATE,
+						:IAG_TAG_STATUS,
+						:INFILE_IND,
+						:XFER_CONTROL_ID,
+						:LAST_FILE_TS,
+						:UPDATE_TS,
+						:DETAILRECORD
+					
+				)"></entry>
+			
+				<entry key="UPDATE_FILE_STATUS_INTO_CHECKPOINT" 
+					value="Update TPMS.T_LANE_TX_CHECKPOINT 
+					SET 
+						PROCESS_STATUS = :PROCESS_STATUS, 
+						FILE_COUNT=:FILE_COUNT,
+						UPDATE_TS=:UPDATE_TS,
+						PROCESSED_COUNT=:PROCESSED_COUNT,
+						SUCCESS_COUNT=:SUCCESS_COUNT,
+						EXCEPTION_COUNT=:EXCEPTION_COUNT
+					WHERE 
+						FILE_NAME =:FILE_NAME 
+					AND 
+						FILE_TYPE =:FILE_TYPE"></entry>
+						
+				<entry key="SELECT_INFO_FROM_T_AGENCY_AWAY" 
+				value="SELECT AGENCY_ID,
+					  AGENCY_NAME,
+					  AGENCY_SHORT_NAME,
+					  CONSORTIUM,
+					  DEVICE_PREFIX,
+					  IS_HOME_AGENCY,
+					  PARENT_AGENCY_ID,
+					  FILE_PREFIX
+					  FROM 
+					  CRM.T_AGENCY
+					  WHERE AGENCY_ID IN (SELECT PARENT_AGENCY_ID FROM CRM.T_AGENCY)
+					  AND IS_HOME_AGENCY = 'N'
+					  AND CONSORTIUM = 'IAG'
+					 ORDER BY AGENCY_ID">
+				</entry>	
+				
+				<entry key="SELECT_INFO_FROM_T_AGENCY_HOME" 
+				value="SELECT AGENCY_ID,
+					  AGENCY_NAME,
+					  AGENCY_SHORT_NAME,
+					  CONSORTIUM,
+					  DEVICE_PREFIX,
+					  IS_HOME_AGENCY,
+					  PARENT_AGENCY_ID,
+					  FILE_PREFIX
+					  FROM 
+					  CRM.T_AGENCY
+					  WHERE AGENCY_ID IN (SELECT PARENT_AGENCY_ID FROM CRM.T_AGENCY)
+					  AND IS_HOME_AGENCY = 'Y'
+					  AND CONSORTIUM = 'IAG'
+					 ORDER BY AGENCY_ID">
+				</entry>	
+					 
+				<entry key="INSERT_FILE_ACK_INTO_ACK_TABLE" 
+				value="INSERT INTO TPMS.T_IA_ACK_STATUS 
+					(
+						ACK_FILE_NAME,
+						ACK_FILE_DATE,
+						ACK_FILE_TIME,
+						ACK_FILE_STATUS,
+						TRX_FILE_NAME,
+						RECON_FILE_NAME,
+						FILE_TYPE,
+						FROM_AGENCY,
+						TO_AGENCY,
+						EXTERN_FILE_ID,
+						ATP_FILE_ID)
+				VALUES 
+					(	
+						:ACK_FILE_NAME,
+						:ACK_FILE_DATE,
+						:ACK_FILE_TIME,
+						:ACK_FILE_STATUS,
+						:TRX_FILE_NAME,
+						:RECON_FILE_NAME,
+						:FILE_TYPE,
+						:FROM_AGENCY,
+						:TO_AGENCY,
+						:EXTERN_FILE_ID,
+						:ATP_FILE_ID)"></entry>
+				
+				
+				<entry key="UPDATE_DEVICE_TABLE" 
+				value="update TPMS.T_OA_DEVICES 
+				SET 
+					END_DATE=:END_DATE,
+					UPDATE_TS=:UPDATE_TS,
+					LAST_FILE_TS=:LAST_FILE_TS,
+					IAG_TAG_STATUS=:IAG_TAG_STATUS
+				WHERE 
+					DEVICE_NO=:DEVICE_NO">
+				</entry>
+				
+				<!-- and rownum  &lt; 2 -->
+				<entry key="CHECK_IF_DEVICE_NO_EXISTS_IN_TABLE" 
+				value="select * from (select * from TPMS.T_OA_DEVICES 
+				WHERE DEVICE_NO=:DEVICE_NO 
+			     order by start_date desc) WHERE ROWNUM &lt; 2 ">
+				</entry>
+				
+				<entry key="UPDATE_T_OA_DEVICES_OLD" 
+				value="update TPMS.T_OA_DEVICES 
+				SET
+				TAG_HOME_AGENCY=:TAG_HOME_AGENCY,
+				TAG_ACCOUNT_NO=:TAG_ACCOUNT_NO,
+				TAG_AC_TYPE_IND=:TAG_AC_TYPE_IND,
+				TAG_PROTOCOL=:TAG_PROTOCOL,
+				TAG_TYPE=:TAG_TYPE,
+				TAG_MOUNT=:TAG_MOUNT,
+				TAG_CLASS=:TAG_CLASS,
+				IAG_TAG_STATUS=:IAG_TAG_STATUS,
+				XFER_CONTROL_ID=:XFER_CONTROL_ID,
+				UPDATE_TS =:UPDATE_TS
+				WHERE 
+					DEVICE_NO=:DEVICE_NO">
+				</entry>
+				
+				
+				<entry key="UPDATE_T_OA_DEVICES" 
+				value="update TPMS.T_OA_DEVICES 
+				SET
+				TAG_HOME_AGENCY=:TAG_HOME_AGENCY,
+				TAG_ACCOUNT_NO=:TAG_ACCOUNT_NO,
+				TAG_AC_TYPE_IND=:TAG_AC_TYPE_IND,
+				TAG_PROTOCOL=:TAG_PROTOCOL,
+				TAG_TYPE=:TAG_TYPE,
+				TAG_MOUNT=:TAG_MOUNT,
+				TAG_CLASS=:TAG_CLASS,
+				IAG_TAG_STATUS=:IAG_TAG_STATUS,
+				XFER_CONTROL_ID=:XFER_CONTROL_ID,
+				UPDATE_TS =:UPDATE_TS
+				WHERE 
+					DEVICE_NO=:DEVICE_NO">
+				</entry>
+				
+				
+				
+				<entry key="GET_LATEST_DATE_TIME_VALUE" 
+				value="select FILE_DATE , FILE_TIME_STRING from (select * from TPMS.T_INTER_AGENCY_FILE_XFER order by update_ts desc) WHERE ROWNUM &lt; 2">
+				</entry>
+				
+				<entry key = "GET_AGENCY_ID"
+				value = "SELECT AGENCY_ID from CRM.V_AGENCY where DEVICE_PREFIX=:DEVICE_PREFIX">
+				</entry>
+				
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

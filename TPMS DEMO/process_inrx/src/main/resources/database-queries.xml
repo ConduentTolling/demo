@@ -1,0 +1,303 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+				
+				<entry key="GET_FILE_INFO_CONFIGURATION" 
+					value="SELECT SOURCE_DIRECTORY srcDir,
+							PROCESSED_DIRECTORY procDir,
+							UNPROCSSED_DIRECTORY unProcDir,
+							ACK_DIRECTORY ackDir,
+							WORKING_DIRECTORY  workingDir 
+					FROM  
+							T_FIELD_MAPPING 
+					WHERE 
+							FILE_TYPE=:FILE_TYPE 
+					AND 
+							AGENCY_ID =:AGENCY_ID
+					AND 
+							FILE_FORMAT =:FILE_FORMAT" />
+					
+<!-- 	            <entry key="GET_FILE_INFO_CONFIGURATION" 
+					value="SELECT SOURCE_DIRECTORY srcDir,
+							PROCESSED_DIRECTORY procDir,
+							UNPROCSSED_DIRECTORY unProcDir,
+							ACK_DIRECTORY ackDir,
+							WORKING_DIRECTORY  workingDir 
+					FROM  
+							T_QATP_MAPPING 
+					WHERE 
+							FILE_TYPE=:FILE_TYPE 
+					AND 
+							T_AGENCY_ID =:T_AGENCY_ID
+					AND 
+							FILE_FORMAT =:FILE_FORMAT" /> -->
+				
+				
+						
+						<entry key="GET_IRXN_FIELD_VALIDATION_DETAILS"
+					value="SELECT FIELD_TYPE, 
+							FIELD_NAME,
+							START_POSITION,
+							END_POSITION,
+							VALIDATION_TYPE,
+							VALIDATION_VALUE,
+							FIELD_INDEX_POSITION,
+							IS_POJO_VALUE 
+					FROM 
+							T_FIELD_MAPPING_DETAIL 
+							T_FIELD_MAPPING_DETAIL  
+					INNER JOIN 
+							T_FIELD_MAPPING 
+							T_FIELD_MAPPING 
+					ON  
+							T_FIELD_MAPPING_DETAIL.FIELD_MAPPING_PK_ID=T_FIELD_MAPPING.ID 
+					WHERE  
+							AGENCY_ID =:AGENCY_ID 
+					AND 
+							FILE_TYPE='IRXN'
+					ORDER BY 
+							FIELD_INDEX_POSITION"></entry>	
+							
+				<entry key="GET_INRX_FIELD_VALIDATION_DETAILS"
+					value="SELECT FIELD_TYPE, 
+							FIELD_NAME,
+							START_POSITION,
+							END_POSITION,
+							VALIDATION_TYPE,
+							VALIDATION_VALUE,
+							FIELD_INDEX_POSITION,
+							IS_POJO_VALUE 
+					FROM 
+							T_FIELD_MAPPING_DETAIL 
+							T_FIELD_MAPPING_DETAIL  
+					INNER JOIN 
+							T_FIELD_MAPPING 
+							T_FIELD_MAPPING 
+					ON  
+							T_FIELD_MAPPING_DETAIL.FIELD_MAPPING_PK_ID=T_FIELD_MAPPING.ID 
+					WHERE  
+							AGENCY_ID =:AGENCY_ID 
+					AND 
+							FILE_TYPE='INRX'
+					ORDER BY 
+							FIELD_INDEX_POSITION"></entry>			
+
+
+				<entry key="INSERT_INTO_FILE_CHECKPOINT" 
+				value="INSERT INTO T_LANE_TX_CHECKPOINT 
+							(
+							FILE_NAME,
+							FILE_TYPE,
+							PROCESS_NAME,
+							PROCESS_ID,
+							PROCESS_STATUS,
+							TX_DATE,
+							LANE_TX_ID,
+							SERIAL_NUMBER,
+							FILE_COUNT,
+							PROCESSED_COUNT,
+							SUCCESS_COUNT,
+							EXCEPTION_COUNT,
+							UPDATE_TS
+				) 
+				VALUES
+							(:FILE_NAME,
+							:FILE_TYPE,
+							:PROCESS_NAME,
+							:PROCESS_ID,
+							:PROCESS_STATUS,
+							:TX_DATE,
+							:LANE_TX_ID,
+							:SERIAL_NUMBER,
+							:FILE_COUNT,
+							:PROCESSED_COUNT,
+							:SUCCESS_COUNT,
+							:EXCEPTION_COUNT,
+							:UPDATE_TS)"></entry>
+							
+				<entry key="CHECK_FILE_DOWNLOADED" 
+					value="SELECT XFER_CONTROL_ID, XFER_FILE_ID, XFER_FILE_NAME, DATE_CREATED, 
+					TIME_CREATED, FILE_SIZE, FILE_CHECKSUM, NUM_RECS, HASH_TOTAL, XFER_PATH,
+					 XFER_XMIT_STATUS, XFER_RETRY, UPDATE_TS, FILE_TYPE
+					FROM 
+						T_XFER_CONTROL 
+					WHERE 
+							XFER_FILE_NAME=:XFER_FILE_NAME 
+					AND 
+							XFER_XMIT_STATUS=:XFER_XMIT_STATUS"></entry>			
+ 							
+			
+			<!-- 	<entry key="CHECK_LAST_FILE_PROCESSED_SUCCESSFULLY"
+					value="SELECT FILE_NAME
+					FROM 
+					(SELECT * from T_LANE_TX_CHECKPOINT 
+					WHERE 
+						FILE_TYPE=:FILE_TYPE 
+					AND 
+						PROCESS_STATUS='C' 
+					AND 
+						FILE_NAME 
+					LIKE 
+						CONCAT(:FILE_NAME, '%') 
+					ORDER BY 
+						UPDATE_TS DESC) 
+					WHERE ROWNUM &lt; 2"></entry> -->
+					
+			
+				<entry key="INSERT_INTO_T_QATP_STATSTICS"
+					value="INSERT INTO T_QATP_STATSTICS 
+						(FILE_TYPE,
+						FILE_NAME,
+						INSERT_DATE,
+						INSERT_TIME,
+						RECORD_COUNT,
+						AMOUNT,
+						IS_PROCESSED,
+						PROCESS_DATE,
+						PROCESS_TIME,
+						PROCESS_REC_COUNT,
+						UPDATE_TS) 
+				VALUES(	:FILE_TYPE,
+						:FILE_NAME,
+						:INSERT_DATE,
+						:INSERT_TIME,
+						:RECORD_COUNT,
+						:AMOUNT,
+						:IS_PROCESSED,
+						:PROCESS_DATE,
+						:PROCESS_TIME,
+						:PROCESS_REC_COUNT,
+						:UPDATE_TS
+				)"></entry>
+			
+			<entry key="UPDATE_ADDRESS_ID_IN_T_QATP_STATSTICS"
+			value="update INVALID_ADDRESS_ID
+			SET
+				INVALID_ADDRESS_ID:=INVALID_ADDRESS_ID
+				"></entry>
+				
+				<entry key="UPDATE_FILE_STATUS_INTO_CHECKPOINT" 
+					value="Update T_LANE_TX_CHECKPOINT 
+					SET 
+						PROCESS_STATUS = :PROCESS_STATUS, 
+						FILE_COUNT=:FILE_COUNT,
+						UPDATE_TS=:UPDATE_TS,
+						PROCESSED_COUNT=:PROCESSED_COUNT,
+						SUCCESS_COUNT=:SUCCESS_COUNT,
+						EXCEPTION_COUNT=:EXCEPTION_COUNT
+					WHERE 
+						FILE_NAME =:FILE_NAME 
+					AND 
+						FILE_TYPE =:FILE_TYPE"></entry>
+						
+				
+				<entry key="SELECT_INFO_FROM_T_AGENCY" 
+				value="SELECT AGENCY_ID,
+					  AGENCY_NAME,
+					  AGENCY_SHORT_NAME,
+					  CONSORTIUM,
+					  DEVICE_PREFIX,
+					  IS_HOME_AGENCY,
+					  PARENT_AGENCY_ID,
+					  FILE_PREFIX
+					  FROM 
+					  CRM.T_AGENCY
+					  WHERE AGENCY_ID IN (SELECT PARENT_AGENCY_ID FROM CRM.T_AGENCY)
+					  AND IS_HOME_AGENCY = 'N'
+					  AND CONSORTIUM = 'IAG'
+					  AND DEVICE_PREFIX &gt;'100'
+					 ORDER BY AGENCY_ID"></entry>
+				
+				
+
+				<entry key="INSERT_FILE_ACK_INTO_ACK_TABLE" 
+				value="INSERT INTO T_IA_ACK_STATUS 
+					(
+						ACK_FILE_NAME,
+						ACK_FILE_DATE,
+						ACK_FILE_TIME,
+						ACK_FILE_STATUS,
+						TRX_FILE_NAME,
+						RECON_FILE_NAME,
+						FILE_TYPE,
+						FROM_AGENCY,
+						TO_AGENCY,
+						EXTERN_FILE_ID,
+						ATP_FILE_ID)
+				VALUES 
+					(	
+						:ACK_FILE_NAME,
+						:ACK_FILE_DATE,
+						:ACK_FILE_TIME,
+						:ACK_FILE_STATUS,
+						:TRX_FILE_NAME,
+						:RECON_FILE_NAME,
+						:FILE_TYPE,
+						:FROM_AGENCY,
+						:TO_AGENCY,
+						:EXTERN_FILE_ID,
+						:ATP_FILE_ID)"></entry>
+					
+					<entry key = "INSERT_ADDRESS_ID_INTO_ADDRESS"
+					value="INSERT INTO T_OA_ADDRESS
+						(
+							INVALID_ADDRESS_ID   
+						)
+						VALUES
+						(
+							INAVLID_ADDRESS_ID
+							
+						)"></entry>
+						
+				<!-- <entry key="SELECT_LAST_SUCCESSFUL_FILE_NAME" 
+				value="SELECT 
+					  	FILE_NAME, 
+					  	UPDATE_TS 
+					FROM 
+					  (
+					    SELECT * 
+					FROM 
+					    T_LANE_TX_CHECKPOINT 
+					WHERE 
+					    FILE_TYPE =: FILE_TYPE 
+					AND 
+						PROCESS_STATUS = 'C' 
+					AND 
+						FILE_NAME LIKE CONCAT(:FILE_NAME, '%') 
+					ORDER BY 
+					      START_DATE DESC
+					  ) 
+					WHERE 
+					  ROWNUM &lt; 2"></entry> -->
+				
+				<entry key="GET_T_CODES" value="SELECT * FROM MASTER.T_CODES WHERE CODE_TYPE='TX_STATUS'"></entry>
+				
+				<entry key="GET_V_POLICY" value="SELECT * FROM CRM.V_PLAN_POLICY"></entry>
+				
+				<entry key="GET_T_XFER_CONTROL"
+					value="SELECT XFER_CONTROL_ID, DATE_CREATED FROM MASTER.T_XFER_CONTROL WHERE XFER_CONTROL_ID=:XFER_CONTROL_ID">
+				</entry>
+				
+				<entry key="GET_SYS_ACCOUNT" value="SELECT * FROM MASTER.T_PROCESS_PARAMETERS WHERE PARAM_NAME='IAG_AGENCY_SYS_ACCOUNT_ID' ORDER BY 1"></entry>
+			
+			<entry key="GET_T_PLAZA"
+			value="SELECT PLAZA_ID,EXTERN_PLAZA_ID,AGENCY_ID ,REVENUE_TIME ,PLAZA_GROUP ,PLAZA_TYPE_IND ,CALCULATE_TOLL_AMOUNT,LPR_ENABLED FROM MASTER.T_PLAZA"></entry>
+			
+			<entry key="INSERT_DATA_INTO_AWAY_AGENCY_TABLE"
+	value="INSERT INTO TPMS.T_AWAY_AGENCY_TX(LANE_TX_ID,ETC_ACCOUNT_ID,TX_STATUS,TX_DATE,POSTED_DATE,DEPOSIT_ID,TX_TIMESTAMP,REVENUE_DATE,TX_EXTERN_REF_NO,EXTERN_FILE_ID,PLAZA_AGENCY_ID,PLAZA_ID,LANE_ID,DEVICE_NO,PLATE_COUNTRY,PLATE_NUMBER,PLATE_STATE,UPDATE_TS,ROW_ID)
+	VALUES(:LANE_TX_ID,:ETC_ACCOUNT_ID,:TX_STATUS,:TX_DATE,:POSTED_DATE,:DEPOSIT_ID,:TX_TIMESTAMP,:REVENUE_DATE,:TX_EXTERN_REF_NO,:EXTERN_FILE_ID,:PLAZA_AGENCY_ID,:PLAZA_ID,:LANE_ID,:DEVICE_NO,:PLATE_COUNTRY,:PLATE_NUMBER,:PLATE_STATE,:UPDATE_TS,:ROW_ID)"></entry>
+				
+			<entry key="UPDATE_DATA_INTO_AWAY_AGENCY_TABLE"
+	value="Update TPMS.T_AWAY_AGENCY_TX 
+					SET 
+						TX_STATUS=:TX_STATUS
+					WHERE 
+						LANE_TX_ID = :LANE_TX_ID"></entry>
+				</map>
+		</constructor-arg>
+	</bean>
+</beans>

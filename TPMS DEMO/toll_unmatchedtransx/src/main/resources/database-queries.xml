@@ -1,0 +1,538 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+				<!-- <entry key="GET_DEVICE_STATUS" value="SELECT A.ETC_ACCOUNT_ID etcAccountId, 
+					A.DEVICE_STATUS deviceStatus, A.IS_PREVALIDATED isPrevalidated , A.RETAIL_TAG_STATUS 
+					retailTagStatus FROM CRM.V_DEVICE A WHERE DEVICE_NO = :DEVICE_NUMBER AND 
+					STATUS_TIMESTAMP = (SELECT MAX(STATUS_TIMESTAMP) FROM CRM.V_DEVICE B WHERE 
+					A.DEVICE_NO = B.DEVICE_NO AND STATUS_TIMESTAMP &lt;= NVL(:TX_TIMESTAMP,TO_TIMESTAMP( 
+					'1857-01-01 00:00:00.000' ,'YYYY-MM-DD HH24:MI:SS.FF3'))) "></entry> -->
+				<entry key="GET_DEVICE_STATUS"
+					value="SELECT A.ETC_ACCOUNT_ID etcAccountId,STATUS_TIMESTAMP,A.DEVICE_STATUS deviceStatus,A.IS_PREVALIDATED isPrevalidated ,A.RETAIL_TAG_STATUS retailTagStatus	FROM CRM.V_DEVICE A	WHERE DEVICE_NO = :DEVICE_NUMBER AND STATUS_TIMESTAMP = (SELECT MAX(STATUS_TIMESTAMP) FROM CRM.V_DEVICE B WHERE A.DEVICE_NO = B.DEVICE_NO AND STATUS_TIMESTAMP &lt;= :TX_TIMESTAMP)"></entry>
+
+
+				<entry key="GET_ACCOUNT_INFO"
+					value="SELECT 	
+      		              A.POST_PAID_STATUS postPaidStatus, 
+             A.PRIMARY_REBILL_PAY_TYPE primaryRebillPayType, 
+                          A.ACCT_ACT_STATUS acctActStatus     FROM 
+      		 CRM.V_ETC_ACCOUNT A 
+      WHERE 
+      		 A.ETC_ACCOUNT_ID =:ETC_ACCOUNT_ID AND A.OPEN_DATE &lt;= NVL(TO_DATE(:TX_DATE,'YYYY-MM-DD'),TO_DATE('1857-01-01','YYYY-MM-DD'))"></entry>
+
+				<entry key="GET_H_DEVICE_STATUS"
+					value="SELECT Y.ETC_ACCOUNT_ID etcAccountId, 
+           Y.DEVICE_STATUS deviceStatus
+     FROM ( SELECT X.ETC_ACCOUNT_ID, 
+                   X.DEVICE_STATUS
+              FROM ( SELECT  NVL(ETC_ACCOUNT_ID,0) AS ETC_ACCOUNT_ID, 
+                             NVL(DEVICE_STATUS,0) AS DEVICE_STATUS
+                	  FROM CRM.V_H_DEVICE 
+                	  WHERE DEVICE_NO =  :DEVICE_NUMBER
+                        AND STATUS_TIMESTAMP &lt; :TX_TIMESTAMP 
+                       ORDER BY STATUS_TIMESTAMP DESC
+                	) X    
+        			WHERE ROWNUM &lt; 2 
+         ) Y 
+    WHERE ( NOT EXISTS (SELECT 1 
+                          FROM CRM.V_DEVICE 
+                         WHERE DEVICE_NO = :DEVICE_NUMBER    
+                           AND STATUS_TIMESTAMP &lt; :TX_TIMESTAMP
+                        )                             		
+          )"></entry>
+
+				<entry key="FIND_DEVICE_AWAY"
+					value="SELECT T.IAG_TAG_STATUS  iagTagStatus
+        FROM (SELECT IAG_TAG_STATUS FROM TPMS.T_OA_DEVICES 
+			   WHERE DEVICE_NO = :DEVICE_NUMBER
+			     AND START_DATE &lt;= NVL(:TX_TIMESTAMP,TO_TIMESTAMP( '1857-01-01 00:00:00.000' ,'YYYY-MM-DD HH24:MI:SS.FF3'))
+			      AND END_DATE  &gt;= NVL(:TX_TIMESTAMP,TO_TIMESTAMP( '1857-01-01 00:00:00.000' ,'YYYY-MM-DD HH24:MI:SS.FF3')) 
+			      ORDER BY UPDATE_TS DESC
+			    ) T
+			WHERE ROWNUM &lt; 2"></entry>
+
+
+				<entry key="GET_T_AGENCY"
+					value="SELECT AGENCY_ID agencyId, DEVICE_PREFIX devicePrefix ,IS_HOME_AGENCY isHomeAgency, PARENT_AGENCY_ID parentAgencyId FROM CRM.T_AGENCY"></entry>
+
+				<entry key="GET_PROCESS_PARAMETERS" value="SELECT * FROM MASTER.T_PROCESS_PARAMETERS where PARAM_GROUP = :PARAM_GROUP"></entry>
+
+				 <entry key="GET_PROCESS_PARAMETER"
+					value="select  param_value paramValue, param_code paramName, agency_id agencyId   from  MASTER.t_process_parameters"></entry>
+					
+				<entry key="GET_HA_TAG_STATUS"
+					value=" SELECT IAG_DEVICE_STATUS  iagDeviceStatus
+      FROM ( SELECT IAG_TAG_STATUS IAG_DEVICE_STATUS 
+               FROM TPMS.T_HA_DEVICES
+    		  WHERE DEVICE_NO = :DEVICE_NUMBER
+    			AND NVL(TO_DATE(:TX_DATE,'YYYY-MM-DD'),TO_DATE('1857-01-01','YYYY-MM-DD'))
+					BETWEEN START_DATE AND END_DATE ORDER BY END_DATE) 
+	 WHERE ROWNUM &lt;= 2"></entry>
+
+				<entry key="GET_T_CODE"
+					value="select code_type codeType, code_id codeId, code_value codeValue from MASTER.t_codes  where CODE_TYPE = :CODE_TYPE"></entry>
+
+
+
+				<entry key="GET_T_AGENCY_SCHEDULE_PRICING_BY_ID"
+					value="SELECT nvl(SCHEDULED_PRICING_FLAG,'N') as scheduledPricingFlag FROM CRM.T_AGENCY where AGENCY_ID=?"></entry>
+
+				<entry key="GET_PRICING_SCHEDULE"
+					value="SELECT P.price_schedule_id priceScheduleId FROM MASTER.T_TOLL_PRICE_SCHEDULE P WHERE P.EFFECTIVE_DATE &lt;= NVL(TO_DATE(?,'YYYY-MM-DD'),TO_DATE('1857-01-01','YYYY-MM-DD')) AND P.EXPIRY_DATE &gt;= NVL(TO_DATE(?,'YYYY-MM-DD'),TO_DATE('1857-01-01','YYYY-MM-DD'))AND P.DAYS_IND = ? AND P.AGENCY_ID = ? AND rownum &lt; 2"></entry>
+
+
+				<entry key="GET_TOLL_PRICES"
+					value="SELECT nvl(T.FULL_FARE,0) fullFareAmount, nvl(T.DISCOUNT_FARE,0) discountFareAmount, nvl(T.EXTRA_AXLE_CHARGE,0) extraAxleCharge,T.REVENUE_TYPE_ID  revenueTypeId,T.TOLL_SCHEDULE_ID tollScheduleId
+FROM MASTER.T_TOLL_SCHEDULE T WHERE T.EFFECTIVE_DATE &lt;= NVL(TO_DATE(:TX_DATE,'YYYY-MM-DD'),TO_DATE('1857-01-01','YYYY-MM-DD')) AND T.EXPIRY_DATE &gt;= NVL(TO_DATE(:TX_DATE,'YYYY-MM-DD'),TO_DATE('1857-01-01','YYYY-MM-DD')) AND T.PLAZA_ID = :PLAZA_ID AND nvl(T.ENTRY_PLAZA_ID,0) = :ENTRY_PLAZA_ID AND T.VEHICLE_CLASS = :VEHICLE_CLASS  AND T.PLAN_TYPE_ID = :PLAN_TYPE_ID
+AND T.PRICE_SCHEDULE_ID = :PRICE_SCHEDULE_ID AND T.REVENUE_TYPE_ID IN (:REVENUE_TYPE)"></entry>
+
+
+
+
+
+
+
+
+				<entry key="INSERT_INTO_T_HOME_ETC_QUEUE"
+					value="INSERT INTO TPMS.T_HOME_ETC_QUEUE(LANE_TX_ID,TX_EXTERN_REF_NO,TX_SEQ_NUMBER,EXTERN_FILE_ID,PLAZA_AGENCY_ID,PLAZA_ID,LANE_ID,TX_TIMESTAMP,TX_MOD_SEQ,TX_TYPE,TX_SUB_TYPE,TOLL_SYSTEM_TYPE,LANE_MODE,LANE_TYPE,LANE_STATE,LANE_HEALTH,COLLECTOR_ID,TOUR_SEGMENT_ID,ENTRY_DATA_SOURCE,ENTRY_LANE_ID,ENTRY_PLAZA_ID,ENTRY_TIMESTAMP,ENTRY_TX_SEQ_NUMBER,ENTRY_VEHICLE_SPEED,LANE_TX_STATUS,LANE_TX_TYPE,TOLL_REVENUE_TYPE,ACTUAL_CLASS,ACTUAL_AXLES,ACTUAL_EXTRA_AXLES,COLLECTOR_CLASS,COLLECTOR_AXLES,PRECLASS_CLASS,PRECLASS_AXLES,POSTCLASS_CLASS,POSTCLASS_AXLES,FORWARD_AXLES,REVERSE_AXLES,ETC_FARE_AMOUNT,POSTED_FARE_AMOUNT,COLLECTED_AMOUNT,UNREALIZED_AMOUNT,IS_DISCOUNTABLE,IS_MEDIAN_FARE,IS_PEAK,PRICE_SCHEDULE_ID,VEHICLE_SPEED,RECEIPT_ISSUED,DEVICE_NO,ACCOUNT_TYPE,DEVICE_CODED_CLASS,DEVICE_AGENCY_CLASS,DEVICE_IAG_CLASS,DEVICE_AXLES,ETC_ACCOUNT_ID,ACCOUNT_AGENCY_ID,READ_AVI_CLASS,READ_AVI_AXLES,DEVICE_PROGRAM_STATUS,BUFFERED_READ_FLAG,LANE_DEVICE_STATUS,POST_DEVICE_STATUS,PRE_TXN_BALANCE,PLAN_TYPE_ID,SPEED_VIOL_FLAG,IMAGE_TAKEN,PLATE_COUNTRY,PLATE_STATE,PLATE_NUMBER,REVENUE_DATE,POSTED_DATE,ATP_FILE_ID,IS_REVERSED,CORR_REASON_ID,RECON_DATE,RECON_STATUS_IND,RECON_SUB_CODE_IND,EXTERN_FILE_DATE,MILEAGE,DEVICE_READ_COUNT,DEVICE_WRITE_COUNT,ENTRY_DEVICE_READ_COUNT,ENTRY_DEVICE_WRITE_COUNT,DEPOSIT_ID,TX_DATE,CSC_LOOKUP_KEY,UPDATE_TS,RECIPROCITY_TRX,EXPECTED_REVENUE_AMOUNT,CASH_FARE_AMOUNT,VIDEO_FARE_AMOUNT,TX_STATUS) VALUES
+(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"></entry>
+
+
+				<entry key="INSERT_INTO_T_VIOL_QUEUE"
+					value="INSERT INTO TPMS.T_VIOL_QUEUE(LANE_TX_ID,TX_EXTERN_REF_NO,TX_SEQ_NUMBER,EXTERN_FILE_ID,PLAZA_AGENCY_ID,PLAZA_ID,LANE_ID,TX_TIMESTAMP,TX_MOD_SEQ,TX_TYPE,TX_SUB_TYPE,TOLL_SYSTEM_TYPE,LANE_MODE,LANE_TYPE,LANE_STATE,LANE_HEALTH,COLLECTOR_ID,TOUR_SEGMENT_ID,ENTRY_DATA_SOURCE,ENTRY_LANE_ID,ENTRY_PLAZA_ID,ENTRY_TIMESTAMP,ENTRY_TX_SEQ_NUMBER,ENTRY_VEHICLE_SPEED,LANE_TX_STATUS,LANE_TX_TYPE,TOLL_REVENUE_TYPE,ACTUAL_CLASS,ACTUAL_AXLES,ACTUAL_EXTRA_AXLES,COLLECTOR_CLASS,COLLECTOR_AXLES,PRECLASS_CLASS,PRECLASS_AXLES,POSTCLASS_CLASS,POSTCLASS_AXLES,FORWARD_AXLES,REVERSE_AXLES,ETC_FARE_AMOUNT,POSTED_FARE_AMOUNT,COLLECTED_AMOUNT,UNREALIZED_AMOUNT,IS_DISCOUNTABLE,IS_MEDIAN_FARE,IS_PEAK,PRICE_SCHEDULE_ID,VEHICLE_SPEED,RECEIPT_ISSUED,DEVICE_NO,ACCOUNT_TYPE,DEVICE_CODED_CLASS,DEVICE_AGENCY_CLASS,DEVICE_IAG_CLASS,DEVICE_AXLES,ETC_ACCOUNT_ID,ACCOUNT_AGENCY_ID,READ_AVI_CLASS,READ_AVI_AXLES,DEVICE_PROGRAM_STATUS,BUFFERED_READ_FLAG,LANE_DEVICE_STATUS,POST_DEVICE_STATUS,PRE_TXN_BALANCE,PLAN_TYPE_ID,SPEED_VIOL_FLAG,IMAGE_TAKEN,PLATE_COUNTRY,PLATE_STATE,PLATE_NUMBER,REVENUE_DATE,POSTED_DATE,ATP_FILE_ID,IS_REVERSED,CORR_REASON_ID,RECON_DATE,RECON_STATUS_IND,RECON_SUB_CODE_IND,EXTERN_FILE_DATE,MILEAGE,DEVICE_READ_COUNT,DEVICE_WRITE_COUNT,ENTRY_DEVICE_READ_COUNT,ENTRY_DEVICE_WRITE_COUNT,DEPOSIT_ID,TX_DATE,CSC_LOOKUP_KEY,UPDATE_TS,RECIPROCITY_TRX,EXPECTED_REVENUE_AMOUNT,CASH_FARE_AMOUNT,VIDEO_FARE_AMOUNT,TX_STATUS) VALUES
+(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"></entry>
+
+
+				<entry key="INSERT_INTO_T_AGENCY_TX_PENDING"
+					value="INSERT INTO TPMS.T_AGENCY_TX_PENDING(LANE_TX_ID,TX_EXTERN_REF_NO,TX_SEQ_NUMBER,EXTERN_FILE_ID,PLAZA_AGENCY_ID,PLAZA_ID,LANE_ID,TX_TIMESTAMP,TX_MOD_SEQ,TX_TYPE,TX_SUB_TYPE,TOLL_SYSTEM_TYPE,LANE_MODE,LANE_TYPE,LANE_STATE,LANE_HEALTH,COLLECTOR_ID,TOUR_SEGMENT_ID,ENTRY_DATA_SOURCE,ENTRY_LANE_ID,ENTRY_PLAZA_ID,ENTRY_TIMESTAMP,ENTRY_TX_SEQ_NUMBER,ENTRY_VEHICLE_SPEED,LANE_TX_STATUS,LANE_TX_TYPE,TOLL_REVENUE_TYPE,ACTUAL_CLASS,ACTUAL_AXLES,ACTUAL_EXTRA_AXLES,COLLECTOR_CLASS,COLLECTOR_AXLES,PRECLASS_CLASS,PRECLASS_AXLES,POSTCLASS_CLASS,POSTCLASS_AXLES,FORWARD_AXLES,REVERSE_AXLES,ETC_FARE_AMOUNT,POSTED_FARE_AMOUNT,COLLECTED_AMOUNT,UNREALIZED_AMOUNT,IS_DISCOUNTABLE,IS_MEDIAN_FARE,IS_PEAK,PRICE_SCHEDULE_ID,VEHICLE_SPEED,RECEIPT_ISSUED,DEVICE_NO,ACCOUNT_TYPE,DEVICE_CODED_CLASS,DEVICE_AGENCY_CLASS,DEVICE_IAG_CLASS,DEVICE_AXLES,ETC_ACCOUNT_ID,ACCOUNT_AGENCY_ID,READ_AVI_CLASS,READ_AVI_AXLES,DEVICE_PROGRAM_STATUS,BUFFERED_READ_FLAG,LANE_DEVICE_STATUS,POST_DEVICE_STATUS,PRE_TXN_BALANCE,PLAN_TYPE_ID,SPEED_VIOL_FLAG,IMAGE_TAKEN,PLATE_COUNTRY,PLATE_STATE,PLATE_NUMBER,REVENUE_DATE,POSTED_DATE,ATP_FILE_ID,IS_REVERSED,CORR_REASON_ID,RECON_DATE,RECON_STATUS_IND,RECON_SUB_CODE_IND,EXTERN_FILE_DATE,MILEAGE,DEVICE_READ_COUNT,DEVICE_WRITE_COUNT,ENTRY_DEVICE_READ_COUNT,ENTRY_DEVICE_WRITE_COUNT,DEPOSIT_ID,TX_DATE,CSC_LOOKUP_KEY,UPDATE_TS,RECIPROCITY_TRX,EXPECTED_REVENUE_AMOUNT,SOURCE_SYSTEM,CASH_FARE_AMOUNT,VIDEO_FARE_AMOUNT,TX_STATUS) VALUES
+(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"></entry>
+
+
+				<entry key="UPDATE_T_TRANS_TABLE"
+					value="update TPMS.T_TRAN_DETAIL set ETC_ACCOUNT_ID=?,ATP_FILE_ID=?,ACCOUNT_TYPE=?,ACCT_AGENCY_ID=?,ETC_FARE_AMOUNT=?,POSTED_FARE_AMOUNT=?,UPDATE_TS=?,tx_type=?, tx_sub_type=?,reciprocity_trx=?,EXPECTED_REVENUE_AMOUNT=?,CASH_FARE_AMOUNT=?,VIDEO_FARE_AMOUNT=?,TX_STATUS=?,PLAN_TYPE=?,IS_VIOLATION=?,TOLL_REVENUE_TYPE=?
+where LANE_TX_ID=?"></entry>
+
+				<entry key="GET_ACCOUNT_SPEED_STATUS"
+					value="SELECT B.CODE_ID FROM TPMS.T_SPEED_STATUS A, MASTER.T_CODES B WHERE A.SPEED_STATUS = B.code_value AND B.CODE_TYPE = 'SPEED_STATUS' AND ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID AND NVL(TO_DATE(:IN_TX_DATE,'YYYY-MM-DD'),TO_DATE('1857-01-01','YYYY-MM-DD')) BETWEEN START_DATE AND END_DATE AND ROWNUM &lt; 2 ORDER BY START_DATE DESC"></entry>
+				<entry key="GET_DEVICE_SPEED_STATUS"
+					value="SELECT B.CODE_ID FROM TPMS.T_SPEED_STATUS A, MASTER.T_CODES B WHERE A.SPEED_STATUS = B.code_value AND B.CODE_TYPE = 'SPEED_STATUS' AND ETC_ACCOUNT_ID = :ETC_ACCOUNT_ID AND DEVICE_NO = :DEVICE_NO AND NVL(TO_DATE(:IN_TX_DATE,'YYYY-MM-DD'),TO_DATE('1857-01-01','YYYY-MM-DD')) BETWEEN START_DATE AND END_DATE AND ROWNUM &lt; 2 ORDER BY START_DATE DESC"></entry>
+				<entry key="GET_SPEED_THRESHOLD_FOR_LANE"
+					value="SELECT LOWER_SPEED_THRESHOLD FROM TPMS.T_SPEED_THRESHOLD WHERE AGENCY_ID = :IN_AGENCY_ID AND ACCOUNT_TYPE = :IN_ACCT_TYPE AND LANE_ID = :IN_LANE_ID  AND IS_AUTO_SUSPEND = 'F' AND IS_FAST_PROCESS = 'F' AND PLAN_TYPE = 0 AND ROWNUM &lt; 2"></entry>
+				<entry key="GET_SPEED_THRESHOLD_FOR_AGENCY"
+					value="SELECT LOWER_SPEED_THRESHOLD FROM TPMS.T_SPEED_THRESHOLD WHERE AGENCY_ID = :IN_AGENCY_ID AND ACCOUNT_TYPE = :IN_ACCT_TYPE AND IS_AUTO_SUSPEND = 'F' AND IS_FAST_PROCESS = 'F' AND PLAN_TYPE = 0 AND ROWNUM &lt; 2"></entry>
+				<entry key="GET_DEVICE_SPECIAL_PLAN"
+					value="select  p.plan_type from CRM.V_ACCOUNT_PLAN_DETAIL p, CRM.V_plan_policy pp where p.etc_account_id = :in_account_id  and p.plan_type = pp.plan_type and pp.agency_id = :IN_AGENCY_ID 
+and ( ( p.plan_type= 8 and p.device_no= :in_device_no and NVL(TO_DATE(:IN_TX_DATE,'YYYY-MM-DD'),TO_DATE('1857-01-01','YYYY-MM-DD')) between plan_start_date and plan_end_date ) or (p.plan_type in ( 13 , 67, 55, 65)) or ( pp.is_revenue_plan='F' and (is_device_specific='F' or  is_device_specific='N') ) 
+or (pp.is_revenue_plan='F'  and (is_device_specific='T' or  is_device_specific='Y') and p.device_no=:in_device_no ) ) and rownum &lt; 2"></entry>
+				<entry key="GET_T_QATP_STATISTICS"
+					value="SELECT ATP_FILE_ID FROM TPMS.T_QATP_STATISTICS WHERE XFER_CONTROL_ID = :XFER_CONTROL_ID AND FILE_TYPE=:FILE_TYPE"></entry>
+				<entry key="UPDATE_T_QATP_STATISTICS"
+					value="UPDATE T_QATP_STATISTICS SET RECORD_COUNT = RECORD_COUNT+1 WHERE ATP_FILE_ID=? AND FILE_TYPE=?">
+				</entry>
+
+
+                   <entry key="GET_UNMATCHED_EXIT"
+                   value="select   ex.* from tpms.t_unmatched_exit_tx ex,
+   						 	crm.v_agency ag,
+   							master.t_lane l,
+    						master.t_highway_section s
+   							where ex.plaza_agency_id = ag.agency_id 
+    						and ag.agency_short_name = 'NY' 
+    						and (tx_status in (63,65)) 
+    						and tx_date between trunc(sysdate - :END_DATE ) and trunc(sysdate - :START_DATE)
+    						and l.lane_id = ex.lane_id
+    						and s.section_id = l.section_id
+    						and s.matching_enabled = 'Y'
+    							order by TX_TIMESTAMP ASC"></entry>
+    							
+    				<!-- <entry key="GET_UNMATCHED_EXIT"
+                   value="select   ex.* from tpms.t_unmatched_exit_tx ex,
+   						 	crm.v_agency ag,
+   							master.t_lane l,
+    						master.t_highway_section s
+   							where ex.plaza_agency_id = ag.agency_id 
+    						and ag.agency_short_name = 'NY' 
+    						and (tx_status in (63,65)) 
+    						and tx_date between trunc(sysdate - :END_DATE ) and trunc(sysdate - :START_DATE)
+    						and l.lane_id = ex.lane_id
+    						and s.section_id = l.section_id
+    						and s.matching_enabled = 'Y'
+    						and s.xmatching_enabled='Y'
+    							order by TX_TIMESTAMP ASC"></entry> -->
+
+				
+				
+        
+				<!-- <entry key="GET_MCHING_DEVICE"
+					value="select * from (select DISTINCT e.*,
+							TO_TIMESTAMP_TZ(to_char(E.ENTRY_TIMESTAMP ,'YYYY-MM-DD HH24:MI:SS.FF9 TZH:TZM'),'YYYY-MM-DD HH24:MI:SS.FF9 TZH:TZM')
+							+ TO_DSINTERVAL('0 ' || K.MATCHED_TIME_LIMIT || ':00:00') as abc
+							from T_UNMATCHED_ENTRY_TX E,
+							master.T_LANE LE,
+							master.T_LANE LX,
+							(SELECT SECTION_ID,
+							TIME_LIMIT_MIN/(60) AS MATCHED_TIME_LIMIT,
+							MATCHING_ENABLED
+							FROM master.T_HIGHWAY_SECTION ) K
+							where E.PLAZA_AGENCY_ID = :PLAZA_AGENCY_ID
+							AND LX.LANE_ID = :LANE_ID
+							AND LE.LANE_ID = E.ENTRY_LANE_ID
+							AND LX.SECTION_ID = LE.SECTION_ID
+							AND K.SECTION_ID = LE.SECTION_ID
+							AND E.ENTRY_TIMESTAMP &lt;= TO_TIMESTAMP_TZ(:TX_TIMESTAMP,'YYYY-MM-DD HH24:MI:SS.FF9 TZH:TZM')
+							AND TO_TIMESTAMP_TZ(to_char(E.ENTRY_TIMESTAMP ,'YYYY-MM-DD HH24:MI:SS.FF9 TZH:TZM'),'YYYY-MM-DD HH24:MI:SS.FF9 TZH:TZM')
+							+ TO_DSINTERVAL('0 ' || K.MATCHED_TIME_LIMIT || ':00:00') &gt;= TO_TIMESTAMP_TZ(:TX_TIMESTAMP,'YYYY-MM-DD HH24:MI:SS.FF9 TZH:TZM')
+							AND K.MATCHING_ENABLED = 'Y'
+							AND E.TX_STATUS IN (63,65)
+							AND E.DEVICE_NO = :DEVICE_NO
+							order by e.ENTRY_TIMESTAMP ASC)
+							where rownum &lt; 2"></entry> -->
+							
+					<entry key="GET_MCHING_DEVICE"
+					value="select * from (select DISTINCT e.*,
+							TO_TIMESTAMP_TZ(to_char(E.ENTRY_TIMESTAMP ,'YYYY-MM-DD HH24:MI:SS.FFTZR'),'YYYY-MM-DD HH24:MI:SS.FFTZR')
+							+ TO_DSINTERVAL('0 ' || K.MATCHED_TIME_LIMIT || ':00:00') as abc
+							from T_UNMATCHED_ENTRY_TX E,
+							master.T_LANE LE,
+							master.T_LANE LX,
+							(SELECT SECTION_ID,
+							TIME_LIMIT_MIN/(60) AS MATCHED_TIME_LIMIT,
+							MATCHING_ENABLED
+							FROM master.T_HIGHWAY_SECTION ) K
+							where E.PLAZA_AGENCY_ID = :PLAZA_AGENCY_ID
+							AND LX.LANE_ID = :LANE_ID
+							AND LE.LANE_ID = E.ENTRY_LANE_ID
+							AND LX.SECTION_ID = LE.SECTION_ID
+							AND K.SECTION_ID = LE.SECTION_ID
+							AND E.ENTRY_TIMESTAMP &lt; TO_TIMESTAMP_TZ(:TX_TIMESTAMP,'YYYY-MM-DD HH24:MI:SS.FFTZR')
+							AND TO_TIMESTAMP_TZ(to_char(E.ENTRY_TIMESTAMP ,'YYYY-MM-DD HH24:MI:SS.FFTZR'),'YYYY-MM-DD HH24:MI:SS.FFTZR')
+							+ TO_DSINTERVAL('0 ' || K.MATCHED_TIME_LIMIT || ':00:00') &gt;= TO_TIMESTAMP_TZ(:TX_TIMESTAMP,'YYYY-MM-DD HH24:MI:SS.FFTZR')
+							AND K.MATCHING_ENABLED = 'Y'
+							AND E.TX_STATUS IN (63,65)
+							AND E.DEVICE_NO = :DEVICE_NO
+							order by e.ENTRY_TIMESTAMP ASC)
+							where rownum &lt; 2"></entry>
+
+					
+					
+                   
+                   
+                  <entry key="UPDATE_MATCHED_DEVICE_NUMBER_TX_ENTRY"
+					value="update TPMS.T_UNMATCHED_ENTRY_TX set TX_STATUS=:TX_STATUS, MATCHED_TX_EXTERN_REF_NO=:MATCHED_TX_EXTERN_REF_NO  where DEVICE_NO=:DEVICE_NO AND LANE_TX_ID=:LANE_TX_ID"></entry>
+                           
+                  <entry key="UPDATE_MATCHED_DEVICE_NUMBER_TX_EXIT"
+					value="update TPMS.T_UNMATCHED_EXIT_TX set TX_STATUS=:TX_STATUS where DEVICE_NO=:DEVICE_NO AND LANE_TX_ID=:LANE_TX_ID"></entry> 
+					
+				<entry key="UPDATE_DISCARD_TRAN_FOR_REF"
+					value="update TPMS.T_UNMATCHED_ENTRY_TX set TX_STATUS=:TX_STATUS, TX_TYPE_IND=:TX_TYPE_IND, MATCHED_TX_EXTERN_REF_NO=:MATCHED_TX_EXTERN_REF_NO  where LANE_TX_ID=:LANE_TX_ID"></entry> 
+						
+					
+				 <entry key="UPDATE_DISCARD_TX_ENTRY"
+					value="update TPMS.T_UNMATCHED_ENTRY_TX set TX_STATUS=:TX_STATUS, TX_TYPE_IND=:TX_TYPE_IND where LANE_TX_ID=:LANE_TX_ID"></entry> 
+						
+				<entry key="UPDATE_MATCHED_TRAN"
+					value="update TPMS.t_tran_detail set TX_STATUS=:TX_STATUS, MATCHED_TX_EXTERN_REF_NO=:MATCHED_TX_EXTERN_REF_NO, TX_TYPE=:TX_TYPE  where LANE_TX_ID=:LANE_TX_ID"></entry>
+                  
+                 <entry key="UPDATE_EXPIRED_TRAN"
+					value="update TPMS.t_tran_detail set TX_STATUS=:TX_STATUS, TX_TYPE=:TX_TYPE  where LANE_TX_ID=:LANE_TX_ID"></entry>
+					
+				<entry key="UPDATE_EXPIRED_EXIT"
+					value="update TPMS.T_UNMATCHED_EXIT_TX set TX_STATUS=:TX_STATUS where LANE_TX_ID=:LANE_TX_ID"></entry>
+					
+				<entry key="UPDATE_EXPIRED_EXIT_TRAN"
+					value="update TPMS.t_tran_detail set TX_STATUS=:TX_STATUS, TX_TYPE=:TX_TYPE where LANE_TX_ID=:LANE_TX_ID"></entry>
+					 
+					
+					
+				
+                    
+                <!--  <entry key="GET_IMAGE_TRX_PROCESS"
+                   value="SELECT section_id, tx_date,q.agency_id,
+							CASE 
+							WHEN total_imgs &gt; 0 THEN
+							total_processesed/total_imgs * 100
+							ELSE 0
+							END AS percent_processed
+						FROM master.t_process_parameters p,
+							( SELECT section_id, tx_date,agency_id, sum(total_images) AS total_imgs, sum(total_imgrevw_complete) AS total_processesed
+						FROM IBTS.t_image_review_compl_status group by section_id, tx_date,agency_id ) q
+						WHERE p.param_name = 'IMAGE_PROCESSING_THRESHOLD'
+						AND   p.param_value &lt;= :IMAGE_PROCESS_PERSENTAGE
+						AND tx_date between trunc(sysdate - :END_DATE ) and trunc(sysdate - :START_DATE)"></entry> -->
+						
+				<entry key="GET_IMAGE_TRX_PROCESS"
+                   value="select ip.agency_id, SECTION_ID, TX_DATE,
+    						case 
+    						when total_img_received &gt; 0
+        						then total_processed/total_img_received *100
+            				else 0
+    						end as Percent_Processed
+						FROM master.t_process_parameters pp,
+     					(select agency_id, SECTION_ID, TX_DATE, sum(TOTAL_IMAGES) as total_img_received,
+             			sum(TOTAL_IMGREVW_COMPLETE) as total_processed
+						from IBTS.T_IMAGE_REVIEW_COMPL_STATUS group by agency_id,SECTION_ID, TX_DATE) IP
+						where param_name = 'IMAGE_PROCESSING_THRESHOLD'
+						and pp.param_value &lt;= total_processed/total_img_received *100
+						AND tx_date between trunc(sysdate - :END_DATE ) and trunc(sysdate - :START_DATE)
+						order by 2"></entry>
+						
+				<entry key="GET_MATCHED_STATUS_VOIL_TX"
+                   value="select  b.*
+						from  ibts.t_viol_tx b, master.t_highway_section h, master.t_lane l
+						where b.tx_status = 652
+						and   b.viol_type = 3         
+						and   b.lane_id = l.lane_id            
+						and   h.section_id = l.section_id
+						and   b.tx_date= :TX_DATE 
+						and   l.section_id = :SECTION_ID
+						and   b.plaza_agency_id = :AGENCY_ID
+						and   h.matching_enabled = 'Y'
+						order by TX_TIMESTAMP ASC"></entry>
+						
+				<!-- <entry key="GET_MCHING_PLATE"
+                   value="select * from (select DISTINCT e.*  from t_unmatched_entry_tx e,
+                   			master.t_lane le, master.t_lane lx,
+                   			(select section_id, time_limit_min/(60) as matched_time_limit, matching_enabled,
+                   			xmatching_enabled from master.t_highway_section) k 
+                   			where e.plaza_agency_id = :AGENCY_ID 
+                   			and lx.lane_id = :LANE_ID 
+                   			and le.lane_id = e.entry_lane_id 
+                   			and lx.section_id = le.section_id 
+                   			and k.SECTION_ID  = lx.section_id 
+                   			and k.SECTION_ID  = :SECTION_ID 
+                   			and e.ENTRY_TIMESTAMP &lt;= TO_TIMESTAMP_TZ(:TX_TIMESTAMP,'YYYY-MM-DD HH24:MI:SS.FF9 TZH:TZM') 
+                   			and TO_TIMESTAMP_TZ(to_char(e.ENTRY_TIMESTAMP ,'YYYY-MM-DD HH24:MI:SS.FF9 TZH:TZM'),'YYYY-MM-DD HH24:MI:SS.FF9 TZH:TZM') 
+                   			+ TO_DSINTERVAL('0 ' || k.MATCHED_TIME_LIMIT || ':00:00') &gt;= TO_TIMESTAMP_TZ(:TX_TIMESTAMP,'YYYY-MM-DD HH24:MI:SS.FF9 TZH:TZM') 
+                   			and to_date(to_char(e.ENTRY_TIMESTAMP, 'YYYY-MM-DD'),'YYYY-MM-DD') between to_date(:TX_DATE, 'YYYY-MM-DD') -1 and to_date(:TX_DATE, 'YYYY-MM-DD') 
+                   			and k.MATCHING_ENABLED = 'Y' 
+                   			and e.TX_STATUS IN (63) 
+                   			and e.plate_state = :PLATE_STATE 
+                   			and e.plate_number = :PLATE_NUMBER 
+                   			order by e.ENTRY_TIMESTAMP ASC) 
+                   			where rownum &lt; 2"></entry> -->
+                   			
+                   	
+                   	<entry key="GET_MCHING_PLATE"
+                   value="select * from (select DISTINCT e.*  from t_unmatched_entry_tx e,
+                   			master.t_lane le, master.t_lane lx,
+                   			(select section_id, time_limit_min/(60) as matched_time_limit, matching_enabled,
+                   			xmatching_enabled from master.t_highway_section) k 
+                   			where e.plaza_agency_id = :AGENCY_ID 
+                   			and lx.lane_id = :LANE_ID 
+                   			and le.lane_id = e.entry_lane_id 
+                   			and lx.section_id = le.section_id 
+                   			and k.SECTION_ID  = lx.section_id 
+                   			and k.SECTION_ID  = :SECTION_ID 
+                   			and e.ENTRY_TIMESTAMP &lt; TO_TIMESTAMP_TZ(:TX_TIMESTAMP,'YYYY-MM-DD HH24:MI:SS.FFTZR') 
+                   			and TO_TIMESTAMP_TZ(to_char(e.ENTRY_TIMESTAMP ,'YYYY-MM-DD HH24:MI:SS.FF9 TZH:TZM'),'YYYY-MM-DD HH24:MI:SS.FFTZR') 
+                   			+ TO_DSINTERVAL('0 ' || k.MATCHED_TIME_LIMIT || ':00:00') &gt;= TO_TIMESTAMP_TZ(:TX_TIMESTAMP,'YYYY-MM-DD HH24:MI:SS.FFTZR') 
+                   			and to_date(to_char(e.ENTRY_TIMESTAMP, 'YYYY-MM-DD'),'YYYY-MM-DD') between to_date(:TX_DATE, 'YYYY-MM-DD') -1 and to_date(:TX_DATE, 'YYYY-MM-DD') 
+                   			and k.MATCHING_ENABLED = 'Y' 
+                   			and e.TX_STATUS IN (63,652) 
+                   			and e.plate_state = :PLATE_STATE 
+                   			and e.plate_number = :PLATE_NUMBER 
+                   			order by e.ENTRY_TIMESTAMP ASC) 
+                   			where rownum &lt; 2"></entry>
+                   			
+						
+				 <entry key="UPDATE_MATCHED_PLATE_NUMBER_TX_ENTRY"
+					value="update TPMS.T_UNMATCHED_ENTRY_TX set TX_STATUS=:TX_STATUS, MATCHED_TX_EXTERN_REF_NO=:MATCHED_TX_EXTERN_REF_NO  where PLATE_NUMBER=:PLATE_NUMBER AND LANE_TX_ID=:LANE_TX_ID"></entry>
+                           
+                 <entry key="UPDATE_MATCHED_PLATE_NUMBER_VIOL_TX"
+					value="update IBTS.T_VIOL_TX set TX_STATUS=:TX_STATUS, ENTRY_DATA_SOURCE=:ENTRY_DATA_SOURCE,
+							ENTRY_DEVICE_READ_COUNT=:ENTRY_DEVICE_READ_COUNT,ENTRY_DEVICE_WRITE_COUNT=:ENTRY_DEVICE_WRITE_COUNT,
+							ENTRY_LANE_ID=:ENTRY_LANE_ID,ENTRY_PLAZA_ID=:ENTRY_PLAZA_ID,ENTRY_TIMESTAMP=:ENTRY_TIMESTAMP,
+							ENTRY_TX_SEQ_NUMBER=:ENTRY_TX_SEQ_NUMBER,ENTRY_VEHICLE_SPEED=:ENTRY_VEHICLE_SPEED
+							where PLATE_NUMBER=:PLATE_NUMBER AND LANE_TX_ID=:LANE_TX_ID"></entry> 
+							
+				 <entry key="UPDATE_DISCARD_TX_ENTRY_FOR_PLATE"
+					value="update TPMS.T_UNMATCHED_ENTRY_TX set TX_STATUS=:TX_STATUS, TX_TYPE_IND=:TX_TYPE_IND  where  LANE_TX_ID=:LANE_TX_ID"></entry> 
+				
+				
+				 <entry key="NY_PLAN_COUNT"
+					value="select max(Kount) from 
+						(select count(*) Kount
+						from crm.v_account_plan_detail apd, crm.v_etc_account acc
+						where apd.etc_account_id = acc.etc_account_id
+						and   apd.device_no = :DEVICE_NO
+						and   to_date(:TRX_DATE, 'YYYY-MM-DD') between apd.plan_start_date and nvl(apd.plan_end_date,trunc(sysdate+1))
+						and   apd.plan_type = 8 
+						and   acc.acct_act_status = 3
+						and   apd.apd_id NOT IN (select apd_id
+						from tpms.t_account_plan_suspension aps
+						where aps.apd_id = apd.apd_id
+						and to_date(:TRX_DATE, 'YYYY-MM-DD') between aps.start_date and aps.end_date)
+						union
+						select count(*) Kount from crm.v_h_account_plan_detail apd, crm.v_etc_account acc
+						where apd.etc_account_id = acc.etc_account_id
+						and   apd.device_no = :DEVICE_NO
+						and   to_date(:TRX_DATE, 'YYYY-MM-DD') between apd.plan_start_date and nvl(apd.plan_end_date,trunc(sysdate+1))
+						and   apd.plan_type = 8
+						and   acc.acct_act_status = 3
+						and   apd.apd_id NOT IN (select apd_id
+						from tpms.t_account_plan_suspension aps
+						where aps.apd_id = apd.apd_id
+						and to_date(:TRX_DATE, 'YYYY-MM-DD') between aps.start_date and aps.end_date))">
+					</entry> 
+				
+				<entry key="GET_ETC_ACCOUNT_ID"
+					value="select a.etc_account_id
+							from  crm.v_device a, crm.v_etc_account b
+							where  a.device_no = :DEVICE_NO
+							and b.etc_account_id = a.etc_account_id
+							and b.account_type in (1,9)"></entry>
+							
+				<entry key="GET_PLATE_INFO"
+					value="select a.etc_account_id,plate_number,plate_state, plate_country
+							from crm.v_etc_account b , 
+							(select etc_account_id,plate_number,plate_state, plate_country
+							from crm.v_vehicle
+							where etc_account_id = :ETC_ACC_ID
+							union
+							select etc_account_id,plate_number,plate_state, plate_country
+							from crm.v_h_vehicle
+							where  etc_account_id = :ETC_ACC_ID
+							and (to_char(EFFECTIVE_DATE,'YYYY-MM-DD') &lt;= :TX_DATE
+							and to_char(EFFECTIVE_END_DATE,'YYYY-MM-DD') &gt;= :TX_DATE)) a
+							where b.etc_account_id = a.etc_account_id
+							and b.account_type in (1,9)"></entry>
+							
+					
+					<!-- <entry key="GET_MCHING_PLATE_FROM_DEVICE"
+					value="select * from (select DISTINCT e.*  from t_unmatched_entry_tx e,
+                   			master.t_lane le, master.t_lane lx
+                   			where e.plaza_agency_id = :AGENCY_ID 
+                   			and lx.lane_id = :LANE_ID 
+                   			and le.lane_id = e.entry_lane_id 
+                   			and e.ENTRY_TIMESTAMP &lt;= TO_TIMESTAMP_TZ(:TX_TIMESTAMP,'YYYY-MM-DD HH24:MI:SS.FF9 TZH:TZM') 
+                   			and to_date(to_char(e.ENTRY_TIMESTAMP, 'YYYY-MM-DD'),'YYYY-MM-DD') between to_date(:TX_DATE, 'YYYY-MM-DD') -1 and to_date(:TX_DATE, 'YYYY-MM-DD') 
+                   			and e.TX_STATUS IN (63) 
+                   			and e.plate_state = :PLATE_STATE 
+                   			and e.plate_number = :PLATE_NUMBER 
+                   			and e.plate_country = :PLATE_COUNTRY
+                   			order by e.ENTRY_TIMESTAMP ASC) 
+                   			where rownum &lt; 2"></entry> -->
+                   			
+                   			
+                   	<entry key="GET_MCHING_PLATE_FROM_DEVICE"
+					value="select * from (select DISTINCT e.*  from t_unmatched_entry_tx e,
+                   			master.t_lane le, master.t_lane lx
+                   			where e.plaza_agency_id = :AGENCY_ID 
+                   			and lx.lane_id = :LANE_ID 
+                   			and le.lane_id = e.entry_lane_id 
+                   			and e.ENTRY_TIMESTAMP &lt;= TO_TIMESTAMP_TZ(:TX_TIMESTAMP,'YYYY-MM-DD HH24:MI:SS.FFTZR') 
+                   			and to_date(to_char(e.ENTRY_TIMESTAMP, 'YYYY-MM-DD'),'YYYY-MM-DD') between to_date(:TX_DATE, 'YYYY-MM-DD') -1 and to_date(:TX_DATE, 'YYYY-MM-DD') 
+                   			and e.TX_STATUS IN (63,652) 
+                   			and e.plate_state = :PLATE_STATE 
+                   			and e.plate_number = :PLATE_NUMBER 
+                   			and e.plate_country = :PLATE_COUNTRY
+                   			order by e.ENTRY_TIMESTAMP ASC) 
+                   			where rownum &lt; 2"></entry>
+				
+							
+					<entry key="UPDATE_MATCHED_PLATE_NUMBER_TX_EXIT"
+					value="update TPMS.T_UNMATCHED_EXIT_TX set TX_STATUS=:TX_STATUS where LANE_TX_ID=:LANE_TX_ID"></entry> 
+					
+					<entry key="GET_DEVICE_NUMBER"
+					value="select a.device_no 
+							from  crm.v_device a, crm.v_etc_account b
+							where  a.etc_account_id = :ETC_ACC_ID
+							and b.etc_account_id = a.etc_account_id
+							and device_status = 3
+							and b.account_type in (1,9)"></entry>
+							
+							
+					<entry key="GET_ETC_ACC_FROM_PLATE"
+					value="select distinct 
+					b.etc_account_id 
+					from crm.v_etc_account a, 
+					(select etc_account_id,plate_number,plate_state, plate_country 
+					from crm.v_vehicle 
+					where trim(plate_number)=trim(:PLATE_NUMBER) 
+					and plate_state=:PLATE_STATE 
+					union 
+					select etc_account_id,plate_number,plate_state, plate_country 
+					from crm.v_h_vehicle 
+					where  trim(plate_number)=trim(:PLATE_NUMBER) 
+					and plate_state=:PLATE_STATE 
+					and  (  to_char(EFFECTIVE_DATE,'YYYY-MM-DD') &lt;= :TX_DATE 
+					and to_char(EFFECTIVE_END_DATE,'YYYY-MM-DD') &gt;= :TX_DATE)) b 
+					where a.etc_account_id = b.etc_account_id 
+					and a.account_type in (1,9)"></entry>
+							
+							
+							
+				 <entry key="GET_MCHING_DEVICE_USING_PLATE"
+					value="select * from (select DISTINCT e.*,
+							TO_TIMESTAMP_TZ(to_char(E.ENTRY_TIMESTAMP ,'YYYY-MM-DD HH24:MI:SS.FFTZR'),'YYYY-MM-DD HH24:MI:SS.FFTZR')
+							+ TO_DSINTERVAL('0 ' || K.MATCHED_TIME_LIMIT || ':00:00') as abc
+							from T_UNMATCHED_ENTRY_TX E,
+							master.T_LANE LE,
+							master.T_LANE LX,
+							(SELECT SECTION_ID,
+							TIME_LIMIT_MIN/(60) AS MATCHED_TIME_LIMIT,
+							MATCHING_ENABLED
+							FROM master.T_HIGHWAY_SECTION ) K
+							where E.PLAZA_AGENCY_ID = :PLAZA_AGENCY_ID
+							AND LX.LANE_ID = :LANE_ID
+							AND LE.LANE_ID = E.ENTRY_LANE_ID
+							AND LX.SECTION_ID = LE.SECTION_ID
+							AND K.SECTION_ID = LE.SECTION_ID
+							AND E.ENTRY_TIMESTAMP &lt;= TO_TIMESTAMP_TZ(:TX_TIMESTAMP,'YYYY-MM-DD HH24:MI:SS.FFTZR')
+							AND TO_TIMESTAMP_TZ(to_char(E.ENTRY_TIMESTAMP ,'YYYY-MM-DD HH24:MI:SS.FFTZR'),'YYYY-MM-DD HH24:MI:SS.FFTZR')
+							+ TO_DSINTERVAL('0 ' || K.MATCHED_TIME_LIMIT || ':00:00') &gt;= TO_TIMESTAMP_TZ(:TX_TIMESTAMP,'YYYY-MM-DD HH24:MI:SS.FFTZR')
+							AND K.MATCHING_ENABLED = 'Y'
+							AND E.TX_STATUS IN (63,65)
+							AND E.DEVICE_NO = :DEVICE_NO
+							order by e.ENTRY_TIMESTAMP ASC)
+							where rownum &lt; 2"></entry>
+							
+							
+					<entry key="GET_EXPIRE_ENTRY"
+                   value="select * from tpms.t_unmatched_entry_tx WHERE trunc(entry_timestamp) &lt; trunc(sysdate - :END_DATE ) and tx_status in (63)"></entry>		
+				
+				 <entry key="GET_EXPIRE_EXIT"
+                   value="select * from tpms.t_unmatched_exit_tx WHERE trunc(tx_date) &lt; trunc(sysdate - :END_DATE ) and tx_status in (63)"></entry>
+                   
+                 <entry key="GET_EXPIRED_VIOL_DATA"
+                   value="select  b.*
+							from  ibts.t_viol_tx b,
+      						master.t_highway_section h,
+      						master.t_lane l
+							where b.tx_status = 652
+							and   b.viol_type = 3      
+							and   b.lane_id = l.lane_id          
+							and   h.section_id = l.section_id
+							and   b.tx_date &lt; trunc(sysdate - :END_DATE )
+							and   h.matching_enabled = 'Y'
+							order by TX_TIMESTAMP ASC"></entry>
+							
+							
+				<!-- <entry key="GET_EXPIRED_VIOL_DATA"
+                   value="select  b.*
+							from  ibts.t_viol_tx b,
+      						master.t_highway_section h,
+      						master.t_lane l
+							where b.tx_status = 652
+							and   b.viol_type = 3      
+							and   b.lane_id = l.lane_id          
+							and   h.section_id = l.section_id
+							and   b.tx_date &lt; trunc(sysdate - :END_DATE )
+							and   b.plaza_agency_id = :AGENCY_ID
+							and   h.matching_enabled = 'Y'
+							order by TX_TIMESTAMP ASC"></entry> -->
+                   
+                   <entry key="GET_MAX_END_DATE"
+                   value="select MAX (param_value) as maxDate from master.t_process_parameters where param_code ='UNMATCHED_END_PROCESS_DATE'
+							or param_code ='IMAGE_TXN_END_PROCESS_DATE'"></entry>
+                   
+                   
+                   
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

@@ -1,0 +1,86 @@
+21-03-09 11:55:14 [INFO] - Starting ItagProcessApplicationTests using Java 1.8.0_281 on BSHYDCOR-L350 with PID 15164 (started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 11:55:14 [INFO] - The following profiles are active: dev
+21-03-09 11:55:21 [INFO] - Started ItagProcessApplicationTests in 7.59 seconds (JVM running for 9.917)
+21-03-09 14:15:00 [INFO] - Starting ItagProcessApplicationTests using Java 15.0.1 on BSHYDCOR-L350 with PID 15860 (started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 14:15:00 [INFO] - The following profiles are active: dev
+21-03-09 14:15:04 [INFO] - Started ItagProcessApplicationTests in 4.505 seconds (JVM running for 5.932)
+21-03-09 14:18:59 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 9544 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 14:18:59 [INFO] - The following profiles are active: dev
+21-03-09 14:19:34 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 16176 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 14:19:34 [INFO] - The following profiles are active: dev
+21-03-09 14:19:36 [INFO] - Started ItagProcessApplication in 2.226 seconds (JVM running for 2.922)
+21-03-09 14:35:29 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 17212 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 14:35:29 [INFO] - The following profiles are active: dev
+21-03-09 14:36:02 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 12136 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 14:36:02 [INFO] - The following profiles are active: dev
+21-03-09 14:36:05 [INFO] - Started ItagProcessApplication in 2.563 seconds (JVM running for 3.429)
+21-03-09 14:37:36 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 15868 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 14:37:36 [INFO] - The following profiles are active: dev
+21-03-09 14:37:38 [INFO] - Started ItagProcessApplication in 2.677 seconds (JVM running for 3.625)
+21-03-09 14:43:26 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 15824 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 14:43:26 [INFO] - The following profiles are active: dev
+21-03-09 14:43:29 [INFO] - Started ItagProcessApplication in 2.477 seconds (JVM running for 3.27)
+21-03-09 14:45:09 [INFO] - Starting ItagProcessApplicationTests using Java 15.0.1 on BSHYDCOR-L350 with PID 15928 (started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 14:45:09 [INFO] - The following profiles are active: dev
+21-03-09 14:45:12 [INFO] - Started ItagProcessApplicationTests in 3.32 seconds (JVM running for 4.392)
+21-03-09 14:45:32 [INFO] - Starting ItagProcessApplicationTests using Java 15.0.1 on BSHYDCOR-L350 with PID 11956 (started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 14:45:32 [INFO] - The following profiles are active: dev
+21-03-09 14:46:13 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 11508 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 14:46:13 [INFO] - The following profiles are active: dev
+21-03-09 14:46:15 [INFO] - Started ItagProcessApplication in 2.469 seconds (JVM running for 3.338)
+21-03-09 14:46:42 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 15032 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 14:46:42 [INFO] - The following profiles are active: dev
+21-03-09 14:46:45 [INFO] - Started ItagProcessApplication in 2.514 seconds (JVM running for 3.377)
+21-03-09 15:15:05 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14544 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 15:15:05 [INFO] - The following profiles are active: dev
+21-03-09 15:15:08 [INFO] - Started ItagProcessApplication in 3.328 seconds (JVM running for 4.19)
+21-03-09 15:16:23 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 15924 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 15:16:23 [INFO] - The following profiles are active: dev
+21-03-09 15:16:25 [INFO] - Started ItagProcessApplication in 2.366 seconds (JVM running for 3.231)
+21-03-09 15:17:52 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14988 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 15:17:52 [INFO] - The following profiles are active: dev
+21-03-09 15:17:55 [INFO] - Started ItagProcessApplication in 3.027 seconds (JVM running for 4.244)
+21-03-09 15:20:37 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 17024 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 15:20:37 [INFO] - The following profiles are active: dev
+21-03-09 15:21:06 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14268 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 15:21:06 [INFO] - The following profiles are active: dev
+21-03-09 15:24:08 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 5204 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 15:24:08 [INFO] - The following profiles are active: dev
+21-03-09 15:25:43 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 9836 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 15:25:43 [INFO] - The following profiles are active: dev
+21-03-09 15:25:45 [INFO] - Started ItagProcessApplication in 3.702 seconds (JVM running for 4.744)
+21-03-09 15:34:42 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14608 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 15:34:42 [INFO] - The following profiles are active: dev
+21-03-09 15:34:44 [INFO] - Started ItagProcessApplication in 2.153 seconds (JVM running for 2.845)
+21-03-09 15:36:22 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 8480 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 15:36:22 [INFO] - The following profiles are active: dev
+21-03-09 15:36:24 [INFO] - Started ItagProcessApplication in 2.568 seconds (JVM running for 3.473)
+21-03-09 15:47:26 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 11612 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 15:47:26 [INFO] - The following profiles are active: dev
+21-03-09 15:47:29 [INFO] - Started ItagProcessApplication in 2.694 seconds (JVM running for 3.854)
+21-03-09 16:29:32 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 18360 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 16:29:32 [INFO] - The following profiles are active: dev
+21-03-09 16:29:35 [INFO] - Started ItagProcessApplication in 2.535 seconds (JVM running for 3.555)
+21-03-09 17:18:35 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14032 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 17:18:35 [INFO] - The following profiles are active: dev
+21-03-09 17:18:37 [INFO] - Started ItagProcessApplication in 2.234 seconds (JVM running for 2.902)
+21-03-09 17:19:33 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 10132 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 17:19:33 [INFO] - The following profiles are active: dev
+21-03-09 17:19:35 [INFO] - Started ItagProcessApplication in 2.238 seconds (JVM running for 2.914)
+21-03-09 17:19:46 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 16544 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 17:19:46 [INFO] - The following profiles are active: dev
+21-03-09 17:19:48 [INFO] - Started ItagProcessApplication in 2.102 seconds (JVM running for 2.754)
+21-03-09 17:22:49 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 13260 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 17:22:49 [INFO] - The following profiles are active: dev
+21-03-09 17:22:51 [INFO] - Started ItagProcessApplication in 2.138 seconds (JVM running for 2.863)
+21-03-09 19:19:10 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 20192 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 19:19:10 [INFO] - The following profiles are active: dev
+21-03-09 19:20:05 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 14732 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 19:20:05 [INFO] - The following profiles are active: dev
+21-03-09 19:20:07 [INFO] - Started ItagProcessApplication in 2.095 seconds (JVM running for 2.792)
+21-03-09 19:20:44 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 11564 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 19:20:44 [INFO] - The following profiles are active: dev
+21-03-09 19:20:53 [INFO] - Started ItagProcessApplication in 9.349 seconds (JVM running for 10.371)
+21-03-09 19:24:18 [INFO] - Starting ItagProcessApplication using Java 15.0.1 on BSHYDCOR-L350 with PID 16616 (D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG\target\classes started by urvashic in D:\WORKSPACE\TPMS\TPMS\ITAG_NEW\ITAG)
+21-03-09 19:24:18 [INFO] - The following profiles are active: dev
+21-03-09 19:24:28 [INFO] - Started ItagProcessApplication in 10.491 seconds (JVM running for 11.374)

@@ -1,0 +1,7 @@
+[DEFAULT]
+user=ocid1.user.oc1..aaaaaaaaoapv7nxkgvr3qzleht2a4by4hu7zct6cgu666t6cy76npiezsf6q
+fingerprint=4c:97:8d:cc:04:6e:8e:23:a9:c6:0d:6a:09:25:16:71
+tenancy=ocid1.tenancy.oc1..aaaaaaaagh63ql6b2cckcsjedugowjpx2so7foxdt6j2e6dj65sllvulwhla
+region=us-ashburn-1
+key_file=/usr/local/lib/oci_api_key_demo.pem
+

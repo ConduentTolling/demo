@@ -1,0 +1,86 @@
+name: CICD-TPMS-DEMO
+
+
+on: 
+  push:
+    branches:
+     - xz#phase1b
+  pull_request:
+    types: closed
+    branches:
+      - xz#development
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      TAG: ${{github.sha}}
+
+      US: trip_history_api
+
+     
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Login to OCIR
+      uses: docker/login-action@v1
+      with:
+          registry: iad.ocir.io
+          username: ${{ secrets.OCI_USERNAME }}
+          password: ${{ secrets.OCI_TOKEN }}  
+          
+    - name: Build service
+      uses: docker/build-push-action@v2
+      with:
+         load: true
+
+         file: ${{env.US}}/Dockerfile_demo 
+         registry: iad.ocir.io/iddewqtahvnn
+         tags: iad.ocir.io/iddewqtahvnn/tolling_demo_cont_registry:${{env.TAG}}
+    - name: push service
+      run: |
+        docker push iad.ocir.io/iddewqtahvnn/tolling_demo_cont_registry:${{env.TAG}}
+    - name: 'Write Config & Key Files'
+      run: |
+        pwd
+        mkdir ~/.oci
+        echo "[DEFAULT]" >> ~/.oci/config
+        echo "user=${{secrets.OCI_USER_OCID}}" >> ~/.oci/config
+        echo "fingerprint=${{secrets.OCI_DEMO_FINGERPRINT}}" >> ~/.oci/config
+        echo "region=${{secrets.OCI_REGION}}" >> ~/.oci/config
+        echo "tenancy=${{secrets.OCI_TENANCY_OCID}}" >> ~/.oci/config
+        echo "key_file=~/.oci/key.pem" >> ~/.oci/config
+        echo "${{secrets.OCI_DEMO_KEY_FILE}}" >> ~/.oci/key.pem
+    - name: 'Install OCI CLI'
+      run: |
+        curl -L -O https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
+        chmod +x install.sh
+        ./install.sh --accept-all-defaults
+        echo "::add-path::/home/runner/bin"
+        exec -l $SHELL     
+          
+    - name: 'Fix Config File Permissions'
+      run: |
+        oci setup repair-file-permissions --file /home/runner/.oci/config
+        oci setup repair-file-permissions --file /home/runner/.oci/key.pem
+           
+    - name: 'Download the KUBECONFIG'
+      run: |
+        mkdir -p $HOME/.kube
+        oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.iad.aaaaaaaa4wzifqapi3lvcjbkk4yso4slrcruydthhb7r4tsnqcdof3mjqtcq --file $HOME/.kube/config --region us-ashburn-1 --token-version 2.0.0
+        export KUBECONFIG=$HOME/.kube/config
+
+    - name: 'Deploy the API on OKE' 
+      run: |
+        sed "s/latest/${{env.TAG}}/g" ${{env.US}}/${{env.US}}_demo.yml > deploy.yml
+        kubectl apply -f deploy.yml
+
+    
+
+

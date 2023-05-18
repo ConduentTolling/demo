@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+
+			<map>
+						
+				<entry key="GET_T_AGENCY_HOLIDAY"
+						value="SELECT * FROM MASTER.T_AGENCY_HOLIDAY
+								WHERE AGENCY_ID = :AGENCY_ID AND HOLIDAY = :TX_TIMESTAMP">
+				</entry>
+				
+				<entry key="GET_PRICE_SCHEDULE_ID"
+						value=" SELECT P.PRICE_SCHEDULE_ID 
+								FROM MASTER.T_TOLL_PRICE_SCHEDULE P								
+								WHERE P.EFFECTIVE_DATE &lt;= TO_DATE(:TX_TIMESTAMP,'yyyy-mm-dd')
+								AND P.EXPIRY_DATE &gt;= TO_DATE(:TX_TIMESTAMP,'yyyy-mm-dd')
+								AND P.DAYS_IND = :DAYS_IND
+								AND P.AGENCY_ID = :AGENCY_ID
+								AND TO_DATE('18nov1900' || P.START_TIME, 'ddmonyyyy hh24:mi:ss') &lt;= TO_DATE('18nov1900' || :START_TIME, 'ddmonyyyy hh24:mi:ss')
+								AND TO_DATE('18nov1900' || P.END_TIME, 'ddmonyyyy hh24:mi:ss') &gt;= TO_DATE('18nov1900' || :START_TIME, 'ddmonyyyy hh24:mi:ss')
+								AND ROWNUM &lt; 2 ">
+				</entry>
+				
+				
+	
+				<entry key="GET_DISCOUNTED_AMOUNT"
+						value = " select price_schedule_id,discount_fare,full_fare,extra_axle_charge,extra_axle_charge_cash
+				                from master.t_toll_schedule
+				                where effective_date &lt;= :EFFECTIVE_DATE 			
+				                and expiry_date &gt;= :EXPIRY_DATE
+				                and plaza_id = :EXIT_PLAZA_ID							
+				                and entry_plaza_id = :ENTRY_PLAZA_ID				
+				                and vehicle_class = :ACTUAL_CLASS						
+				                and revenue_type_id = :TOLL_REVENUE_TYPE					
+				                and price_schedule_id = :PRICE_SCHEDULE_ID						
+				                and plan_type_id = :PLAN_TYPE ">
+				</entry>
+		
+				<entry key="GET_PAYLOAD_DETAILS"
+						value = "SELECT ENTRY_PLAZA_ID,PLAZA_ID AS EXIT_PLAZA_ID,ACTUAL_CLASS,TOLL_REVENUE_TYPE,PLAN_TYPE,TX_TIMESTAMP,PLAZA_AGENCY_ID AS AGENCY_ID, ACCOUNT_TYPE, TOLL_SYSTEM_TYPE,LANE_TX_ID
+								FROM TPMS.T_TRAN_DETAIL
+								WHERE LANE_TX_ID = :LANE_TX_ID">
+				</entry>
+
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

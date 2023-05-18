@@ -1,0 +1,29 @@
+# Build stage
+FROM maven:3.6.0-jdk-11-slim AS build
+
+#WORKDIR /src 
+COPY viol_processing/viol_processing_ibts_api/src /home/app/src
+
+COPY viol_processing/viol_processing_ibts_api/pom.xml /home/app
+
+RUN mvn -f /home/app/pom.xml clean package 
+
+# Package stage
+#
+
+#FROM openjdk:11-jre-slim
+
+FROM openjdk:11-oracle
+
+COPY --from=build /home/app/target/*.jar /usr/local/lib/app.jar
+
+COPY viol_processing/viol_processing_ibts_api/Wallet_OLTPQA /usr/local/lib/Wallet_OLTPQA
+
+COPY  viol_processing/viol_processing_ibts_api/oci_api_key_qa.pem /usr/local/lib/oci_api_key_qa.pem
+
+COPY viol_processing/viol_processing_ibts_api/config_qa.txt /usr/local/lib/config_qa.txt
+
+
+EXPOSE 8080
+
+ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/app.jar --spring.profiles.active=qa"]

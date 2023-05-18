@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean class="java.util.HashMap" id="queries">
+		<constructor-arg>
+			<map>
+					
+				<entry key="GET_PLAN_SUSPENSION_DETAILS"
+					value="select * from T_ACCOUNT_PLAN_SUSPENSION " ></entry>
+					
+					
+					<entry key="GET_COUNT_PLAN_SUSPENSION_DETAILS_RECORD"
+					value="select COUNT(1) from T_ACCOUNT_PLAN_SUSPENSION "></entry>  
+					
+					<entry key="GET_COUNT_PLAN_SUSPENSION_DETAILS"
+					value="select COUNT(*) from T_ACCOUNT_PLAN_SUSPENSION where ETC_ACCOUNT_ID=:ETC_ACCOUNT_ID AND APD_ID=:APD_ID AND SUSPENSION_STATUS=1"></entry>  
+					
+					<entry key="GET_COUNT_PLAN_SUSPENSION_DETAILS_STATUS"
+					value="select count(*) from  T_ACCOUNT_PLAN_SUSPENSION where ETC_ACCOUNT_ID=:ETC_ACCOUNT_ID and APD_ID=:APD_ID AND SUSPENSION_STATUS=2"></entry>  
+					
+					<entry key="INSERT_PLAN_SUSPENSION_DETAILS"
+					value="INSERT INTO T_ACCOUNT_PLAN_SUSPENSION (ETC_ACCOUNT_ID, APD_ID,CREATE_DATE, START_DATE,USER_ID,SUSPENSION_STATUS,UPDATE_TS) VALUES(:ETC_ACCOUNT_ID,:APD_ID,TO_CHAR(SYSDATE, 'DD-MON-YY'),:START_DATE,:USER_ID,:SUSPENSION_STATUS,CURRENT_TIMESTAMP) " ></entry>
+					
+					<entry key="UPDATE_STATUS_PLAN_SUSPENSION_DETAILS"
+					value="update tpms.t_account_plan_suspension set SUSPENSION_STATUS = 1, UPDATE_TS=CURRENT_TIMESTAMP, create_date=CURRENT_TIMESTAMP, start_date=:start_date where etc_account_id = :etc_account_id and APD_ID = :APD_ID " ></entry>
+					
+					
+					<entry key="UPDATE_PLAN_SUSPENSION_DETAILS"
+					value="update t_account_plan_suspension set SUSPENSION_STATUS=2, end_date=:END_DATE, UPDATE_TS=CURRENT_TIMESTAMP where etc_account_id=:ETC_ACCOUNT_ID AND APD_ID=:APD_ID and suspension_status=1" ></entry>
+			          
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

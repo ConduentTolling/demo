@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: q-evaluation-deployment
+spec:
+  selector:
+    matchLabels:
+      app: q-evaluation
+  replicas: 1
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate: 
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: q-evaluation
+    spec:
+      containers:
+      - name: q-evaluation
+    # enter the path to your image, be sure to include the correct region prefix          
+        image: iad.ocir.io/iddewqtahvnn/tolling_demo_cont_registry:latest
+        env:
+        - name: DB_FPMS_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-security-fpms
+              key: spring.db.fpms.username
+        - name: DB_FPMS_PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: db-security-fpms
+              key: spring.db.fpms.password
+        - name: ICRX_QUEUE_STREAM_ID
+          valueFrom:
+            configMapKeyRef:
+              name: ibts-oci-streamid
+              key: config.icrxqueue.streamid 
+        volumeMounts:
+        - name: nfs
+          mountPath: "/DemokeFss/"
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+      imagePullSecrets:
+    # enter the name of the secret you created  
+      - name: ocirsecret
+      dnsConfig:
+        nameservers:
+        - 169.254.169.254
+      volumes:
+      - name: nfs
+        persistentVolumeClaim:
+          claimName: oke-fsspvc1
+          readOnly: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  q-evaluation-service
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app:  q-evaluation
