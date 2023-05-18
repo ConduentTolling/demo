@@ -3,7 +3,7 @@ on:
 
    push:
     branches:
-    - NY-TPMS-DEV
+    - main
 
 jobs:
   build:
